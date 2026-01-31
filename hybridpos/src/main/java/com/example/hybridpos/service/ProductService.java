@@ -1,4 +1,4 @@
-package com.example.hybridpos.interfaces;
+package com.example.hybridpos.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import com.example.hybridpos.dto.ProductCreateDTO;
 import com.example.hybridpos.dto.ProductPriceUpdateDTO;
 import com.example.hybridpos.dto.ProductResponseDTO;
 
-public interface ProductInterface {
+public interface ProductService{
     ProductResponseDTO createProduct(Long shopId, ProductCreateDTO dto);
 
     ProductResponseDTO getByBarcode(String barcode);

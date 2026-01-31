@@ -10,7 +10,6 @@ import com.example.hybridpos.dto.ProductPriceUpdateDTO;
 import com.example.hybridpos.dto.ProductResponseDTO;
 import com.example.hybridpos.entity.Product;
 import com.example.hybridpos.entity.Shop;
-import com.example.hybridpos.interfaces.ProductInterface;
 import com.example.hybridpos.repository.ProductRepository;
 import com.example.hybridpos.repository.ShopRepository;
 
@@ -18,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements ProductInterface{
+public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
     private final ShopRepository shopRepository;
