@@ -12,6 +12,7 @@ public interface  ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByBarcode(String barcode);
 
     List<Product> findByShopId(Long shopId);
+    List<Product> getAllProducts(Long shopId);
 
     List<Product> findByStockQuantityGreaterThan(int quantity);
 
