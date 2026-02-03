@@ -16,7 +16,6 @@ public interface  ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByShop(Shop shop);
 
     List<Product> findByShopId(Long shopId);
-    List<Product> getAllProducts(Long shopId);
 
     List<Product> findByStockQuantityGreaterThan(int quantity);
 

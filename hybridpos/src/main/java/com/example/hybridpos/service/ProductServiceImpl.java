@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService{
     }
     @Override
     public List<ProductResponseDTO> getAllProducts(long shopId) {
-        List<Product> products = productRepository.getAllProducts(shopId);
+        List<Product> products = productRepository.findAll();
         return products.stream().map(this::mapToResponse).toList();
     }
 

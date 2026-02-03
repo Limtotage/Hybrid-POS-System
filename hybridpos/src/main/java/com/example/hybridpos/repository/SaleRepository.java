@@ -14,25 +14,27 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     List<Sale> findByCashRegisterId(Long cashRegisterId);
 
     List<Sale> findBySaleDateBetween(LocalDateTime start, LocalDateTime end);
+
     @Query("""
-        SELECT SUM(s.totalPrice)
-        FROM Sale s
-    """)
+                SELECT SUM(s.totalPrice)
+                FROM Sale s
+            """)
     Double sumTotalSales();
+
     // Günlük toplam ciro
     @Query("""
-        SELECT SUM(s.totalPrice)
-        FROM Sale s
-        WHERE s.saleDate BETWEEN :start AND :end
-    """)
+                SELECT SUM(s.totalPrice)
+                FROM Sale s
+                WHERE s.saleDate BETWEEN :start AND :end
+            """)
     Double getTotalRevenue(LocalDateTime start, LocalDateTime end);
 
     // En çok satan ürün
     @Query("""
-        SELECT s.product.id, SUM(s.quantity)
-        FROM Sale s
-        GROUP BY s.product.id
-        ORDER BY SUM(s.quantity) DESC
-    """)
+                SELECT s.product.id, SUM(s.quantity)
+                FROM Sale s
+                GROUP BY s.product.id
+                ORDER BY SUM(s.quantity) DESC
+            """)
     List<Object[]> findTopSellingProducts();
 }
