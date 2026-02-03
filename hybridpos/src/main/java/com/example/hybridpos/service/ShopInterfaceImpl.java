@@ -17,7 +17,7 @@ public class ShopInterfaceImpl implements ShopInterface {
     private final ShopRepository shopRepository;
     @Override
     public List<ShopDTO> getAll() {
-        List<Shop> products = shopRepository.getAll();
+        List<Shop> products = shopRepository.findAll();
         return products.stream().map(this::mapToResponse).toList();
     }
     private ShopDTO mapToResponse(Shop shop) {

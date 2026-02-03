@@ -29,7 +29,7 @@ public class WholesalerService {
     private final ShopRepository shopRepository;
 
     @Transactional
-    public WholesalerList createList(Long shopId) {
+    public WholesalerList createList(long shopId) {
 
         Shop shop = shopRepository.findById(shopId).orElseThrow();
 

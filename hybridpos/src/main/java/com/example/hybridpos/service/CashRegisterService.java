@@ -5,7 +5,7 @@ import com.example.hybridpos.dto.CashOpenDTO;
 import com.example.hybridpos.entity.CashRegister;
 
 public interface CashRegisterService {
-    CashRegister openCash(Long shopId, CashOpenDTO dto);
+    CashRegister openCash(long shopId, CashOpenDTO dto);
 
-    CashRegister closeCash(Long cashId, CashCloseDTO dto);
+    CashRegister closeCash(long shopId, CashCloseDTO dto);
 }

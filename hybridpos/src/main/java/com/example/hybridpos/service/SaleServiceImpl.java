@@ -30,7 +30,7 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     @Transactional
-    public SaleResponseDTO makeSale(Long cashId, SaleCreateDTO dto) {
+    public SaleResponseDTO makeSale(long cashId, SaleCreateDTO dto) {
 
         CashRegister cash = cashRegisterRepository.findById(cashId)
                 .orElseThrow();

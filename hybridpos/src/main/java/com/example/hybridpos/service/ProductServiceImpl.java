@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService{
     private final ShopRepository shopRepository;
 
     @Override
-    public ProductResponseDTO createProduct(Long shopId, ProductCreateDTO dto) {
+    public ProductResponseDTO createProduct(long shopId, ProductCreateDTO dto) {
 
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow(() -> new RuntimeException("Shop not found"));
@@ -49,13 +49,13 @@ public class ProductServiceImpl implements ProductService{
         return mapToResponse(product);
     }
     @Override
-    public List<ProductResponseDTO> getAllProducts(Long shopId) {
+    public List<ProductResponseDTO> getAllProducts(long shopId) {
         List<Product> products = productRepository.getAllProducts(shopId);
         return products.stream().map(this::mapToResponse).toList();
     }
 
     @Override
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow();
         product.setActive(false);
@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductResponseDTO updatePrice(Long productId, ProductPriceUpdateDTO dto) {
+    public ProductResponseDTO updatePrice(long productId, ProductPriceUpdateDTO dto) {
         Product product = productRepository.findById(productId)
                 .orElseThrow();
 

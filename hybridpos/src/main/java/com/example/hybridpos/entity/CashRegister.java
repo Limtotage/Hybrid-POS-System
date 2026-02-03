@@ -19,6 +19,7 @@ public class CashRegister {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
 
     private double openingCash;
     private double closingCash;
@@ -27,12 +28,16 @@ public class CashRegister {
     private double totalCardSales;
 
     private boolean open;
-
+    
     private LocalDateTime openedAt;
     private LocalDateTime closedAt;
-
+    
+    @ManyToOne
+    private MyUser cashier;
+    
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
+    
 }
 

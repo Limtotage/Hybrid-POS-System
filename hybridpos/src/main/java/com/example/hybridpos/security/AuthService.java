@@ -19,7 +19,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    //private final JwtService jwtService;
 
     public void registerOwner(RegisterOwnerDTO dto) {
 
@@ -58,10 +58,10 @@ public class AuthService {
             throw new RuntimeException("Wrong password");
         }
 
-        String token = jwtService.generateToken(user);
+        //String token = jwtService.generateToken(user);
 
         AuthResponseDTO response = new AuthResponseDTO();
-        response.setToken(token);
+        //response.setToken(token);
         response.setRole(user.getRole().name());
 
         return response;

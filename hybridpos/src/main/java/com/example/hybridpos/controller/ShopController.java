@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hybridpos.dto.ShopDTO;
-import com.example.hybridpos.interfaces.ShopInterface;
+import com.example.hybridpos.service.ShopInterface;
 
 import lombok.RequiredArgsConstructor;
 

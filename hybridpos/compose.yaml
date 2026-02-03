@@ -1,9 +1,20 @@
+version: "3.9"
+
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:16
+    container_name: hybridpos-postgres
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_DB: HybridPOS
+      POSTGRES_USER: shopAdmin
+      POSTGRES_PASSWORD: shopAdmin123
     ports:
-      - '5432'
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+
+
