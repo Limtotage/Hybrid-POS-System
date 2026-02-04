@@ -13,9 +13,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    // ⚠️ EN AZ 32 karakter
     private static final String SECRET_KEY =
-            "hybrid-pos-secret-key-hybrid-pos-secret-key";
+            "hybrid-pos-system-very-secret-key-top-secret";
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
@@ -27,7 +26,7 @@ public class JwtUtil {
                 .setExpiration(
                         new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)
                 )
-                .signWith(key) // ✅ deprecated DEĞİL
+                .signWith(key) 
                 .compact();
     }
 
@@ -41,7 +40,7 @@ public class JwtUtil {
     }
 
     private Claims extractClaims(String token) {
-        return Jwts.parserBuilder() // ✅ yeni API
+        return Jwts.parserBuilder() 
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
