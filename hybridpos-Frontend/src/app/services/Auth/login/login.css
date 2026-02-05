@@ -1,0 +1,17 @@
+.login-container {
+  width: 300px;
+  margin: 120px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+input, button {
+  padding: 8px;
+  width: 100%;
+}
+
+.register-text {
+  font-size: 14px;
+}

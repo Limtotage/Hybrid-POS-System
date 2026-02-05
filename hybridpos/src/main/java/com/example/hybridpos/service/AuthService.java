@@ -43,7 +43,7 @@ public class AuthService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public MyUser createOwner(String username, String rawPassword) {
+    public MyUser createOwner(String username,String rawPassword) {
         MyUser user = new MyUser();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(rawPassword));

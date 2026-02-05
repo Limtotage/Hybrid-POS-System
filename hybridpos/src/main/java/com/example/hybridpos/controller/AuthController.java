@@ -1,5 +1,7 @@
 package com.example.hybridpos.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,13 +53,13 @@ public class AuthController {
     @PostMapping("/register-owner")
     public ResponseEntity<?> RegisterOwner(@RequestBody AuthRequest request) {
         authService.createOwner(request.getUsername(), request.getPassword());
-        return ResponseEntity.ok("Owner created");
+        return ResponseEntity.ok(Map.of("message", "Owner registered"));
     }
     @PostMapping("/create-cashier")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> RegisterCashier(@RequestBody AuthRequest request) {
         authService.createCashier(request.getUsername(), request.getPassword());
-        return ResponseEntity.ok("Cashier created");
+        return ResponseEntity.ok(Map.of("message", "Cashier Created"));
     }
 }
 
