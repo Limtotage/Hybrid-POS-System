@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { CashierRoutingModule } from './cashier-routing-module';
 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    CashierRoutingModule
   ]
 })
 export class CashierModule { }

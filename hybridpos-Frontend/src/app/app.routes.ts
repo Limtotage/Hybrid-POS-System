@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'owner',
     loadChildren: () =>
-      import('./modules/owner/owner-module').then(m => m.OwnerModule),
+      import('./mycomponents/owner-page/owner-module').then(m => m.OwnerModule),
     canActivate: [authGuard],
     data: { role: 'OWNER' }
   },

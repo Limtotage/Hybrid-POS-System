@@ -8,34 +8,45 @@ import { environment } from '../../../environments/environment.prod';
   providedIn: 'root',
 })
 export class Auth {
-  private readonly TOKEN_KEY = "token";
+  private readonly TOKEN_KEY = 'token';
   private baseUrl = 'http://localhost:8080/auth';
 
   constructor(private http: HttpClient) {}
 
-  isLoggedIn(): boolean{
+  isLoggedIn(): boolean {
     return !!localStorage.getItem(this.TOKEN_KEY);
   }
-  getToken(): string | null{
+  getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
-  saveToken(token:string):void{
-    localStorage.setItem(this.TOKEN_KEY,token);
+  saveToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
-  logout(): void{
+  logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }
-  getRoleFromToken():string|null{
+  getRoleFromToken(): string | null {
     const token = this.getToken();
-    if(!token) return null;
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    console.log(token);
-    return payload.role || payload.authority || null;
+
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+
+      const role = payload.roles?.[0]?.authority;
+
+      if (!role) return null;
+
+      return role.replace('ROLE_', '');
+    } catch (e) {
+      console.error('Token parse hatası', e);
+      return null;
+    }
   }
-  register(data:any):Observable<any>{
-    return this.http.post(`${this.baseUrl}/register-owner`,data);
+  register(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/register-owner`, data);
   }
-  login(data:any):Observable<any>{
-    return this.http.post(`${this.baseUrl}/login`,data);
+  login(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, data);
   }
 }

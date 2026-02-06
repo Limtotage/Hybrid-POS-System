@@ -23,6 +23,7 @@ export class Login {
     this.auth.login(this.loginForm).subscribe({
       next: (res: any) => {
         this.auth.saveToken(res.token);
+        console.log(res);
 
         const role = this.auth.getRoleFromToken();
 
