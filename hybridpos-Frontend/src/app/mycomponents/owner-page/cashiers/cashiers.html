@@ -1,1 +1,22 @@
-<p>cashiers works!</p>
+<div class="cashier-register-container">
+  <h2>Create Cashier</h2>
+
+  <form #cashierForm="ngForm" (ngSubmit)="createCashier(cashierForm)">
+    <input
+      type="text"
+      placeholder="Username"
+      [(ngModel)]="cashier.username"
+      name="username"
+      required
+    />
+
+    <input
+      type="password"
+      placeholder="Password"
+      [(ngModel)]="cashier.password"
+      name="password"
+      required
+    />
+    <button type="submit">Create</button>
+  </form>
+</div>

@@ -1,2 +1,24 @@
 <h1 style="color:red">OWNER SAYFASI</h1>
 <button (click)="logout()">Çıkış Yap</button>
+<div class="Shop-register-container">
+  <h2>Create Shop</h2>
+
+  <form #shopForm="ngForm" (ngSubmit)="createShop(shopForm)">
+    <input
+      type="text"
+      placeholder="ShopName"
+      [(ngModel)]="shop.name"
+      name="name"
+      required
+    />
+
+    <input
+      type="text"
+      placeholder="Address"
+      [(ngModel)]="shop.address"
+      name="address"
+      required
+    />
+    <button type="submit">Create</button>
+  </form>
+</div>

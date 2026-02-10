@@ -46,6 +46,9 @@ export class Auth {
   register(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/register-owner`, data);
   }
+  createCashier(data : any): Observable<any>{
+    return this.http.post(`${this.baseUrl}/create-cashier`, data);
+  }
   login(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, data);
   }

@@ -1,1 +1,20 @@
-<p>owner-layout works!</p>
+<div class="layout">
+  <aside class="sidebar">
+    <h3>Owner Panel</h3>
+    <a routerLink="dashboard">Dashboard</a>
+    <a routerLink="products">Products</a>
+    <a routerLink="categories">Categories</a>
+    <a routerLink="cashier">Cashiers</a>
+  </aside>
+
+  <div class="content">
+    <header class="header">
+      <span>Welcome Owner</span>
+      <button (click)="logout()">Logout</button>
+    </header>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

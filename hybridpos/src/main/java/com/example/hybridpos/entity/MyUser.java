@@ -26,6 +26,10 @@ public class MyUser {
 
     @Column(unique = true)
     private String username;
+    /*
+    private String firstName;
+    private String lastName;
+     */
 
     private String password;
 
