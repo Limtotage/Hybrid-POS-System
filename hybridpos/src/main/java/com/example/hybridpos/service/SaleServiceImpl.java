@@ -1,5 +1,6 @@
 package com.example.hybridpos.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class SaleServiceImpl implements SaleService {
         sale.setCardPaid(dto.getCardPaid());
 
         List<SaleItem> items = new ArrayList<>();
-        double total = 0;
+        BigDecimal total = BigDecimal.ZERO;
 
         for (SaleItemDTO itemDTO : dto.getItems()) {
 
@@ -64,7 +65,7 @@ public class SaleServiceImpl implements SaleService {
             item.setPriceAtSale(product.getSalePrice());
             item.setSale(sale);
 
-            total += item.getQuantity() * item.getPriceAtSale();
+            total = total.add(BigDecimal.valueOf(item.getQuantity()).multiply(item.getPriceAtSale()));
             items.add(item);
         }
 
@@ -73,15 +74,16 @@ public class SaleServiceImpl implements SaleService {
 
         saleRepository.save(sale);
 
-        cash.setTotalCashSales(cash.getTotalCashSales() + dto.getCashPaid());
-        cash.setTotalCardSales(cash.getTotalCardSales() + dto.getCardPaid());
+        cash.setTotalCashSales(cash.getTotalCashSales().add(dto.getCashPaid()));
+        cash.setTotalCardSales(cash.getTotalCardSales().add(dto.getCardPaid()));
+        cashRegisterRepository.save(cash);
         return mapToResponse(sale);
     }
 
     @Override
     public SaleResponseDTO getReport(LocalDateTime startDate, LocalDateTime endDate) {
         List<Sale> sales = saleRepository.findBySaleDateBetween(startDate, endDate);
-        double totalAmount = sales.stream().mapToDouble(Sale::getTotalPrice).sum();
+        BigDecimal totalAmount = sales.stream().map(Sale::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         SaleResponseDTO report = new SaleResponseDTO();
         report.setTotalAmount(totalAmount);

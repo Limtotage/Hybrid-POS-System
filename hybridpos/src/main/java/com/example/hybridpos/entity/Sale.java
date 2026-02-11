@@ -1,5 +1,6 @@
 package com.example.hybridpos.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
@@ -37,8 +38,8 @@ public class Sale {
     private Product product;
     private int quantity;
 
-    private double cashPaid;
-    private double cardPaid;
+    private BigDecimal cashPaid;
+    private BigDecimal cardPaid;
 
     private LocalDateTime saleDate;
 

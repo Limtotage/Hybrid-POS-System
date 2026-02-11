@@ -1,5 +1,6 @@
 package com.example.hybridpos.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.hybridpos.enums.PaymentType;
@@ -12,6 +13,6 @@ public class SaleCreateDTO {
 
     private PaymentType paymentType;
 
-    private double cashPaid;
-    private double cardPaid;
+    private BigDecimal cashPaid;
+    private BigDecimal cardPaid;
 }

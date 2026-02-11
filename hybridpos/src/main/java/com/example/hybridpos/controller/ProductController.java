@@ -54,7 +54,7 @@ public class ProductController {
 
     // CASHIER + OWNER: ürün görüntüleme
     @PreAuthorize("hasAnyRole('OWNER','CASHIER')")
-    @GetMapping("/shop/{shopId}")
+    @GetMapping("/{shopId}")
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts(@PathVariable Long shopId) {
         return ResponseEntity.ok(productService.getAllProducts(shopId));
     }

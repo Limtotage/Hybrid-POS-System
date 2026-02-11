@@ -1,5 +1,7 @@
 package com.example.hybridpos.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +23,7 @@ public class SaleItem {
     private Product product;
 
     private int quantity;
-    private double priceAtSale;
+    private BigDecimal priceAtSale;
 
     @ManyToOne
     private Sale sale;

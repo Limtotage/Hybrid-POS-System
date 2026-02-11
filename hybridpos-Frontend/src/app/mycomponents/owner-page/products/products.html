@@ -1,1 +1,78 @@
-<p>products works!</p>
+<div class="Product-Adding-Container">
+  <h2>Create Product</h2>
+
+  <form #ProductForm="ngForm" (ngSubmit)="AddProduct(ProductForm)">
+    <div class="form-group">
+      <label for="shopId">Shop Id</label>
+      <input
+        id="shopId"
+        type="number"
+        placeholder="Enter Shop Id default 1."
+        [(ngModel)]="shopId"
+        name="shopId"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="barcode">Barcode</label>
+      <input
+        id="barcode"
+        type="text"
+        placeholder="Enter barcode"
+        [(ngModel)]="newProduct.barcode"
+        name="barcode"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="name">Product Name</label>
+      <input
+        id="name"
+        type="text"
+        placeholder="Enter product name"
+        [(ngModel)]="newProduct.name"
+        name="name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="purchasePrice">Purchase Price</label>
+      <input
+        id="purchasePrice"
+        type="number"
+        placeholder="Enter purchase price"
+        [(ngModel)]="newProduct.purchasePrice"
+        name="purchasePrice"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="salePrice">Sale Price</label>
+      <input
+        id="salePrice"
+        type="number"
+        placeholder="Enter sale price"
+        [(ngModel)]="newProduct.salePrice"
+        name="salePrice"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="stockQuantity">Stock Quantity</label>
+      <input
+        id="stockQuantity"
+        type="number"
+        placeholder="Enter stock quantity"
+        [(ngModel)]="newProduct.stockQuantity"
+        name="stockQuantity"
+        required
+      />
+    </div>
+
+    <button type="submit">Add</button>
+  </form>
+</div>

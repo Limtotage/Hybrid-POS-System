@@ -1,5 +1,6 @@
 package com.example.hybridpos.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -67,12 +68,12 @@ public class ProductServiceImpl implements ProductService{
         Product product = productRepository.findById(productId)
                 .orElseThrow();
 
-        double price = product.getSalePrice();
+        BigDecimal price = product.getSalePrice();
 
         if (dto.isPercent()) {
-            price += price * dto.getAmount() / 100;
+            price = price.add(price.multiply(BigDecimal.valueOf(dto.getAmount()).divide(BigDecimal.valueOf(100))));
         } else {
-            price += dto.getAmount();
+            price = price.add(BigDecimal.valueOf(dto.getAmount()));
         }
 
         product.setSalePrice(price);

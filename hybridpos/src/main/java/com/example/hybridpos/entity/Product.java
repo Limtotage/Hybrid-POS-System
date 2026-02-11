@@ -1,5 +1,6 @@
 package com.example.hybridpos.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -26,8 +27,8 @@ public class Product {
     private String barcode;        // barkod numarası
     private String name;
 
-    private double purchasePrice;  // alış fiyatı
-    private double salePrice;      // satış fiyatı
+    private BigDecimal purchasePrice;  // alış fiyatı
+    private BigDecimal salePrice;      // satış fiyatı
 
     private int stockQuantity;
 

@@ -1,5 +1,6 @@
 package com.example.hybridpos.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -21,11 +22,11 @@ public class CashRegister {
     private Long id;
     private String name;
 
-    private double openingCash;
-    private double closingCash;
+    private BigDecimal openingCash;
+    private BigDecimal closingCash;
 
-    private double totalCashSales;
-    private double totalCardSales;
+    private BigDecimal totalCashSales;
+    private BigDecimal totalCardSales;
 
     private boolean open;
     

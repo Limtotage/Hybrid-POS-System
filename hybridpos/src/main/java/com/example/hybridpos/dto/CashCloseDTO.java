@@ -1,10 +1,12 @@
 package com.example.hybridpos.dto;
 
+import java.math.BigDecimal;
+
 import lombok.Data;
 
 @Data
 public class CashCloseDTO {
-    private double closingCash;
+    private BigDecimal closingCash;
     private String cashName;
     private String username;
 }

@@ -1,0 +1,18 @@
+.Product-Adding-Container {
+  max-width: 400px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+input {
+  padding: 6px;
+}
