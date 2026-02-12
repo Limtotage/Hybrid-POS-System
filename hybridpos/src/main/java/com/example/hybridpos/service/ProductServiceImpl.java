@@ -58,9 +58,11 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public void deleteProduct(long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow();
-        product.setActive(false);
-        productRepository.save(product);
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        if (product == null) {
+            throw new RuntimeException("Product not found");
+        }
+        productRepository.delete(product);
     }
 
     @Override

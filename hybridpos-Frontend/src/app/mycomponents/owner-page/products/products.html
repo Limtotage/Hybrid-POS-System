@@ -1,3 +1,23 @@
+<div class="Shops">
+  <h2>Shop List</h2>
+
+  <div *ngIf="shops.length === 0">No Shops found.</div>
+
+  <table *ngIf="shops.length > 0">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of shops">
+        <td>{{ s.id }}</td>
+        <td>{{ s.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <div class="Product-Adding-Container">
   <h2>Create Product</h2>
 
@@ -75,4 +95,63 @@
 
     <button type="submit">Add</button>
   </form>
+</div>
+<div class="product-list">
+  <h2>Product List</h2>
+
+  <div *ngIf="products.length === 0">No products found.</div>
+
+  <table *ngIf="products.length > 0">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Is Active</th>
+        <th>Barcode</th>
+        <th>Name</th>
+        <th>Purchase</th>
+        <th>Sale</th>
+        <th>Stock</th>
+        <th>Price Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of products">
+        <td>{{ p.id }}</td>
+        <td>{{ p.active }}</td>
+        <td>{{ p.barcode }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.purchasePrice }}</td>
+        <td>{{ p.salePrice }}</td>
+        <td>{{ p.stockQuantity }}</td>
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="priceUpdate.amount"
+            name="amount{{ p.id }}"
+            placeholder="Amount"
+            style="width: 70px"
+          />
+
+          <label>
+            <input type="checkbox" [(ngModel)]="priceUpdate.percent" name="percent{{ p.id }}" />
+            %
+          </label>
+
+          <button (click)="updatePrice(p.id)">OK</button>
+        </td>
+        <td>
+          <button class="delete-btn" (click)="deleteProduct(p.id)">X</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="Product-Adding-Container">
+  <input
+    type="text"
+    [(ngModel)]="barcodeInput"
+    (keyup.enter)="searchProduct()"
+    placeholder="Barkod okut"
+  />
 </div>

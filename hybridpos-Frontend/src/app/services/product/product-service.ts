@@ -9,19 +9,23 @@ export class ProductService {
   private baseUrl = 'http://localhost:8080/api/products';
 
   constructor(private http: HttpClient) {}
-  addProduct(shopId: number,data : any): Observable<any>{
+  addProduct(shopId: number, data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/${shopId}`, data);
   }
-  deleteProduct(data : any): Observable<any>{
-    return this.http.delete(`${this.baseUrl}/${data.productid}`, data);
+  deleteProduct(productId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${productId}`);
   }
-  changePrice(data:any):Observable<any>{
-    return this.http.put(`${this.baseUrl}/${data.productid}/price`,data);
+  changePrice(productId: number, data: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${productId}/price`, data);
   }
-  getAllProducts(data:any):Observable<any>{
-    return this.http.get(`${this.baseUrl}/${data.shopid}`);
+  getAllProducts(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
-  getByBarcode(data:any):Observable<any>{
-    return this.http.get(`${this.baseUrl}/barcode/${data.barcode}`);
+  getByBarcode(barcode: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/barcode/${barcode}`);
+  }
+
+  getShops(): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/shops`);
   }
 }
