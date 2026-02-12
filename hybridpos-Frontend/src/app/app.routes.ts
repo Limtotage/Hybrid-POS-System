@@ -9,19 +9,18 @@ export const routes: Routes = [
 
   {
     path: 'owner',
-    loadChildren: () =>
-      import('./mycomponents/owner-page/owner-module').then(m => m.OwnerModule),
+    loadChildren: () => import('./mycomponents/owner-page/owner-module').then((m) => m.OwnerModule),
     canActivate: [authGuard],
-    data: { role: 'OWNER' }
+    data: { role: 'OWNER' },
   },
 
   {
     path: 'cashier',
-    loadChildren: () =>
-      import('./modules/cashier/cashier-module').then(m => m.CashierModule),
+    loadComponent: () =>
+      import('./mycomponents/cashier-page/cashier-page').then((m) => m.CashierPage),
     canActivate: [authGuard],
-    data: { role: 'CASHIER' }
+    data: { role: 'CASHIER' },
   },
 
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
 ];

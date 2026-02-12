@@ -1,1 +1,84 @@
-<p>cashier-page works!</p>
+<div class="pos-container">
+  <!-- SOL PANEL -->
+  <div class="products-panel">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Ürün ara..."
+        [(ngModel)]="searchText"
+        (input)="filterProducts()"
+      />
+    </div>
+
+    <div class="products-grid">
+      <div class="product-card" *ngFor="let p of filteredProducts" (click)="addToCart(p)">
+        <div class="product-name">{{ p.name }}</div>
+        <div class="product-price">{{ p.salePrice }} ₺</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAĞ PANEL -->
+  <div class="cart-panel">
+    <div class="barcode-box">
+      <input
+        type="text"
+        placeholder="Barkod okut..."
+        [(ngModel)]="barcodeInput"
+        (keyup.enter)="addByBarcode()"
+      />
+    </div>
+
+    <div class="cart-items">
+      <div class="cart-row" *ngFor="let item of cart">
+        <div class="cart-name">{{ item.name }}</div>
+
+        <div class="cart-controls">
+          <button (click)="decrease(item)">-</button>
+          <span>{{ item.quantity }}</span>
+          <button (click)="increase(item)">+</button>
+        </div>
+
+        <div class="cart-price">{{ item.salePrice * item.quantity }} ₺</div>
+      </div>
+    </div>
+
+    <div class="cart-footer">
+      <div class="total">Toplam: {{ totalAmount }} ₺</div>
+
+      <button class="checkout-btn" (click)="openPayment()">Satışı Bitir</button>
+    </div>
+  </div>
+</div>
+<!-- PAYMENT MODAL -->
+<div class="payment-overlay" *ngIf="showPayment">
+  <div class="payment-modal">
+    <h2>Ödeme</h2>
+
+    <div class="payment-total">Toplam: {{ totalAmount }} ₺</div>
+
+    <div class="split-payment">
+      <div class="payment-row">
+        <label>Nakit</label>
+        <input type="number" [(ngModel)]="cashGiven" name="cashGiven" />
+      </div>
+
+      <div class="payment-row">
+        <label>Kart</label>
+        <input type="number" [(ngModel)]="cardAmount" name="cardAmount" />
+      </div>
+
+      <div class="payment-summary">
+        <div>Toplam Ödenen: {{ totalPaid }} ₺</div>
+        <div>Para Üstü: {{ change }} ₺</div>
+      </div>
+    </div>
+
+    <div class="payment-buttons">
+      <button class="cancel" (click)="closePayment()">İptal</button>
+      <button class="confirm" (click)="completeSale()" [disabled]="totalPaid < totalAmount">
+        Ödemeyi Tamamla
+      </button>
+    </div>
+  </div>
+</div>

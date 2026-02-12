@@ -1,0 +1,185 @@
+.pos-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* SOL PANEL */
+.products-panel {
+  background: #f5f6fa;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+  overflow-y: auto;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  background: #e8f0ff;
+}
+
+.product-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.product-price {
+  color: #2ecc71;
+  font-size: 18px;
+}
+
+/* SAĞ PANEL */
+.cart-panel {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #ddd;
+}
+
+.barcode-box {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.barcode-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.cart-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cart-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cart-controls button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #3498db;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cart-footer {
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.total {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 15px;
+  background: #27ae60;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background: #1e8449;
+}
+.payment-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment-modal {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
+}
+
+.payment-total {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.payment-type button {
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.change {
+  margin-top: 10px;
+  font-size: 18px;
+  color: green;
+}
+
+.payment-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancel {
+  background: #e74c3c;
+  color: white;
+  padding: 10px;
+  border: none;
+}
+
+.confirm {
+  background: #2ecc71;
+  color: white;
+  padding: 10px;
+  border: none;
+}
