@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,10 +34,6 @@ public class CashRegister {
     
     @ManyToOne
     private MyUser cashier;
-    
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
     
 }
 

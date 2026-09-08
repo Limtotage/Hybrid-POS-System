@@ -8,5 +8,4 @@ import lombok.Data;
 public class CashCloseDTO {
     private BigDecimal closingCash;
     private String cashName;
-    private String username;
 }

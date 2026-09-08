@@ -18,23 +18,30 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/cash")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('CASHIER')")
 public class CashRegisterController {
 
     private final CashRegisterService cashService;
 
-    @PostMapping("/open/{shopId}")
+    @PreAuthorize("hasRole('CASHIER')")
+    @PostMapping("/open")
     public CashRegister open(
-            @PathVariable Long shopId,
             @RequestBody CashOpenDTO dto,
             Authentication auth) {
-        return cashService.openCash(shopId, dto);
+
+        return cashService.openCash(dto, auth);
     }
 
+    @PreAuthorize("hasRole('CASHIER')")
     @PostMapping("/close/{cashId}")
     public CashRegister close(
             @PathVariable Long cashId,
-            @RequestBody CashCloseDTO dto) {
-        return cashService.closeCash(cashId, dto);
+            @RequestBody CashCloseDTO dto,
+            Authentication auth) {
+
+        return cashService.closeCash(
+                cashId,
+                dto,
+                auth
+        );
     }
 }

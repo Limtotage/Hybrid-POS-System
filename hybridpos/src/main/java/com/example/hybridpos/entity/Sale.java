@@ -13,7 +13,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -32,13 +31,9 @@ public class Sale {
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
-    
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-    private int quantity;
 
     private BigDecimal cashPaid;
+
     private BigDecimal cardPaid;
 
     private LocalDateTime saleDate;
@@ -46,7 +41,10 @@ public class Sale {
     @ManyToOne
     private CashRegister cashRegister;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OneToMany(
+        mappedBy = "sale",
+        cascade = CascadeType.ALL
+    )
     private List<SaleItem> items;
 }
 

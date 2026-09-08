@@ -33,7 +33,7 @@ public class SaleController {
     }
 
     // OWNER: satış raporları
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/report")
     public ResponseEntity<SaleResponseDTO> getReport(
             @RequestParam LocalDateTime start,

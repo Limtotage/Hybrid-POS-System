@@ -1,9 +1,6 @@
 package com.example.hybridpos.controller;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,24 +14,20 @@ import com.example.hybridpos.dto.AuthResponse;
 import com.example.hybridpos.jwtsystem.JwtUtil;
 import com.example.hybridpos.service.AuthService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final AuthService authService;
     private final JwtUtil jwtUtil;
 
-    public AuthController(AuthenticationManager authenticationManager,
-                          AuthService authService,
-                          JwtUtil jwtUtil) {
-        this.authenticationManager = authenticationManager;
-        this.authService = authService;
-        this.jwtUtil = jwtUtil;
-    }
-
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<AuthResponse> login(
+            @RequestBody AuthRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -49,17 +42,6 @@ public class AuthController {
         String jwt = jwtUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthResponse(jwt));
-    }
-    @PostMapping("/register-owner")
-    public ResponseEntity<?> RegisterOwner(@RequestBody AuthRequest request) {
-        authService.createOwner(request.getUsername(), request.getPassword());
-        return ResponseEntity.ok(Map.of("message", "Owner registered"));
-    }
-    @PostMapping("/create-cashier")
-    @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<?> RegisterCashier(@RequestBody AuthRequest request) {
-        authService.createCashier(request.getUsername(), request.getPassword());
-        return ResponseEntity.ok(Map.of("message", "Cashier Created"));
     }
 }
 

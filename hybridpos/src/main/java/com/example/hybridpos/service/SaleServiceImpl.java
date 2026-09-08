@@ -35,7 +35,8 @@ public class SaleServiceImpl implements SaleService {
 
         CashRegister cash = cashRegisterRepository.findById(cashId)
                 .orElseThrow();
-
+        cash.setTotalCashSales(BigDecimal.ZERO);
+        cash.setTotalCardSales(BigDecimal.ZERO);
         Sale sale = new Sale();
         sale.setCashRegister(cash);
         sale.setSaleDate(LocalDateTime.now());
@@ -67,6 +68,8 @@ public class SaleServiceImpl implements SaleService {
 
             total = total.add(BigDecimal.valueOf(item.getQuantity()).multiply(item.getPriceAtSale()));
             items.add(item);
+            productRepository.save(product);
+
         }
 
         sale.setTotalPrice(total);
@@ -89,6 +92,7 @@ public class SaleServiceImpl implements SaleService {
         report.setTotalAmount(totalAmount);
         return report;
     }
+
     private SaleResponseDTO mapToResponse(Sale sale) {
         SaleResponseDTO dto = new SaleResponseDTO();
         dto.setSaleId(sale.getId());

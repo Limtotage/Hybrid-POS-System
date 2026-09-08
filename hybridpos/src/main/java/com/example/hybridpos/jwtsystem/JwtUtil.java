@@ -13,20 +13,20 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY =
-            "hybrid-pos-system-very-secret-key-top-secret";
+    private static final String SECRET_KEY = "hybrid-pos-system-very-secret-key-top-secret";
 
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     public String generateToken(UserDetails userDetails) {
+
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .claim("roles", userDetails.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(
-                        new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)
-                )
-                .signWith(key) 
+                        new Date(
+                                System.currentTimeMillis()
+                                        + 1000 * 60 * 60 * 10))
+                .signWith(key)
                 .compact();
     }
 
@@ -40,7 +40,7 @@ public class JwtUtil {
     }
 
     private Claims extractClaims(String token) {
-        return Jwts.parserBuilder() 
+        return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)

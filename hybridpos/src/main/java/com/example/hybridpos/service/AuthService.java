@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -27,27 +26,33 @@ public class AuthService implements UserDetailsService {
             throws UsernameNotFoundException {
 
         MyUser user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found"));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
+                List.of(
+                    new SimpleGrantedAuthority(
+                        "ROLE_" + user.getRole()
+                    )
+                )
+        );
     }
 
     public MyUser createCashier(String username, String rawPassword) {
+
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
+
         MyUser user = new MyUser();
+
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(rawPassword));
         user.setRole(Role.CASHIER);
-        return userRepository.save(user);
-    }
+        user.setEnabled(true);
 
-    public MyUser createOwner(String username,String rawPassword) {
-        MyUser user = new MyUser();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(rawPassword));
-        user.setRole(Role.OWNER);
         return userRepository.save(user);
     }
 }

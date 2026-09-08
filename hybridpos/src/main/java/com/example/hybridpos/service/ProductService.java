@@ -7,14 +7,19 @@ import com.example.hybridpos.dto.ProductPriceUpdateDTO;
 import com.example.hybridpos.dto.ProductResponseDTO;
 
 public interface ProductService{
-    ProductResponseDTO createProduct(long shopId, ProductCreateDTO dto);
+
+    ProductResponseDTO createProduct(ProductCreateDTO dto);
 
     ProductResponseDTO getByBarcode(String barcode);
-    List<ProductResponseDTO> getAllProducts(long shopId);
+
+    List<ProductResponseDTO> getAllProducts();
 
     void deleteProduct(long productId);
 
-    ProductResponseDTO updatePrice(long productId, ProductPriceUpdateDTO dto);
+    ProductResponseDTO updatePrice(
+            long productId,
+            ProductPriceUpdateDTO dto
+    );
 
-    void increaseStock(String barcode, int amount);
+    void increaseStock(long productId, int amount);
 }

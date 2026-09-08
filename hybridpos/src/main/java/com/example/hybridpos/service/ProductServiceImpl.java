@@ -10,24 +10,18 @@ import com.example.hybridpos.dto.ProductCreateDTO;
 import com.example.hybridpos.dto.ProductPriceUpdateDTO;
 import com.example.hybridpos.dto.ProductResponseDTO;
 import com.example.hybridpos.entity.Product;
-import com.example.hybridpos.entity.Shop;
 import com.example.hybridpos.repository.ProductRepository;
-import com.example.hybridpos.repository.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ShopRepository shopRepository;
 
     @Override
-    public ProductResponseDTO createProduct(long shopId, ProductCreateDTO dto) {
-
-        Shop shop = shopRepository.findById(shopId)
-                .orElseThrow(() -> new RuntimeException("Shop not found"));
+    public ProductResponseDTO createProduct(ProductCreateDTO dto) {
 
         Product product = new Product();
         product.setBarcode(dto.getBarcode());
@@ -35,7 +29,6 @@ public class ProductServiceImpl implements ProductService{
         product.setPurchasePrice(dto.getPurchasePrice());
         product.setSalePrice(dto.getSalePrice());
         product.setStockQuantity(dto.getStockQuantity());
-        product.setShop(shop);
         product.setCreatedAt(LocalDateTime.now());
 
         productRepository.save(product);
@@ -49,10 +42,14 @@ public class ProductServiceImpl implements ProductService{
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         return mapToResponse(product);
     }
+
     @Override
-    public List<ProductResponseDTO> getAllProducts(long shopId) {
-        List<Product> products = productRepository.findAll();
-        return products.stream().map(this::mapToResponse).toList();
+    public List<ProductResponseDTO> getAllProducts() {
+
+        return productRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
     @Override
@@ -85,8 +82,8 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public void increaseStock(String barcode, int amount) {
-        Product product = productRepository.findByBarcode(barcode)
+    public void increaseStock(long productId, int amount) {
+        Product product = productRepository.findById(productId)
                 .orElseThrow();
         product.setStockQuantity(product.getStockQuantity() + amount);
         productRepository.save(product);

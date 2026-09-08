@@ -31,10 +31,10 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     // En çok satan ürün
     @Query("""
-                SELECT s.product.id, SUM(s.quantity)
-                FROM Sale s
-                GROUP BY s.product.id
-                ORDER BY SUM(s.quantity) DESC
+                SELECT si.product.id, SUM(si.quantity)
+                FROM SaleItem si
+                GROUP BY si.product.id
+                ORDER BY SUM(si.quantity) DESC
             """)
     List<Object[]> findTopSellingProducts();
 }

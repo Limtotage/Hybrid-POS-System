@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hybridpos.dto.ProductCreateDTO;
 import com.example.hybridpos.dto.ProductPriceUpdateDTO;
 import com.example.hybridpos.dto.ProductResponseDTO;
+import com.example.hybridpos.dto.StockUpdateDTO;
 import com.example.hybridpos.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,41 +28,67 @@ public class ProductController {
 
     private final ProductService productService;
 
-    // OWNER: ürün ekleme
-    @PreAuthorize("hasRole('OWNER')")
-    @PostMapping("/{shopid}")
-    public ResponseEntity<ProductResponseDTO> addProduct(@PathVariable Long shopid, @RequestBody ProductCreateDTO dto) {
-        return ResponseEntity.ok(productService.createProduct(shopid, dto));
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
+    public ResponseEntity<ProductResponseDTO> addProduct(
+            @RequestBody ProductCreateDTO dto) {
+
+        return ResponseEntity.ok(
+                productService.createProduct(dto)
+        );
     }
 
-    // OWNER: ürün silme
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(
+            @PathVariable Long id) {
+
         productService.deleteProduct(id);
+
         return ResponseEntity.noContent().build();
     }
 
-    // OWNER: zam / indirim
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}/price")
     public ResponseEntity<ProductResponseDTO> updatePrice(
             @PathVariable Long id,
-            @RequestBody ProductPriceUpdateDTO newPrice) {
-        return ResponseEntity.ok(productService.updatePrice(id, newPrice));
+            @RequestBody ProductPriceUpdateDTO dto) {
+
+        return ResponseEntity.ok(
+                productService.updatePrice(id, dto)
+        );
     }
 
-    // CASHIER + OWNER: ürün görüntüleme
-    @PreAuthorize("hasAnyRole('OWNER','CASHIER')")
-    @GetMapping("/{shopId}")
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts(@PathVariable Long shopId) {
-        return ResponseEntity.ok(productService.getAllProducts(shopId));
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/{id}/stock")
+    public ResponseEntity<Void> increaseStock(
+            @PathVariable Long id,
+            @RequestBody StockUpdateDTO dto) {
+
+        productService.increaseStock(
+                id,
+                dto.getAmount()
+        );
+
+        return ResponseEntity.ok().build();
     }
 
-    // Barkod ile ürün bul
-    @PreAuthorize("hasAnyRole('OWNER','CASHIER')")
+    @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
+    @GetMapping
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+
+        return ResponseEntity.ok(
+                productService.getAllProducts()
+        );
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
     @GetMapping("/barcode/{barcode}")
-    public ResponseEntity<ProductResponseDTO> getByBarcode(@PathVariable String barcode) {
-        return ResponseEntity.ok(productService.getByBarcode(barcode));
+    public ResponseEntity<ProductResponseDTO> getByBarcode(
+            @PathVariable String barcode) {
+
+        return ResponseEntity.ok(
+                productService.getByBarcode(barcode)
+        );
     }
 }
