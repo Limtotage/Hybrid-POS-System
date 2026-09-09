@@ -12,11 +12,6 @@ import com.example.hybridpos.entity.MyUser;
 public interface CashRegisterRepository extends JpaRepository<CashRegister, Long> {
 
     boolean existsByNameAndOpenTrue(String name);
-
     boolean existsByCashierAndOpenTrue(MyUser cashier);
-    
-
     Optional<CashRegister> findByIdAndOpenTrue(Long id);
-
-    boolean existsByNameAndShopId(String name, Long shopId);
 }
