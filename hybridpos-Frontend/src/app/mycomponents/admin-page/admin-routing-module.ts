@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OwnerPage } from './owner-page';
-import { OwnerLayout } from './owner-layout/owner-layout';
+import { AdminPage } from './admin-page';
+import { AdminLayout } from './admin-layout/admin-layout';
 import { Cashiers } from './cashiers/cashiers';
 import { Products } from './products/products';
 
 const routes: Routes = [
   {
     path: '',
-    component: OwnerLayout,
+    component: AdminLayout,
     children: [
-      { path: 'dashboard', component: OwnerPage },
+      { path: 'dashboard', component: AdminPage },
       { path: 'products', component: Products },
-      { path: 'categories', component: OwnerPage },
+      { path: 'categories', component: AdminPage },
       { path: 'cashier', component: Cashiers },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ],
@@ -23,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class OwnerRoutingModule {}
+export class AdminRoutingModule {}

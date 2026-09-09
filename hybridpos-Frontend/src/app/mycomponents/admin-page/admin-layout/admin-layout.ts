@@ -3,13 +3,13 @@ import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../../../services/Auth/auth';
 
 @Component({
-  selector: 'app-owner-layout',
+  selector: 'app-admin-layout',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './owner-layout.html',
-  styleUrl: './owner-layout.css',
+  templateUrl: './admin-layout.html',
+  styleUrl: './admin-layout.css',
 })
-export class OwnerLayout {
+export class AdminLayout {
   constructor(
     private auth: Auth,
     private router: Router,

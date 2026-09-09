@@ -12,12 +12,9 @@ import { FormsModule } from '@angular/forms';
 export class CashierPage {
   constructor(private productService: ProductService) {}
 
-  shopId = 1;
   showPayment = false;
   cashGiven: number = 0;
   cardAmount: number = 0;
-  paidAmount: number = 0;
-  paymentType = 'cash';
   barcodeInput: string = '';
   products: any[] = [];
   filteredProducts: any[] = [];
@@ -30,9 +27,15 @@ export class CashierPage {
   }
 
   loadProducts() {
-    this.productService.getAllProducts(this.shopId).subscribe((res) => {
-      this.products = res;
-      this.filteredProducts = res;
+    this.productService.getAllProducts().subscribe({
+      next: (res) => {
+        this.products = res;
+        this.filteredProducts = res;
+      },
+
+      error: (err) => {
+        console.error('Ürünler yüklenemedi', err);
+      },
     });
   }
   filterProducts() {
@@ -87,8 +90,8 @@ export class CashierPage {
       return;
     }
 
-    this.paidAmount = 0;
-    this.paymentType = 'cash';
+    this.cashGiven = 0;
+    this.cardAmount = 0;
     this.showPayment = true;
   }
   closePayment() {
