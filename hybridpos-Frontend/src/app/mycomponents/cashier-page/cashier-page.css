@@ -183,3 +183,102 @@
   padding: 10px;
   border: none;
 }
+.cash-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  z-index: 1000;
+}
+
+.cash-open-panel {
+  width: 420px;
+
+  padding: 30px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.cash-open-panel h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.cash-open-panel p {
+  color: #666;
+  margin-bottom: 25px;
+}
+.top-bar {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 12px 20px;
+
+  background: white;
+
+  border-bottom: 1px solid #ddd;
+}
+
+.cash-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  font-weight: 600;
+}
+
+.cash-status {
+  color: #198754;
+}
+
+.cash-close-area {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.cash-close-area input {
+  width: 150px;
+
+  padding: 9px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 6px;
+}
+
+.close-cash-btn {
+  padding: 9px 15px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #dc3545;
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.close-cash-btn:hover {
+  opacity: 0.9;
+}

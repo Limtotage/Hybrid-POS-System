@@ -7,6 +7,5 @@ import lombok.Data;
 @Data
 public class CashOpenDTO {
 
-    private String cashName;
     private BigDecimal openingCash;
 }

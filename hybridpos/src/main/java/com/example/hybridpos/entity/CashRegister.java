@@ -19,7 +19,6 @@ public class CashRegister {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
 
     private BigDecimal openingCash;
     private BigDecimal closingCash;

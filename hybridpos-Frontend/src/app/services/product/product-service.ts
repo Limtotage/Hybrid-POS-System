@@ -6,70 +6,32 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ProductService {
+  private readonly baseUrl = 'http://localhost:8080/api/products';
 
-  private readonly baseUrl =
-    'http://localhost:8080/api/products';
-
-  constructor(
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   addProduct(data: any): Observable<any> {
-
-    return this.http.post(
-      this.baseUrl,
-      data
-    );
-
+    return this.http.post(this.baseUrl, data);
   }
 
   deleteProduct(productId: number): Observable<any> {
-
-    return this.http.delete(
-      `${this.baseUrl}/${productId}`
-    );
-
+    return this.http.delete(`${this.baseUrl}/${productId}`);
   }
 
-  changePrice(
-    productId: number,
-    data: any
-  ): Observable<any> {
-
-    return this.http.put(
-      `${this.baseUrl}/${productId}/price`,
-      data
-    );
-
+  changePrice(productId: number, data: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${productId}/price`, data);
   }
 
   getAllProducts(): Observable<any[]> {
-
-    return this.http.get<any[]>(
-      this.baseUrl
-    );
-
+    return this.http.get<any[]>(this.baseUrl);
   }
 
-  getByBarcode(
-    barcode: string
-  ): Observable<any> {
-
-    return this.http.get(
-      `${this.baseUrl}/barcode/${barcode}`
-    );
-
+  getByBarcode(barcode: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/barcode/${barcode}`);
   }
 
-  increaseStock(
-    productId: number,
-    amount: number
-  ): Observable<any> {
-
-    return this.http.post(
-      `${this.baseUrl}/${productId}/stock`,
-      { amount }
-    );
-
+  increaseStock(productId: number, amount: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${productId}/stock`, { amount });
   }
+
 }

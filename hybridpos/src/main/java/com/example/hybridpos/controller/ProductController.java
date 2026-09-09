@@ -26,69 +26,64 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService productService;
+        private final ProductService productService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
-    public ResponseEntity<ProductResponseDTO> addProduct(
-            @RequestBody ProductCreateDTO dto) {
+        @PreAuthorize("hasRole('ADMIN')")
+        @PostMapping
+        public ResponseEntity<ProductResponseDTO> addProduct(
+                        @RequestBody ProductCreateDTO dto) {
 
-        return ResponseEntity.ok(
-                productService.createProduct(dto)
-        );
-    }
+                return ResponseEntity.ok(
+                                productService.createProduct(dto));
+        }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(
-            @PathVariable Long id) {
+        @PreAuthorize("hasRole('ADMIN')")
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deleteProduct(
+                        @PathVariable Long id) {
 
-        productService.deleteProduct(id);
+                productService.deleteProduct(id);
 
-        return ResponseEntity.noContent().build();
-    }
+                return ResponseEntity.noContent().build();
+        }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}/price")
-    public ResponseEntity<ProductResponseDTO> updatePrice(
-            @PathVariable Long id,
-            @RequestBody ProductPriceUpdateDTO dto) {
+        @PreAuthorize("hasRole('ADMIN')")
+        @PutMapping("/{id}/price")
+        public ResponseEntity<ProductResponseDTO> updatePrice(
+                        @PathVariable Long id,
+                        @RequestBody ProductPriceUpdateDTO dto) {
 
-        return ResponseEntity.ok(
-                productService.updatePrice(id, dto)
-        );
-    }
+                return ResponseEntity.ok(
+                                productService.updatePrice(id, dto));
+        }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{id}/stock")
-    public ResponseEntity<Void> increaseStock(
-            @PathVariable Long id,
-            @RequestBody StockUpdateDTO dto) {
+        @PreAuthorize("hasRole('ADMIN')")
+        @PostMapping("/{id}/stock")
+        public ResponseEntity<Void> increaseStock(
+                        @PathVariable Long id,
+                        @RequestBody StockUpdateDTO dto) {
 
-        productService.increaseStock(
-                id,
-                dto.getAmount()
-        );
+                productService.increaseStock(
+                                id,
+                                dto.getAmount());
 
-        return ResponseEntity.ok().build();
-    }
+                return ResponseEntity.ok().build();
+        }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
-    @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
+        @GetMapping
+        public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
 
-        return ResponseEntity.ok(
-                productService.getAllProducts()
-        );
-    }
+                return ResponseEntity.ok(
+                                productService.getAllProducts());
+        }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
-    @GetMapping("/barcode/{barcode}")
-    public ResponseEntity<ProductResponseDTO> getByBarcode(
-            @PathVariable String barcode) {
+        @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
+        @GetMapping("/barcode/{barcode}")
+        public ResponseEntity<ProductResponseDTO> getByBarcode(
+                        @PathVariable String barcode) {
 
-        return ResponseEntity.ok(
-                productService.getByBarcode(barcode)
-        );
-    }
+                return ResponseEntity.ok(
+                                productService.getByBarcode(barcode));
+        }
 }

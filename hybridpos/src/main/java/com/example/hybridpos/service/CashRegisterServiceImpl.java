@@ -1,5 +1,6 @@
 package com.example.hybridpos.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.security.core.Authentication;
@@ -20,48 +21,67 @@ public class CashRegisterServiceImpl implements CashRegisterService {
 
     private final CashRegisterRepository cashRegisterRepository;
     private final UserRepository userRepo;
-    private final CashRegisterRepository cashRepo;
 
     @Override
     public CashRegister openCash(
-            CashOpenDTO dto, Authentication user){
+            CashOpenDTO dto,
+            Authentication user) {
 
-        if (cashRepo.existsByNameAndOpenTrue(dto.getCashName())) {
-            throw new RuntimeException("This cash register is already open");
-        }
+        MyUser cashier = userRepo.findByUsername(user.getName())
+                .orElseThrow(() -> new RuntimeException("Cashier bulunamadı"));
 
-        MyUser cashier = userRepo.findByUsername(user.getName()).orElseThrow();
-        if (cashRepo.existsByCashierAndOpenTrue(cashier)) {
+
+        if (cashRegisterRepository.existsByCashierAndOpenTrue(cashier)) {
             throw new RuntimeException("Cashier already has an open register");
         }
 
         CashRegister cash = new CashRegister();
-        cash.setName(dto.getCashName());
+
         cash.setOpeningCash(dto.getOpeningCash());
         cash.setOpen(true);
         cash.setOpenedAt(LocalDateTime.now());
         cash.setCashier(cashier);
 
-        return cashRepo.save(cash);
+        cash.setTotalCashSales(BigDecimal.ZERO);
+        cash.setTotalCardSales(BigDecimal.ZERO);
+
+        return cashRegisterRepository.save(cash);
     }
 
     @Override
-    public CashRegister closeCash(long cashId, CashCloseDTO dto, Authentication user) {
-        if (!cashRepo.existsByNameAndOpenTrue(dto.getCashName())) {
+    public CashRegister closeCash(
+            Long cashId,
+            CashCloseDTO dto,
+            Authentication user) {
+
+        MyUser cashier = userRepo.findByUsername(user.getName())
+                .orElseThrow(() -> new RuntimeException("Cashier bulunamadı"));
+
+        CashRegister cash = cashRegisterRepository.findById(cashId)
+                .orElseThrow(() -> new RuntimeException("Kasa bulunamadı"));
+
+        if (!cash.isOpen()) {
             throw new RuntimeException("This cash register is already closed");
         }
 
-        MyUser cashier = userRepo.findByUsername(user.getName()).orElseThrow();
-
-        CashRegister cash = cashRegisterRepository.findById(cashId)
-                .orElseThrow();
+        if (!cash.getCashier().getId().equals(cashier.getId())) {
+            throw new RuntimeException("Bu kasa size ait değil");
+        }
 
         cash.setClosingCash(dto.getClosingCash());
-        cash.setName(dto.getCashName());
         cash.setClosedAt(LocalDateTime.now());
-        cash.setCashier(cashier);
         cash.setOpen(false);
 
         return cashRegisterRepository.save(cash);
+    }
+
+    @Override
+    public CashRegister getMyOpenCash(Authentication user) {
+
+        MyUser cashier = userRepo.findByUsername(user.getName())
+                .orElseThrow(() -> new RuntimeException("Cashier bulunamadı"));
+
+        return cashRegisterRepository.findByCashierAndOpenTrue(cashier)
+                .orElseThrow(() -> new RuntimeException("Açık kasa bulunamadı"));
     }
 }
