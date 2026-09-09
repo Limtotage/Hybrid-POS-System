@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class Auth {
-
   private readonly TOKEN_KEY = 'token';
   private readonly baseUrl = 'http://localhost:8080/auth';
 
@@ -38,14 +37,24 @@ export class Auth {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
 
-      const role = payload.roles?.[0]?.authority;
+      console.log('JWT Payload:', payload);
 
-      if (!role) {
-        return null;
+      // roles: [{ authority: "ROLE_ADMIN" }]
+      if (payload.roles?.[0]?.authority) {
+        return payload.roles[0].authority.replace('ROLE_', '');
       }
 
-      return role.replace('ROLE_', '');
+      // role: "ADMIN"
+      if (payload.role) {
+        return payload.role.replace('ROLE_', '');
+      }
 
+      // roles: ["ADMIN"]
+      if (Array.isArray(payload.roles) && payload.roles[0]) {
+        return payload.roles[0].replace('ROLE_', '');
+      }
+
+      return null;
     } catch (e) {
       console.error('Token parse hatası', e);
       return null;
