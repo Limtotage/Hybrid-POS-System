@@ -1,7 +1,9 @@
 package com.example.hybridpos.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hybridpos.dto.ProductCreateDTO;
 import com.example.hybridpos.dto.ProductPriceUpdateDTO;
@@ -29,12 +33,13 @@ public class ProductController {
         private final ProductService productService;
 
         @PreAuthorize("hasRole('ADMIN')")
-        @PostMapping
+        @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
         public ResponseEntity<ProductResponseDTO> addProduct(
-                        @RequestBody ProductCreateDTO dto) {
+                        @RequestPart("product") ProductCreateDTO dto,
+                        @RequestPart(value = "image", required = false) MultipartFile image) throws IOException{
 
                 return ResponseEntity.ok(
-                                productService.createProduct(dto));
+                                productService.createProduct(dto, image));
         }
 
         @PreAuthorize("hasRole('ADMIN')")

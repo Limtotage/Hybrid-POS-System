@@ -43,5 +43,6 @@ public class Product {
     private boolean active = true;
 
     private LocalDateTime createdAt;
+    private String imageURL;
 }
 

@@ -1,10 +1,12 @@
 package com.example.hybridpos.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hybridpos.dto.ProductCreateDTO;
 import com.example.hybridpos.dto.ProductPriceUpdateDTO;
@@ -19,9 +21,11 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final FileStorageService fileStorageService;
 
     @Override
-    public ProductResponseDTO createProduct(ProductCreateDTO dto) {
+    public ProductResponseDTO createProduct(ProductCreateDTO dto,
+                                            MultipartFile image){
 
         Product product = new Product();
         product.setBarcode(dto.getBarcode());
@@ -30,6 +34,15 @@ public class ProductServiceImpl implements ProductService {
         product.setSalePrice(dto.getSalePrice());
         product.setStockQuantity(dto.getStockQuantity());
         product.setCreatedAt(LocalDateTime.now());
+        if (image != null && !image.isEmpty()) {
+            String imageUrl="";
+            try {
+                imageUrl = fileStorageService.saveProductImage(image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            product.setImageURL(imageUrl);
+        }
 
         productRepository.save(product);
 
@@ -98,6 +111,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setSalePrice(p.getSalePrice());
         dto.setStockQuantity(p.getStockQuantity());
         dto.setActive(p.isActive());
+        dto.setImageUrl(p.getImageURL());
         return dto;
     }
 }

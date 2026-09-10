@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: center;
 
-  background: #ffeedf;
+  background: #e6ffdf;
 
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -181,7 +181,7 @@
 
 .input-wrapper input:focus {
 
-  border-color: #ff9f43;
+  border-color: #43ff5c;
 
   box-shadow: 0 0 0 2px rgba(255, 159, 67, 0.1);
 
@@ -223,7 +223,7 @@
 
   border-radius: 5px;
 
-  background: #ff9f43;
+  background: #69ff43;
 
   color: white;
 
@@ -239,7 +239,7 @@
 
 
 .login-button:hover {
-  background: #f28d2d;
+  background: #3df22d;
 }
 
 
@@ -294,7 +294,7 @@
 
   justify-content: center;
 
-  background: #ffdbbb;
+  background: #c6ffbb;
 
   overflow: hidden;
 

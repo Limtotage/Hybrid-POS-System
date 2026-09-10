@@ -15,4 +15,5 @@ public class ProductResponseDTO {
 
     private int stockQuantity;
     private boolean active;
+    private String imageUrl;
 }
