@@ -21,32 +21,17 @@ export class CashierPage {
     private router: Router,
     private cdr: ChangeDetectorRef,
   ) {}
-
-  // =========================
-  // KASA
-  // =========================
-
+  //=========================
   cashId: number | null = null;
   cashName: string = 'Ana Kasa';
-
   openingCash: number = 0;
   closingCash: number = 0;
-
   cashOpen: boolean = false;
-
-  // =========================
-  // ÖDEME
-  // =========================
-
+  //========================
   showPayment = false;
-
   cashGiven: number = 0;
   cardAmount: number = 0;
-
-  // =========================
-  // ÜRÜNLER
-  // =========================
-
+  //=======================
   barcodeInput: string = '';
 
   products: any[] = [];
@@ -57,19 +42,12 @@ export class CashierPage {
   cart: any[] = [];
 
   totalAmount: number = 0;
-
-  // =========================
-  // INIT
-  // =========================
-
+//======================
   ngOnInit() {
+    this.loadProducts();
     this.checkOpenCash();
   }
-
-  // =========================
-  // AÇIK KASA KONTROLÜ
-  // =========================
-
+  //=========================
   checkOpenCash() {
     this.cashRegisterService.getMyOpenCash().subscribe({
       next: (cash) => {
@@ -91,11 +69,7 @@ export class CashierPage {
       },
     });
   }
-
-  // =========================
-  // KASA AÇ
-  // =========================
-
+  //=========================
   openCash() {
     if (this.openingCash < 0) {
       alert('Kasadaki para negatif olamaz.');
@@ -127,11 +101,7 @@ export class CashierPage {
     });
     this.cdr.detectChanges();
   }
-
-  // =========================
-  // KASA KAPAT
-  // =========================
-
+  //=========================
   closeCash() {
     if (this.cashId === null) {
       alert('Açık kasa bulunamadı.');
@@ -143,7 +113,6 @@ export class CashierPage {
       return;
     }
 
-    // 0 TL ise ekstra onay
     if (this.closingCash === 0) {
       const confirmed = confirm(
         'Kasada 0 TL görünüyor.\n\n' + 'Kasayı kapatmak istediğinizden emin misiniz?',
@@ -183,10 +152,7 @@ export class CashierPage {
     });
     this.router.navigate(['/login']);
   }
-
-  // =========================
-  // ÜRÜNLERİ GETİR
-  // =========================
+  //=========================
 
   loadProducts() {
     this.productService.getAllProducts().subscribe({
@@ -204,20 +170,12 @@ export class CashierPage {
     this.cdr.detectChanges();
   }
 
-  // =========================
-  // ÜRÜN ARAMA
-  // =========================
-
   filterProducts() {
     this.filteredProducts = this.products.filter((p) =>
       p.name.toLowerCase().includes(this.searchText.toLowerCase()),
     );
   }
-
-  // =========================
-  // SEPET
-  // =========================
-
+  //=========================
   addToCart(product: any) {
     const existing = this.cart.find((i) => i.id === product.id);
 
@@ -257,10 +215,7 @@ export class CashierPage {
       0,
     );
   }
-
-  // =========================
-  // BARKOD
-  // =========================
+  //=========================
 
   addByBarcode() {
     this.productService.getByBarcode(this.barcodeInput).subscribe({
@@ -275,11 +230,7 @@ export class CashierPage {
       },
     });
   }
-
-  // =========================
-  // ÖDEME
-  // =========================
-
+  //=========================
   openPayment() {
     if (this.cart.length === 0) {
       alert('Sepet boş.');
@@ -306,10 +257,7 @@ export class CashierPage {
   get change(): number {
     return this.totalPaid - this.totalAmount;
   }
-
-  // =========================
-  // SATIŞ TAMAMLA
-  // =========================
+  //=========================
 
   completeSale() {
     if (this.cashId === null) {
