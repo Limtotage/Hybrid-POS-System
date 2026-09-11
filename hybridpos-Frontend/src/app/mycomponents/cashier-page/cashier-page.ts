@@ -25,6 +25,7 @@ export class CashierPage {
   cashId: number | null = null;
   cashName: string = 'Ana Kasa';
   openingCash: number = 0;
+  currentCash: number = 0;
   closingCash: number = 0;
   cashOpen: boolean = false;
   //========================
@@ -42,7 +43,7 @@ export class CashierPage {
   cart: any[] = [];
 
   totalAmount: number = 0;
-//======================
+  //======================
   ngOnInit() {
     this.loadProducts();
     this.checkOpenCash();
@@ -55,6 +56,7 @@ export class CashierPage {
 
         this.cashId = cash.id;
         this.cashName = cash.name;
+        this.openingCash=this.currentCash;
 
         this.cashOpen = true;
 
@@ -99,6 +101,9 @@ export class CashierPage {
         alert('Kasa backendde açıldı ama frontend cevap alamadı. F12 Console/Network kontrol et.');
       },
     });
+    this.currentCash = this.openingCash;
+    this.closingCash = this.currentCash;
+    alert(this.openingCash);
     this.cdr.detectChanges();
   }
   //=========================
@@ -106,6 +111,9 @@ export class CashierPage {
     if (this.cashId === null) {
       alert('Açık kasa bulunamadı.');
       return;
+    }
+    if(this.closingCash==this.currentCash){
+      alert("Kasada eksik olmadığını onayladınız.");
     }
 
     if (this.closingCash < 0) {
@@ -273,9 +281,8 @@ export class CashierPage {
 
       return;
     }
-
-    if (totalPaid > this.totalAmount) {
-      alert('Fazla ödeme! Satış tamamlanamaz.');
+    if (this.currentCash - this.change < 0) {
+      alert('Kasada sizin para üstünüz kadar nakit yok. Lütfen farklı bir ödeme yöntemi kullanın.');
 
       return;
     }
@@ -303,6 +310,8 @@ export class CashierPage {
         alert('Satış başarıyla tamamlandı');
 
         this.cart = [];
+        this.currentCash += Number(this.cashGiven) - (this.change > 0 ? Number(this.change) : 0);
+        this.closingCash = this.currentCash;
         this.totalAmount = 0;
         this.cashGiven = 0;
         this.cardAmount = 0;
@@ -311,11 +320,6 @@ export class CashierPage {
 
       error: (err) => {
         console.error('SATIŞ ERROR:', err);
-        console.error('STATUS:', err.status);
-        console.error('ERROR BODY:', err.error);
-        console.error('MESSAGE:', err.message);
-
-        alert('Satış backendde gerçekleşmiş olabilir ama frontend response alamadı.');
       },
     });
   }
