@@ -63,12 +63,12 @@ public class ProductController {
                                 productService.updatePrice(id, dto));
         }
 
-        @PreAuthorize("hasRole('ADMIN')")
+        @PreAuthorize("hasAnyRole('ADMIN', 'CASHIER')")
         @PostMapping("/{id}/stock")
         public ResponseEntity<Void> increaseStock(
                         @PathVariable Long id,
                         @RequestBody StockUpdateDTO dto) {
-
+                           System.out.println("SomeOne Trying to access here");     
                 productService.increaseStock(
                                 id,
                                 dto.getAmount());

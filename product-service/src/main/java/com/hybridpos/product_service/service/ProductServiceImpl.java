@@ -96,12 +96,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void increaseStock(long productId, int amount) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow();
-        product.setStockQuantity(product.getStockQuantity() + amount);
-        productRepository.save(product);
-    }
+public void increaseStock(long productId, int amount) {
+
+    Product product = productRepository.findById(productId)
+            .orElseThrow();
+
+    System.out.println("===== STOCK UPDATE =====");
+    System.out.println("PRODUCT ID: " + productId);
+    System.out.println("OLD STOCK: " + product.getStockQuantity());
+    System.out.println("AMOUNT: " + amount);
+
+    product.setStockQuantity(
+            product.getStockQuantity() + amount
+    );
+
+    System.out.println(
+            "NEW STOCK: " + product.getStockQuantity()
+    );
+
+    Product savedProduct = productRepository.save(product);
+
+    System.out.println(
+            "SAVED STOCK: " + savedProduct.getStockQuantity()
+    );
+}
 
     private ProductResponseDTO mapToResponse(Product p) {
         ProductResponseDTO dto = new ProductResponseDTO();

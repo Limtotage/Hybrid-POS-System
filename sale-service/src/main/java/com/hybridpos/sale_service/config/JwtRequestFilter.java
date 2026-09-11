@@ -1,6 +1,7 @@
-package com.hybridpos.product_service.config;
+package com.hybridpos.sale_service.config;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,26 +43,33 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                         String username = jwtUtil.extractUsername(jwt);
 
                                         String role = jwtUtil.extractRole(jwt);
+                                        System.out.println("===== SALE JWT DEBUG =====");
+                                        System.out.println("USERNAME: " + username);
+                                        System.out.println("ROLE: " + role);
 
                                         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
-                                        System.out.println("JWT USERNAME: " + username);
-                                        System.out.println("JWT ROLE: " + role);
                                         System.out.println("AUTHORITY: " + authority.getAuthority());
 
                                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                                         username,
                                                         null,
-                                                        java.util.List.of(authority));
+                                                        List.of(authority));
 
                                         SecurityContextHolder
                                                         .getContext()
                                                         .setAuthentication(authentication);
+                                        System.out.println(
+                                                        "AUTHENTICATION SET: " +
+                                                                        SecurityContextHolder
+                                                                                        .getContext()
+                                                                                        .getAuthentication());
                                 }
 
                         } catch (Exception e) {
 
-                                SecurityContextHolder
-                                                .clearContext();
+                                System.out.println("===== JWT ERROR =====");
+                                e.printStackTrace();
+                                SecurityContextHolder.clearContext();
                         }
                 }
 

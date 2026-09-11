@@ -1,5 +1,127 @@
 package com.hybridpos.sale_service.client;
 
+import java.math.BigDecimal;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClient;
+
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
 public class ProductClient {
-    
+
+    private final RestClient restClient;
+
+    public ProductResponse getProductByBarcode(
+            String barcode,
+            String token) {
+
+        return restClient.get()
+                .uri("/api/products/barcode/{barcode}", barcode)
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .body(ProductResponse.class);
+    }
+
+    public static class ProductResponse {
+
+        private Long id;
+        private String barcode;
+        private String name;
+        private BigDecimal purchasePrice;
+        private BigDecimal salePrice;
+        private int stockQuantity;
+        private boolean active;
+        private String imageUrl;
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getBarcode() {
+            return barcode;
+        }
+
+        public void setBarcode(String barcode) {
+            this.barcode = barcode;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public BigDecimal getPurchasePrice() {
+            return purchasePrice;
+        }
+
+        public void setPurchasePrice(BigDecimal purchasePrice) {
+            this.purchasePrice = purchasePrice;
+        }
+
+        public BigDecimal getSalePrice() {
+            return salePrice;
+        }
+
+        public void setSalePrice(BigDecimal salePrice) {
+            this.salePrice = salePrice;
+        }
+
+        public int getStockQuantity() {
+            return stockQuantity;
+        }
+
+        public void setStockQuantity(int stockQuantity) {
+            this.stockQuantity = stockQuantity;
+        }
+
+        public boolean isActive() {
+            return active;
+        }
+
+        public void setActive(boolean active) {
+            this.active = active;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
+    }
+
+    public void updateStock(
+            Long productId,
+            int amount,
+            String token) {
+
+        System.out.println("===== PRODUCT CLIENT STOCK UPDATE =====");
+        System.out.println("PRODUCT ID: " + productId);
+        System.out.println("AMOUNT: " + amount);
+        System.out.println("TOKEN EXISTS: " + (token != null));
+        System.out.println("TOKEN LENGTH: " +
+                (token != null ? token.length() : 0));
+
+        restClient.post()
+                .uri("/api/products/{id}/stock", productId)
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .body("""
+                        {
+                            "amount": %d
+                        }
+                        """.formatted(amount))
+                .retrieve()
+                .toBodilessEntity();
+    }
 }
