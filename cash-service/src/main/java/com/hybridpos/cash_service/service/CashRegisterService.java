@@ -2,6 +2,7 @@ package com.hybridpos.cash_service.service;
 
 import java.util.List;
 
+import com.hybridpos.cash_service.dto.CashRegisterReportDTO;
 import com.hybridpos.cash_service.dto.CashSaleDTO;
 import com.hybridpos.cash_service.entity.CashRegister;
 
@@ -18,4 +19,5 @@ public interface CashRegisterService {
     void closeCashRegister(Long id);
     void openCashRegister(Long id);
     boolean validateSale(Long cashRegisterId);
+    CashRegisterReportDTO getCashRegisterReport(Long id);
 }

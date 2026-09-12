@@ -1,6 +1,5 @@
 package com.hybridpos.product_service.controller;
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hybridpos.product_service.dto.ProductCreateDTO;
 import com.hybridpos.product_service.dto.ProductPriceUpdateDTO;
+import com.hybridpos.product_service.dto.ProductReportDTO;
 import com.hybridpos.product_service.dto.ProductResponseDTO;
 import com.hybridpos.product_service.dto.StockUpdateDTO;
 import com.hybridpos.product_service.service.ProductService;
@@ -37,7 +37,7 @@ public class ProductController {
         @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
         public ResponseEntity<ProductResponseDTO> addProduct(
                         @RequestPart("product") ProductCreateDTO dto,
-                        @RequestPart(value = "image", required = false) MultipartFile image) throws IOException{
+                        @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
 
                 return ResponseEntity.ok(
                                 productService.createProduct(dto, image));
@@ -68,7 +68,7 @@ public class ProductController {
         public ResponseEntity<Void> increaseStock(
                         @PathVariable Long id,
                         @RequestBody StockUpdateDTO dto) {
-                           System.out.println("SomeOne Trying to access here");     
+                System.out.println("SomeOne Trying to access here");
                 productService.increaseStock(
                                 id,
                                 dto.getAmount());
@@ -91,5 +91,13 @@ public class ProductController {
 
                 return ResponseEntity.ok(
                                 productService.getByBarcode(barcode));
+        }
+
+        @PreAuthorize("hasRole('ADMIN')")
+        @GetMapping("/report")
+        public ResponseEntity<ProductReportDTO> getProductReport() {
+
+                return ResponseEntity.ok(
+                                productService.getProductReport());
         }
 }

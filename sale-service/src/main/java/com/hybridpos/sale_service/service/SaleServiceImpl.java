@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.hybridpos.sale_service.client.ProductClient;
 import com.hybridpos.sale_service.client.ProductClient.ProductResponse;
 import com.hybridpos.sale_service.dto.SaleCreateDTO;
 import com.hybridpos.sale_service.dto.SaleItemDTO;
+import com.hybridpos.sale_service.dto.SaleReportDTO;
 import com.hybridpos.sale_service.dto.SaleResponseDTO;
 import com.hybridpos.sale_service.entity.Sale;
 import com.hybridpos.sale_service.entity.SaleItem;
@@ -104,23 +106,38 @@ public class SaleServiceImpl implements SaleService {
         }
 
         @Override
-        public SaleResponseDTO getReport(
+        public SaleReportDTO getReport(
                         LocalDateTime start,
                         LocalDateTime end) {
 
-                List<Sale> sales = saleRepository.findBySaleDateBetween(
-                                start,
-                                end);
+                List<Sale> sales = saleRepository.findBySaleDateBetween(start, end);
 
-                BigDecimal totalAmount = sales.stream()
+                BigDecimal totalRevenue = sales.stream()
                                 .map(Sale::getTotalPrice)
                                 .reduce(
                                                 BigDecimal.ZERO,
                                                 BigDecimal::add);
 
-                SaleResponseDTO report = new SaleResponseDTO();
+                BigDecimal totalCash = sales.stream()
+                                .map(Sale::getCashPaid)
+                                .filter(Objects::nonNull)
+                                .reduce(
+                                                BigDecimal.ZERO,
+                                                BigDecimal::add);
 
-                report.setTotalAmount(totalAmount);
+                BigDecimal totalCard = sales.stream()
+                                .map(Sale::getCardPaid)
+                                .filter(Objects::nonNull)
+                                .reduce(
+                                                BigDecimal.ZERO,
+                                                BigDecimal::add);
+
+                SaleReportDTO report = new SaleReportDTO();
+
+                report.setTotalSales(sales.size());
+                report.setTotalRevenue(totalRevenue);
+                report.setTotalCash(totalCash);
+                report.setTotalCard(totalCard);
 
                 return report;
         }

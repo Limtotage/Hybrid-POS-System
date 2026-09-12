@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.hybridpos.cash_service.dto.CashRegisterReportDTO;
 import com.hybridpos.cash_service.dto.CashSaleDTO;
 import com.hybridpos.cash_service.entity.CashRegister;
 import com.hybridpos.cash_service.repository.CashRegisterRepository;
@@ -133,5 +134,23 @@ public class CashRegisterServiceImpl
                 }
 
                 return true;
+        }
+
+        @Override
+        public CashRegisterReportDTO getCashRegisterReport(Long id) {
+
+                CashRegister cashRegister = cashRegisterRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Cash register not found"));
+
+                CashRegisterReportDTO report = new CashRegisterReportDTO();
+
+                report.setCashRegisterId(cashRegister.getId());
+                report.setCashRegisterName(cashRegister.getName());
+                report.setOpen(cashRegister.isOpen());
+                report.setTotalCashSales(cashRegister.getTotalCashSales());
+                report.setTotalCardSales(cashRegister.getTotalCardSales());
+                report.setTotalSales(cashRegister.getTotalSales());
+
+                return report;
         }
 }

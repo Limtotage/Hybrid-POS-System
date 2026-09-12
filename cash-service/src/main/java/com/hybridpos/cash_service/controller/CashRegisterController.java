@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hybridpos.cash_service.dto.CashRegisterReportDTO;
 import com.hybridpos.cash_service.dto.CashSaleDTO;
 import com.hybridpos.cash_service.entity.CashRegister;
 import com.hybridpos.cash_service.service.CashRegisterService;
@@ -80,6 +81,7 @@ public class CashRegisterController {
 
         return ResponseEntity.ok().build();
     }
+
     @PostMapping("/{id}/open")
     public ResponseEntity<Void> openCashRegister(
             @PathVariable Long id) {
@@ -95,5 +97,13 @@ public class CashRegisterController {
 
         return ResponseEntity.ok(
                 cashRegisterService.validateSale(id));
+    }
+
+    @GetMapping("/{id}/report")
+    public ResponseEntity<CashRegisterReportDTO> getCashRegisterReport(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                cashRegisterService.getCashRegisterReport(id));
     }
 }

@@ -1,6 +1,5 @@
 package com.hybridpos.product_service.service;
 
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,8 +8,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hybridpos.product_service.dto.LowStockProductDTO;
 import com.hybridpos.product_service.dto.ProductCreateDTO;
 import com.hybridpos.product_service.dto.ProductPriceUpdateDTO;
+import com.hybridpos.product_service.dto.ProductReportDTO;
 import com.hybridpos.product_service.dto.ProductResponseDTO;
 import com.hybridpos.product_service.entity.Product;
 import com.hybridpos.product_service.repository.ProductRepository;
@@ -23,10 +24,11 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final FileStorageService fileStorageService;
+    private static final int LOW_STOCK_LIMIT = 5;
 
     @Override
     public ProductResponseDTO createProduct(ProductCreateDTO dto,
-                                            MultipartFile image){
+            MultipartFile image) {
 
         Product product = new Product();
         product.setBarcode(dto.getBarcode());
@@ -36,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStockQuantity(dto.getStockQuantity());
         product.setCreatedAt(LocalDateTime.now());
         if (image != null && !image.isEmpty()) {
-            String imageUrl="";
+            String imageUrl = "";
             try {
                 imageUrl = fileStorageService.saveProductImage(image);
             } catch (IOException e) {
@@ -96,30 +98,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-public void increaseStock(long productId, int amount) {
+    public void increaseStock(long productId, int amount) {
 
-    Product product = productRepository.findById(productId)
-            .orElseThrow();
+        Product product = productRepository.findById(productId)
+                .orElseThrow();
 
-    System.out.println("===== STOCK UPDATE =====");
-    System.out.println("PRODUCT ID: " + productId);
-    System.out.println("OLD STOCK: " + product.getStockQuantity());
-    System.out.println("AMOUNT: " + amount);
+        System.out.println("===== STOCK UPDATE =====");
+        System.out.println("PRODUCT ID: " + productId);
+        System.out.println("OLD STOCK: " + product.getStockQuantity());
+        System.out.println("AMOUNT: " + amount);
 
-    product.setStockQuantity(
-            product.getStockQuantity() + amount
-    );
+        product.setStockQuantity(
+                product.getStockQuantity() + amount);
 
-    System.out.println(
-            "NEW STOCK: " + product.getStockQuantity()
-    );
+        System.out.println(
+                "NEW STOCK: " + product.getStockQuantity());
 
-    Product savedProduct = productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
-    System.out.println(
-            "SAVED STOCK: " + savedProduct.getStockQuantity()
-    );
-}
+        System.out.println(
+                "SAVED STOCK: " + savedProduct.getStockQuantity());
+    }
 
     private ProductResponseDTO mapToResponse(Product p) {
         ProductResponseDTO dto = new ProductResponseDTO();
@@ -132,5 +131,33 @@ public void increaseStock(long productId, int amount) {
         dto.setActive(p.isActive());
         dto.setImageUrl(p.getImageURL());
         return dto;
+    }
+
+    @Override
+    public ProductReportDTO getProductReport() {
+
+        List<Product> products = productRepository.findAll();
+
+        List<LowStockProductDTO> lowStockProducts = products.stream()
+                .filter(product -> product.getStockQuantity() <= LOW_STOCK_LIMIT)//sonradan admin tarafından aarlanabilen bir versiyona geçilebilir.
+                .map(product -> {
+
+                    LowStockProductDTO dto = new LowStockProductDTO();
+
+                    dto.setId(product.getId());
+                    dto.setName(product.getName());
+                    dto.setBarcode(product.getBarcode());
+                    dto.setStockQuantity(
+                            product.getStockQuantity());
+
+                    return dto;
+                })
+                .toList();
+
+        ProductReportDTO report = new ProductReportDTO();
+
+        report.setLowStockProducts(lowStockProducts);
+
+        return report;
     }
 }

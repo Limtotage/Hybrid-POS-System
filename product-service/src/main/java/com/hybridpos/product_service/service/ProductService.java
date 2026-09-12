@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hybridpos.product_service.dto.ProductCreateDTO;
 import com.hybridpos.product_service.dto.ProductPriceUpdateDTO;
+import com.hybridpos.product_service.dto.ProductReportDTO;
 import com.hybridpos.product_service.dto.ProductResponseDTO;
 
 
@@ -27,4 +28,5 @@ public interface ProductService{
     );
 
     void increaseStock(long productId, int amount);
+    ProductReportDTO getProductReport();
 }

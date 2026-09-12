@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hybridpos.sale_service.dto.SaleCreateDTO;
+import com.hybridpos.sale_service.dto.SaleReportDTO;
 import com.hybridpos.sale_service.dto.SaleResponseDTO;
 import com.hybridpos.sale_service.service.SaleService;
 
@@ -24,34 +25,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SaleController {
 
-    private final SaleService saleService;
+        private final SaleService saleService;
 
-    @PreAuthorize("hasRole('CASHIER')")
-    @PostMapping("/{cashId}")
-    public ResponseEntity<SaleResponseDTO> makeSale(
-            @PathVariable Long cashId,
-            @RequestBody SaleCreateDTO dto,
-            @RequestHeader("Authorization") String authorizationHeader) {
+        @PreAuthorize("hasRole('CASHIER')")
+        @PostMapping("/{cashId}")
+        public ResponseEntity<SaleResponseDTO> makeSale(
+                        @PathVariable Long cashId,
+                        @RequestBody SaleCreateDTO dto,
+                        @RequestHeader("Authorization") String authorizationHeader) {
 
-        String token = authorizationHeader.substring(7);
+                String token = authorizationHeader.substring(7);
 
-        return ResponseEntity.ok(
-                saleService.makeSale(
-                        cashId,
-                        dto,
-                        token
-                )
-        );
-    }
+                return ResponseEntity.ok(
+                                saleService.makeSale(
+                                                cashId,
+                                                dto,
+                                                token));
+        }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/report")
-    public ResponseEntity<SaleResponseDTO> getReport(
-            @RequestParam LocalDateTime start,
-            @RequestParam LocalDateTime end) {
+        @PreAuthorize("hasRole('ADMIN')")
+        @GetMapping("/report")
+        public ResponseEntity<SaleReportDTO> getReport(
+                        @RequestParam LocalDateTime start,
+                        @RequestParam LocalDateTime end) {
 
-        return ResponseEntity.ok(
-                saleService.getReport(start, end)
-        );
-    }
+                return ResponseEntity.ok(
+                                saleService.getReport(start, end));
+        }
 }
