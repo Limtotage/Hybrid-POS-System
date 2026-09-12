@@ -1,2 +1,162 @@
-<h1 style="color:red">ADMIN SAYFASI</h1>
-<button (click)="logout()">Çıkış Yap</button>
+<div class="dashboard-page">
+
+  <!-- PAGE HEADER -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Dashboard</h1>
+
+      <p>
+        Welcome back, Admin. Here's what's happening today.
+      </p>
+    </div>
+
+    <button class="refresh-btn">
+      ↻ Refresh
+    </button>
+
+  </div>
+
+
+  <!-- STAT CARDS -->
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+
+      <div class="stat-icon green">
+        $
+      </div>
+
+      <div class="stat-info">
+        <span>Total Sales</span>
+        <strong>₺0.00</strong>
+        <small>Today's sales</small>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon blue">
+        □
+      </div>
+
+      <div class="stat-info">
+        <span>Total Products</span>
+        <strong>0</strong>
+        <small>Products in inventory</small>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon purple">
+        ♙
+      </div>
+
+      <div class="stat-info">
+        <span>Cashiers</span>
+        <strong>0</strong>
+        <small>Active cashiers</small>
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon orange">
+        !
+      </div>
+
+      <div class="stat-info">
+        <span>Low Stock</span>
+        <strong>0</strong>
+        <small>Products need attention</small>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- LOWER SECTION -->
+
+  <div class="dashboard-grid">
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Recent Sales</h3>
+          <span>Latest transactions</span>
+        </div>
+
+        <button>
+          View All
+        </button>
+
+      </div>
+
+
+      <div class="empty-dashboard">
+
+        <div>
+          📊
+        </div>
+
+        <p>
+          No sales yet
+        </p>
+
+        <small>
+          Sales will appear here after transactions.
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Quick Actions</h3>
+          <span>Frequently used operations</span>
+        </div>
+
+      </div>
+
+
+      <div class="quick-actions">
+
+        <a routerLink="/admin/products">
+          <span>+</span>
+          Add Product
+        </a>
+
+        <a routerLink="/admin/cashier">
+          <span>+</span>
+          Add Cashier
+        </a>
+
+        <a routerLink="/admin/categories">
+          <span>+</span>
+          Add Category
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

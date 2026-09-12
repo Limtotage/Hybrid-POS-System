@@ -1,30 +1,430 @@
-.Product-Adding-Container {
-  max-width: 400px;
+/* =====================================================
+   PRODUCTS PAGE
+===================================================== */
+
+.products-page {
+  width: 100%;
 }
+
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.page-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+
+.page-header h1 {
+  margin: 0 0 5px;
+
+  color: #263238;
+
+  font-size: 21px;
+
+  font-weight: 600;
+}
+
+
+.page-header p {
+  margin: 0;
+
+  color: #89958f;
+
+  font-size: 11px;
+}
+
+
+/* =====================================================
+   FORM CARD
+===================================================== */
+
+.product-form-card {
+
+  width: 100%;
+
+  max-width: 900px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5ebe8;
+
+  border-radius: 9px;
+
+  padding: 24px;
+
+}
+
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.form-card-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding-bottom: 20px;
+
+  margin-bottom: 24px;
+
+  border-bottom: 1px solid #edf0ee;
+
+}
+
+
+.header-icon {
+
+  width: 42px;
+
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #e8f6ef;
+
+  color: #198754;
+
+  font-size: 23px;
+
+  font-weight: 500;
+
+}
+
+
+.form-card-header h2 {
+
+  margin: 0 0 4px;
+
+  color: #263238;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+}
+
+
+.form-card-header p {
+
+  margin: 0;
+
+  color: #929c97;
+
+  font-size: 10px;
+
+}
+
+
+/* =====================================================
+   FORM GRID
+===================================================== */
+
+.form-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 22px;
+
+  row-gap: 18px;
+
+}
+
+
+/* =====================================================
+   FORM GROUP
+===================================================== */
 
 .form-group {
+
   display: flex;
+
   flex-direction: column;
-  margin-bottom: 12px;
+
 }
 
-label {
+
+.form-group label {
+
+  margin-bottom: 7px;
+
+  color: #53615b;
+
+  font-size: 11px;
+
   font-weight: 600;
-  margin-bottom: 4px;
+
 }
 
-input {
-  padding: 6px;
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.form-group input[type="text"],
+.form-group input[type="number"] {
+
+  width: 240px;
+
+  height: 40px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dfe6e2;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #263238;
+
+  font-size: 11px;
+
+  transition: .2s;
+
 }
-.delete-btn {
-  background: red;
-  color: white;
-  border: none;
-  padding: 4px 8px;
+
+
+.form-group input::placeholder {
+
+  color: #aeb7b3;
+
+}
+
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus {
+
+  border-color: #198754;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(25, 135, 84, .08);
+
+}
+
+
+/* =====================================================
+   PRICE INPUT
+===================================================== */
+
+.input-with-symbol {
+
+  position: relative;
+
+}
+
+
+.input-with-symbol span {
+
+  position: absolute;
+
+  left: 12px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #89958f;
+
+  font-size: 11px;
+
+  z-index: 1;
+
+}
+
+
+.input-with-symbol input {
+
+  padding-left: 28px !important;
+
+}
+
+
+/* =====================================================
+   FILE INPUT
+===================================================== */
+
+.file-input-wrapper {
+
+  position: relative;
+
+  height: 40px;
+
+}
+
+
+.file-input-wrapper input[type="file"] {
+
+  width: 240px;
+
+  height: 40px;
+
+  padding: 9px 10px;
+
+  border: 1px solid #dfe6e2;
+
+  border-radius: 6px;
+
+  background: #fafcfb;
+
+  color: #69756f;
+
+  font-size: 10px;
+
   cursor: pointer;
-  border-radius: 4px;
+
 }
 
-.delete-btn:hover {
-  background: darkred;
+
+/* =====================================================
+   FORM FOOTER
+===================================================== */
+
+.form-footer {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-top: 26px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid #edf0ee;
+
+}
+
+
+.required-info {
+
+  color: #9aa49f;
+
+  font-size: 9px;
+
+}
+
+
+/* =====================================================
+   ADD PRODUCT BUTTON
+===================================================== */
+
+.add-product-btn {
+
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #198754;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: .2s;
+
+}
+
+
+.add-product-btn:hover {
+
+  background: #157347;
+
+}
+
+
+.add-product-btn span {
+
+  font-size: 17px;
+
+  line-height: 1;
+
+}
+
+
+.add-product-btn:disabled {
+
+  background: #a8cbb9;
+
+  cursor: not-allowed;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .product-form-card {
+
+    padding: 18px;
+
+  }
+
+
+  .form-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .form-footer {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+  }
+
+
+  .add-product-btn {
+
+    width: 100%;
+
+    justify-content: center;
+
+  }
+
 }

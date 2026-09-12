@@ -1,20 +1,126 @@
-<div class="layout">
+<div class="admin-layout">
+  <!-- ================= SIDEBAR ================= -->
+
   <aside class="sidebar">
-    <h3>Admin Panel</h3>
-    <a routerLink="dashboard">Dashboard</a>
-    <a routerLink="products">Products</a>
-    <a routerLink="categories">Categories</a>
-    <a routerLink="cashier">Cashiers</a>
+    <!-- LOGO -->
+
+    <div class="sidebar-logo">
+      <div class="logo-icon">H</div>
+
+      <div>
+        <strong>HybridPOS</strong>
+        <span>Admin Panel</span>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="menu-section">
+      <span class="menu-title"> MAIN </span>
+
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="menu-item">
+        <span class="menu-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/admin/cashier" routerLinkActive="active" class="menu-item">
+        <span class="menu-icon">♙</span>
+        <span>Cashiers</span>
+      </a>
+    </div>
+
+    <!-- INVENTORY -->
+
+    <div class="menu-section">
+      <span class="menu-title"> INVENTORY </span>
+
+      <a routerLink="/admin/products" routerLinkActive="active" class="menu-item">
+        <span class="menu-icon">□</span>
+        <span>Products</span>
+      </a>
+
+      <a routerLink="/admin/categories" routerLinkActive="active" class="menu-item">
+        <span class="menu-icon">◇</span>
+        <span>Categories</span>
+      </a>
+
+      <a class="menu-item">
+        <span class="menu-icon">◈</span>
+        <span>Brands</span>
+      </a>
+      <a routerLink="/admin/reports" routerLinkActive="active" class="menu-item">
+        <span class="menu-icon">▥</span>
+        <span>Reports</span>
+      </a>
+    </div>
+
+    <!-- STOCK -->
+
+    <div class="menu-section">
+      <span class="menu-title"> STOCK </span>
+
+      <a class="menu-item">
+        <span class="menu-icon">▤</span>
+        <span>Manage Stock</span>
+      </a>
+
+      <a class="menu-item">
+        <span class="menu-icon">↗</span>
+        <span>Stock Adjustment</span>
+      </a>
+
+      <a class="menu-item">
+        <span class="menu-icon">⇄</span>
+        <span>Stock Transfer</span>
+      </a>
+    </div>
+
+    <div class="sidebar-bottom">
+      <button class="logout-button" (click)="logout()">
+        <span>↪</span>
+        Logout
+      </button>
+    </div>
   </aside>
 
-  <div class="content">
-    <header class="header">
-      <span>Welcome Admin</span>
-      <button (click)="logout()">Logout</button>
+  <!-- ================= CONTENT ================= -->
+
+  <div class="admin-content">
+    <header class="admin-header">
+      <div class="header-left">
+        <button class="sidebar-toggle">☰</button>
+
+        <div class="search-box">
+          <span>⌕</span>
+
+          <input type="text" placeholder="Search..." />
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="header-icon">🔔</div>
+
+        <div class="header-icon">⚙</div>
+
+        <div class="admin-profile">
+          <div class="profile-avatar">A</div>
+
+          <div class="profile-info">
+            <strong>Admin</strong>
+            <span>Administrator</span>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <main>
+    <main class="page-content">
       <router-outlet></router-outlet>
     </main>
+
+    <footer class="admin-footer">
+      <span> 2025-2026 © HybridPOS. All Rights Reserved </span>
+
+      <span> HybridPOS Admin Panel </span>
+    </footer>
   </div>
 </div>

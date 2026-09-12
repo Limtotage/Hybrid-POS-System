@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.hybridpos.sale_service.client.CashClient;
 import com.hybridpos.sale_service.client.ProductClient;
 import com.hybridpos.sale_service.client.ProductClient.ProductResponse;
 import com.hybridpos.sale_service.dto.SaleCreateDTO;
@@ -25,6 +26,7 @@ public class SaleServiceImpl implements SaleService {
 
         private final SaleRepository saleRepository;
         private final ProductClient productClient;
+        private final CashClient cashClient;
 
         @Override
         @Transactional
@@ -32,6 +34,7 @@ public class SaleServiceImpl implements SaleService {
                         Long cashId,
                         SaleCreateDTO dto,
                         String token) {
+                cashClient.validateSale(cashId, token);
 
                 Sale sale = new Sale();
 
@@ -90,6 +93,12 @@ public class SaleServiceImpl implements SaleService {
                 sale.setItems(items);
 
                 Sale savedSale = saleRepository.save(sale);
+
+                cashClient.processSale(
+                                cashId,
+                                dto.getCashPaid(),
+                                dto.getCardPaid(),
+                                token);
 
                 return mapToResponse(savedSale);
         }

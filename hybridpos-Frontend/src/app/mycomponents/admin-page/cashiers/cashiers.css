@@ -1,11 +1,175 @@
-.cashier-register-container{
-  width: 300px;
-  margin: 100px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.cashiers-page {
+  max-width: 100%;
 }
 
-input, select, button {
-  padding: 8px;
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+
+.page-header h1 {
+  margin: 0 0 5px;
+
+  font-size: 21px;
+}
+
+
+.page-header p {
+  margin: 0;
+
+  color: #89958f;
+
+  font-size: 11px;
+}
+
+
+.cashier-card {
+  width: 100%;
+
+  max-width: 650px;
+
+  padding: 22px;
+
+  background: white;
+
+  border: 1px solid #e5ebe8;
+
+  border-radius: 8px;
+}
+
+
+.card-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding-bottom: 18px;
+
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid #edf0ee;
+}
+
+
+.title-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background: #e8f6ef;
+
+  color: #198754;
+
+  font-size: 22px;
+}
+
+
+.card-title h2 {
+  margin: 0 0 3px;
+
+  font-size: 15px;
+}
+
+
+.card-title p {
+  margin: 0;
+
+  color: #929c97;
+
+  font-size: 10px;
+}
+
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-bottom: 17px;
+}
+
+
+.form-group label {
+  margin-bottom: 7px;
+
+  color: #53615b;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+.form-group input {
+  height: 40px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dfe6e2;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  font-size: 11px;
+}
+
+
+.form-group input:focus {
+  border-color: #198754;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(25, 135, 84, .08);
+}
+
+
+.form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin-top: 10px;
+}
+
+
+.form-actions button {
+  height: 38px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #198754;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.form-actions button:hover {
+  background: #157347;
+}
+
+
+.form-actions button:disabled {
+  opacity: .5;
+
+  cursor: not-allowed;
 }

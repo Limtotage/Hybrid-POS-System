@@ -1,32 +1,86 @@
-<div class="cashier-register-container">
+<div class="cashiers-page">
 
-  <h2>Kasiyer Ekle</h2>
+  <div class="page-header">
 
-  <form
-    #cashierForm="ngForm"
-    (ngSubmit)="createCashier(cashierForm)"
-  >
+    <div>
+      <h1>Cashiers</h1>
 
-    <input
-      type="text"
-      placeholder="Kullanıcı adı"
-      [(ngModel)]="cashier.username"
-      name="username"
-      required
-    />
+      <p>
+        Manage your shop cashiers.
+      </p>
+    </div>
 
-    <input
-      type="password"
-      placeholder="Şifre"
-      [(ngModel)]="cashier.password"
-      name="password"
-      required
-    />
+  </div>
 
-    <button type="submit">
-      Kasiyer Ekle
-    </button>
 
-  </form>
+  <div class="cashier-card">
+
+    <div class="card-title">
+
+      <div class="title-icon">
+        +
+      </div>
+
+      <div>
+        <h2>Add Cashier</h2>
+        <p>Create a new cashier account.</p>
+      </div>
+
+    </div>
+
+
+    <form
+      #cashierForm="ngForm"
+      (ngSubmit)="createCashier(cashierForm)"
+    >
+
+      <div class="form-group">
+
+        <label>
+          Username
+        </label>
+
+        <input
+          type="text"
+          placeholder="Enter username"
+          [(ngModel)]="cashier.username"
+          name="username"
+          required
+        />
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          placeholder="Enter password"
+          [(ngModel)]="cashier.password"
+          name="password"
+          required
+        />
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          [disabled]="!cashierForm.valid"
+        >
+          Add Cashier
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
 
 </div>

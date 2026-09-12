@@ -2,16 +2,18 @@ package com.hybridpos.sale_service.client;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
 public class ProductClient {
 
     private final RestClient restClient;
+    public ProductClient(@Qualifier("productRestClient") RestClient restClient) {
+        this.restClient = restClient;
+    }
 
     public ProductResponse getProductByBarcode(
             String barcode,

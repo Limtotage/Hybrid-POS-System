@@ -1,71 +1,207 @@
-<div class="Product-Adding-Container">
-  <h2>Create Product</h2>
+<div class="products-page">
 
-  <form #ProductForm="ngForm" (ngSubmit)="addProduct(ProductForm)">
-    <div class="form-group">
-      <label for="barcode"> Barcode </label>
+  <!-- PAGE HEADER -->
+  <div class="page-header">
 
-      <input
-        id="barcode"
-        type="text"
-        placeholder="Barkod"
-        [(ngModel)]="newProduct.barcode"
-        name="barcode"
-        required
-      />
+    <div>
+      <h1>Create Product</h1>
+
+      <p>
+        Add a new product to your inventory.
+      </p>
     </div>
 
-    <div class="form-group">
-      <label for="name"> Product Name </label>
+  </div>
 
-      <input
-        id="name"
-        type="text"
-        placeholder="Ürün adı"
-        [(ngModel)]="newProduct.name"
-        name="name"
-        required
-      />
+
+  <!-- PRODUCT FORM CARD -->
+  <div class="product-form-card">
+
+    <!-- CARD HEADER -->
+    <div class="form-card-header">
+
+      <div class="header-icon">
+        +
+      </div>
+
+      <div>
+        <h2>Product Information</h2>
+
+        <p>
+          Enter the product details below.
+        </p>
+      </div>
+
     </div>
 
-    <div class="form-group">
-      <label for="purchasePrice"> Purchase Price </label>
 
-      <input
-        id="purchasePrice"
-        type="number"
-        [(ngModel)]="newProduct.purchasePrice"
-        name="purchasePrice"
-        required
-      />
-    </div>
+    <!-- FORM -->
+    <form
+      #ProductForm="ngForm"
+      (ngSubmit)="addProduct(ProductForm)"
+    >
 
-    <div class="form-group">
-      <label for="salePrice"> Sale Price </label>
+      <div class="form-grid">
 
-      <input
-        id="salePrice"
-        type="number"
-        [(ngModel)]="newProduct.salePrice"
-        name="salePrice"
-        required
-      />
-    </div>
+        <!-- BARCODE -->
+        <div class="form-group">
 
-    <div class="form-group">
-      <label for="stockQuantity"> Stock Quantity </label>
+          <label for="barcode">
+            Barcode
+          </label>
 
-      <input
-        id="stockQuantity"
-        type="number"
-        [(ngModel)]="newProduct.stockQuantity"
-        name="stockQuantity"
-        required
-      />
-      <label for="stockQuantity"> Product Image </label>
-      <input type="file" accept="image/*" (change)="onImageSelected($event)" />
-    </div>
+          <input
+            id="barcode"
+            type="text"
+            placeholder="Enter barcode"
+            [(ngModel)]="newProduct.barcode"
+            name="barcode"
+            required
+          />
 
-    <button type="submit">Add Product</button>
-  </form>
+        </div>
+
+
+        <!-- PRODUCT NAME -->
+        <div class="form-group">
+
+          <label for="name">
+            Product Name
+          </label>
+
+          <input
+            id="name"
+            type="text"
+            placeholder="Enter product name"
+            [(ngModel)]="newProduct.name"
+            name="name"
+            required
+          />
+
+        </div>
+
+
+        <!-- PURCHASE PRICE -->
+        <div class="form-group">
+
+          <label for="purchasePrice">
+            Purchase Price
+          </label>
+
+          <div class="input-with-symbol">
+
+            <span>₺</span>
+
+            <input
+              id="purchasePrice"
+              type="number"
+              placeholder="0.00"
+              [(ngModel)]="newProduct.purchasePrice"
+              name="purchasePrice"
+              min="0"
+              step="0.01"
+              required
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- SALE PRICE -->
+        <div class="form-group">
+
+          <label for="salePrice">
+            Sale Price
+          </label>
+
+          <div class="input-with-symbol">
+
+            <span>₺</span>
+
+            <input
+              id="salePrice"
+              type="number"
+              placeholder="0.00"
+              [(ngModel)]="newProduct.salePrice"
+              name="salePrice"
+              min="0"
+              step="0.01"
+              required
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- STOCK -->
+        <div class="form-group">
+
+          <label for="stockQuantity">
+            Stock Quantity
+          </label>
+
+          <input
+            id="stockQuantity"
+            type="number"
+            placeholder="0"
+            [(ngModel)]="newProduct.stockQuantity"
+            name="stockQuantity"
+            min="0"
+            required
+          />
+
+        </div>
+
+
+        <!-- IMAGE -->
+        <div class="form-group">
+
+          <label for="productImage">
+            Product Image
+          </label>
+
+          <div class="file-input-wrapper">
+
+            <input
+              id="productImage"
+              type="file"
+              accept="image/*"
+              (change)="onImageSelected($event)"
+            />
+
+            <span class="file-text">
+              Choose image
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- FORM FOOTER -->
+      <div class="form-footer">
+
+        <span class="required-info">
+          * Required fields
+        </span>
+
+        <button
+          type="submit"
+          class="add-product-btn"
+          [disabled]="!ProductForm.valid"
+        >
+          <span>+</span>
+          Add Product
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
 </div>
