@@ -1,6 +1,7 @@
 package com.hybridpos.sale_service.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class SaleReportDTO {
     private BigDecimal totalCash;
 
     private BigDecimal totalCard;
+    private List<SoldProductReportDTO> soldProducts;
 }

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final FileStorageService fileStorageService;
+    private final CacheManager cacheManager;
     private static final int LOW_STOCK_LIMIT = 5;
 
     @Override
@@ -53,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(value = "products", key = "#barcode")
     public ProductResponseDTO getByBarcode(String barcode) {
         Product product = productRepository.findByBarcode(barcode)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -72,10 +76,11 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        if (product == null) {
-            throw new RuntimeException("Product not found");
-        }
+
         productRepository.delete(product);
+
+        cacheManager.getCache("products")
+                .evict(product.getBarcode());
     }
 
     @Override
@@ -93,6 +98,8 @@ public class ProductServiceImpl implements ProductService {
 
         product.setSalePrice(price);
         productRepository.save(product);
+        cacheManager.getCache("products")
+                .evict(product.getBarcode());
 
         return mapToResponse(product);
     }
@@ -103,21 +110,13 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow();
 
-        System.out.println("===== STOCK UPDATE =====");
-        System.out.println("PRODUCT ID: " + productId);
-        System.out.println("OLD STOCK: " + product.getStockQuantity());
-        System.out.println("AMOUNT: " + amount);
-
         product.setStockQuantity(
                 product.getStockQuantity() + amount);
 
-        System.out.println(
-                "NEW STOCK: " + product.getStockQuantity());
+        productRepository.save(product);
+        cacheManager.getCache("products")
+                .evict(product.getBarcode());
 
-        Product savedProduct = productRepository.save(product);
-
-        System.out.println(
-                "SAVED STOCK: " + savedProduct.getStockQuantity());
     }
 
     private ProductResponseDTO mapToResponse(Product p) {
@@ -134,12 +133,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+
     public ProductReportDTO getProductReport() {
 
         List<Product> products = productRepository.findAll();
 
         List<LowStockProductDTO> lowStockProducts = products.stream()
-                .filter(product -> product.getStockQuantity() <= LOW_STOCK_LIMIT)//sonradan admin tarafından aarlanabilen bir versiyona geçilebilir.
+                .filter(product -> product.getStockQuantity() <= LOW_STOCK_LIMIT)// sonradan admin tarafından
+                                                                                 // aarlanabilen bir versiyona
+                                                                                 // geçilebilir.
                 .map(product -> {
 
                     LowStockProductDTO dto = new LowStockProductDTO();

@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.hybridpos.sale_service.dto.SaleCreateDTO;
 import com.hybridpos.sale_service.dto.SaleItemDTO;
 import com.hybridpos.sale_service.dto.SaleReportDTO;
 import com.hybridpos.sale_service.dto.SaleResponseDTO;
+import com.hybridpos.sale_service.dto.SoldProductReportDTO;
 import com.hybridpos.sale_service.entity.Sale;
 import com.hybridpos.sale_service.entity.SaleItem;
 import com.hybridpos.sale_service.repository.SaleRepository;
@@ -114,6 +117,7 @@ public class SaleServiceImpl implements SaleService {
 
                 BigDecimal totalRevenue = sales.stream()
                                 .map(Sale::getTotalPrice)
+                                .filter(Objects::nonNull)
                                 .reduce(
                                                 BigDecimal.ZERO,
                                                 BigDecimal::add);
@@ -132,12 +136,56 @@ public class SaleServiceImpl implements SaleService {
                                                 BigDecimal.ZERO,
                                                 BigDecimal::add);
 
+                Map<Long, List<SaleItem>> groupedProducts = sales.stream()
+                                .flatMap(sale -> sale.getItems().stream())
+                                .collect(Collectors.groupingBy(
+                                                SaleItem::getProductId));
+
+                List<SoldProductReportDTO> soldProducts = groupedProducts.values()
+                                .stream()
+                                .map(items -> {
+
+                                        SaleItem firstItem = items.get(0);
+
+                                        int totalQuantity = items.stream()
+                                                        .mapToInt(
+                                                                        SaleItem::getQuantity)
+                                                        .sum();
+
+                                        BigDecimal totalAmount = items.stream()
+                                                        .map(item -> item.getPriceAtSale()
+                                                                        .multiply(
+                                                                                        BigDecimal.valueOf(
+                                                                                                        item.getQuantity())))
+                                                        .reduce(
+                                                                        BigDecimal.ZERO,
+                                                                        BigDecimal::add);
+
+                                        SoldProductReportDTO dto = new SoldProductReportDTO();
+
+                                        dto.setProductName(
+                                                        firstItem.getProductName());
+
+                                        dto.setBarcode(
+                                                        firstItem.getBarcode());
+
+                                        dto.setQuantity(
+                                                        totalQuantity);
+
+                                        dto.setTotalAmount(
+                                                        totalAmount);
+
+                                        return dto;
+                                })
+                                .toList();
+
                 SaleReportDTO report = new SaleReportDTO();
 
                 report.setTotalSales(sales.size());
                 report.setTotalRevenue(totalRevenue);
                 report.setTotalCash(totalCash);
                 report.setTotalCard(totalCard);
+                report.setSoldProducts(soldProducts);
 
                 return report;
         }

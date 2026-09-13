@@ -26,27 +26,22 @@ public class SecurityConfig {
             @Lazy JwtRequestFilter jwtRequestFilter) throws Exception {
 
         http
-            .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
 
-            .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
 
-                .requestMatchers("/auth/login")
-                .permitAll()
+                        .requestMatchers("/api/auth/login")
+                        .permitAll()
 
-                .anyRequest()
-                .authenticated()
-            )
+                        .anyRequest()
+                        .authenticated())
 
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(
-                    SessionCreationPolicy.STATELESS
-                )
-            );
+                .sessionManagement(session -> session.sessionCreationPolicy(
+                        SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(
-            jwtRequestFilter,
-            UsernamePasswordAuthenticationFilter.class
-        );
+                jwtRequestFilter,
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
