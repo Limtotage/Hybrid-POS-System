@@ -3,7 +3,6 @@ package com.hybridpos.sale_service.config;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +13,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -43,13 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                         String username = jwtUtil.extractUsername(jwt);
 
                                         String role = jwtUtil.extractRole(jwt);
-                                        System.out.println("===== SALE JWT DEBUG =====");
-                                        System.out.println("USERNAME: " + username);
-                                        System.out.println("ROLE: " + role);
-
                                         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
-                                        System.out.println("AUTHORITY: " + authority.getAuthority());
-
                                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                                         username,
                                                         null,
@@ -58,11 +52,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                         SecurityContextHolder
                                                         .getContext()
                                                         .setAuthentication(authentication);
-                                        System.out.println(
-                                                        "AUTHENTICATION SET: " +
-                                                                        SecurityContextHolder
-                                                                                        .getContext()
-                                                                                        .getAuthentication());
                                 }
 
                         } catch (Exception e) {
