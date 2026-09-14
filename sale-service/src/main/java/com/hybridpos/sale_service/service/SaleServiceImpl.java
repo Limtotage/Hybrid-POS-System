@@ -20,6 +20,8 @@ import com.hybridpos.sale_service.dto.SaleResponseDTO;
 import com.hybridpos.sale_service.dto.SoldProductReportDTO;
 import com.hybridpos.sale_service.entity.Sale;
 import com.hybridpos.sale_service.entity.SaleItem;
+import com.hybridpos.sale_service.event.SaleCreatedEvent;
+import com.hybridpos.sale_service.event.SaleEventProducer;
 import com.hybridpos.sale_service.repository.SaleRepository;
 
 import jakarta.transaction.Transactional;
@@ -32,6 +34,7 @@ public class SaleServiceImpl implements SaleService {
         private final SaleRepository saleRepository;
         private final ProductClient productClient;
         private final CashClient cashClient;
+        private final SaleEventProducer saleEventProducer;
 
         @Override
         @Transactional
@@ -104,6 +107,17 @@ public class SaleServiceImpl implements SaleService {
                                 dto.getCashPaid(),
                                 dto.getCardPaid(),
                                 token);
+
+                SaleCreatedEvent event = new SaleCreatedEvent(
+                                savedSale.getId(),
+                                cashId,
+                                savedSale.getTotalPrice(),
+                                savedSale.getCashPaid(),
+                                savedSale.getCardPaid(),
+                                savedSale.getPaymentType().name(),
+                                savedSale.getSaleDate());
+
+                saleEventProducer.sendSaleCreatedEvent(event);
 
                 return mapToResponse(savedSale);
         }

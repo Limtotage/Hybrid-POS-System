@@ -11,11 +11,13 @@ echo ""
 # Docker Services
 # ----------------------------------------
 
-echo "[1/7] PostgreSQL başlatılıyor..."
+echo "[1/10] PostgreSQL başlatılıyor..."
 docker start hybridpos-postgres 2>/dev/null || echo "PostgreSQL zaten çalışıyor."
 
-echo "[2/7] Redis başlatılıyor..."
+echo "[2/10] Redis başlatılıyor..."
 docker start hybridpos-redis 2>/dev/null || echo "Redis zaten çalışıyor."
+echo "[3/10] Redis başlatılıyor..."
+docker start hybridpos-kafka 2>/dev/null || echo "Kafka zaten çalışıyor."
 
 sleep 2
 
@@ -23,7 +25,7 @@ sleep 2
 # Eureka
 # ----------------------------------------
 
-echo "[3/7] Eureka Server başlatılıyor..."
+echo "[4/10] Eureka Server başlatılıyor..."
 gnome-terminal -- bash -c "
 cd '$PROJECT_DIR/eureka-server' &&
 MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
@@ -36,7 +38,7 @@ sleep 5
 # Auth
 # ----------------------------------------
 
-echo "[4/7] Auth Service başlatılıyor..."
+echo "[5/10] Auth Service başlatılıyor..."
 gnome-terminal -- bash -c "
 cd '$PROJECT_DIR/auth-service' &&
 MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
@@ -47,7 +49,7 @@ exec bash
 # Product
 # ----------------------------------------
 
-echo "[5/7] Product Service başlatılıyor..."
+echo "[6/10] Product Service başlatılıyor..."
 gnome-terminal -- bash -c "
 cd '$PROJECT_DIR/product-service' &&
 MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
@@ -58,7 +60,7 @@ exec bash
 # Sale
 # ----------------------------------------
 
-echo "[6/7] Sale Service başlatılıyor..."
+echo "[7/10] Sale Service başlatılıyor..."
 gnome-terminal -- bash -c "
 cd '$PROJECT_DIR/sale-service' &&
 MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
@@ -69,9 +71,19 @@ exec bash
 # Cash
 # ----------------------------------------
 
-echo "[7/7] Cash Service başlatılıyor..."
+echo "[8/10] Cash Service başlatılıyor..."
 gnome-terminal -- bash -c "
 cd '$PROJECT_DIR/cash-service' &&
+MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
+exec bash
+"
+# ----------------------------------------
+# Report
+# ----------------------------------------
+
+echo "[9/10] Report Service başlatılıyor..."
+gnome-terminal -- bash -c "
+cd '$PROJECT_DIR/report-service' &&
 MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
 exec bash
 "
@@ -80,7 +92,7 @@ exec bash
 # API Gateway
 # ----------------------------------------
 
-echo "API Gateway başlatılıyor..."
+echo "[10/10] API Gateway başlatılıyor..."
 gnome-terminal -- bash -c "
 cd '$PROJECT_DIR/api-gateway' &&
 MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
@@ -99,6 +111,7 @@ echo "Auth       : 8081"
 echo "Product    : 8082"
 echo "Sale       : 8083"
 echo "Cash       : 8084"
+echo "Report     : 8085"
 echo "Gateway    : 8080"
 echo ""
 echo "JVM Heap   : 128 MB - 512 MB"
