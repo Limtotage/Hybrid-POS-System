@@ -1,24 +1,35 @@
-package com.hybridpos.sale_service.event;
+package com.hybridpos.report_service.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "sale_reports")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleCreatedEvent {
+public class SaleReport {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Long saleId;
+
     private Long cashRegisterId;
+
     private BigDecimal totalAmount;
+
     private BigDecimal cashPaid;
+
     private BigDecimal cardPaid;
+
     private String paymentType;
+
     private LocalDateTime createdAt;
-    private List<SaleCreatedItemEvent> items;
 }

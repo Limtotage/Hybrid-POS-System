@@ -21,6 +21,7 @@ import com.hybridpos.sale_service.dto.SoldProductReportDTO;
 import com.hybridpos.sale_service.entity.Sale;
 import com.hybridpos.sale_service.entity.SaleItem;
 import com.hybridpos.sale_service.event.SaleCreatedEvent;
+import com.hybridpos.sale_service.event.SaleCreatedItemEvent;
 import com.hybridpos.sale_service.event.SaleEventProducer;
 import com.hybridpos.sale_service.repository.SaleRepository;
 
@@ -102,11 +103,17 @@ public class SaleServiceImpl implements SaleService {
 
                 Sale savedSale = saleRepository.save(sale);
 
-                cashClient.processSale(
-                                cashId,
-                                dto.getCashPaid(),
-                                dto.getCardPaid(),
-                                token);
+                cashClient.processSale(cashId, dto.getCashPaid(), dto.getCardPaid(), token);
+
+                List<SaleCreatedItemEvent> eventItems = savedSale.getItems()
+                                .stream()
+                                .map(item -> new SaleCreatedItemEvent(
+                                                item.getProductId(),
+                                                item.getBarcode(),
+                                                item.getProductName(),
+                                                item.getPriceAtSale(),
+                                                item.getQuantity()))
+                                .toList();
 
                 SaleCreatedEvent event = new SaleCreatedEvent(
                                 savedSale.getId(),
@@ -115,7 +122,8 @@ public class SaleServiceImpl implements SaleService {
                                 savedSale.getCashPaid(),
                                 savedSale.getCardPaid(),
                                 savedSale.getPaymentType().name(),
-                                savedSale.getSaleDate());
+                                savedSale.getSaleDate(),
+                                eventItems);
 
                 saleEventProducer.sendSaleCreatedEvent(event);
 

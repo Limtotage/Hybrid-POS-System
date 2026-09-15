@@ -3,24 +3,47 @@ package com.hybridpos.report_service.event;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import com.hybridpos.report_service.entity.SaleReport;
+import com.hybridpos.report_service.entity.SaleReportItem;
+import com.hybridpos.report_service.repository.SaleReportItemRepository;
+import com.hybridpos.report_service.repository.SaleReportRepository;
+
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class SaleEventConsumer {
+    private final SaleReportRepository saleReportRepository;
+    private final SaleReportItemRepository saleReportItemRepository;
 
-    @KafkaListener(
-            topics = "sale-created",
-            groupId = "report-service-group"
-    )
+    @KafkaListener(topics = "sale-created", groupId = "report-service-group")
     public void consume(SaleCreatedEvent event) {
+        SaleReport report = new SaleReport();
 
-        System.out.println("====================================");
-        System.out.println("REPORT SERVICE - SaleCreatedEvent alındı!");
-        System.out.println("Sale ID: " + event.getSaleId());
-        System.out.println("Cash Register ID: " + event.getCashRegisterId());
-        System.out.println("Total Amount: " + event.getTotalAmount());
-        System.out.println("Cash Paid: " + event.getCashPaid());
-        System.out.println("Card Paid: " + event.getCardPaid());
-        System.out.println("Payment Type: " + event.getPaymentType());
-        System.out.println("Created At: " + event.getCreatedAt());
-        System.out.println("====================================");
+        report.setSaleId(event.getSaleId());
+        report.setCashRegisterId(event.getCashRegisterId());
+        report.setTotalAmount(event.getTotalAmount());
+        report.setCashPaid(event.getCashPaid());
+        report.setCardPaid(event.getCardPaid());
+        report.setPaymentType(event.getPaymentType());
+        report.setCreatedAt(event.getCreatedAt());
+
+        saleReportRepository.save(report);
+
+        for (SaleCreatedItemEvent eventItem : event.getItems()) {
+
+            SaleReportItem item = new SaleReportItem();
+
+            item.setSaleId(event.getSaleId());
+            item.setProductId(eventItem.getProductId());
+            item.setBarcode(eventItem.getBarcode());
+            item.setProductName(eventItem.getProductName());
+            item.setPriceAtSale(eventItem.getPriceAtSale());
+            item.setQuantity(eventItem.getQuantity());
+
+            saleReportItemRepository.save(item);
+        }
+
+        System.out.println("SaleReport ve SaleReportItem veritabanına kaydedildi!");
     }
 }

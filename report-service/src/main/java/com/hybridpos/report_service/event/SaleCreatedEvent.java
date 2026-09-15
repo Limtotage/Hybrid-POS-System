@@ -2,6 +2,7 @@ package com.hybridpos.report_service.event;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,4 +20,5 @@ public class SaleCreatedEvent {
     private BigDecimal cardPaid;
     private String paymentType;
     private LocalDateTime createdAt;
+    private List<SaleCreatedItemEvent> items;
 }

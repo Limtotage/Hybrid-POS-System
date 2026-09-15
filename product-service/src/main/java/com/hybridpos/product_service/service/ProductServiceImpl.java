@@ -16,7 +16,10 @@ import com.hybridpos.product_service.dto.ProductPriceUpdateDTO;
 import com.hybridpos.product_service.dto.ProductReportDTO;
 import com.hybridpos.product_service.dto.ProductResponseDTO;
 import com.hybridpos.product_service.entity.Product;
+import com.hybridpos.product_service.entity.StockMovement;
+import com.hybridpos.product_service.enums.StockMovementType;
 import com.hybridpos.product_service.repository.ProductRepository;
+import com.hybridpos.product_service.repository.StockMovementRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final StockMovementRepository stockMovementRepository;
     private final FileStorageService fileStorageService;
     private final CacheManager cacheManager;
     private static final int LOW_STOCK_LIMIT = 5;
@@ -114,9 +118,42 @@ public class ProductServiceImpl implements ProductService {
                 product.getStockQuantity() + amount);
 
         productRepository.save(product);
+
+        StockMovement movement = new StockMovement();
+        movement.setProductId(productId);
+        movement.setType(StockMovementType.PURCHASE);
+        movement.setQuantity(amount);
+        movement.setCreatedAt(LocalDateTime.now());
+
+        stockMovementRepository.save(movement);
+
         cacheManager.getCache("products")
                 .evict(product.getBarcode());
+    }
+    @Override
+    public void decreaseStock(long productId, int amount) {
 
+        Product product = productRepository.findById(productId)
+                .orElseThrow();
+        if (product.getStockQuantity() < amount) {
+            throw new RuntimeException("Insufficient stock");
+        }
+
+        product.setStockQuantity(
+                product.getStockQuantity() - amount);
+
+        productRepository.save(product);
+
+        StockMovement movement = new StockMovement();
+        movement.setProductId(productId);
+        movement.setType(StockMovementType.SALE);
+        movement.setQuantity(amount);
+        movement.setCreatedAt(LocalDateTime.now());
+
+        stockMovementRepository.save(movement);
+
+        cacheManager.getCache("products")
+                .evict(product.getBarcode());
     }
 
     private ProductResponseDTO mapToResponse(Product p) {

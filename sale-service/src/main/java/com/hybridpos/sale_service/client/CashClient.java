@@ -21,13 +21,6 @@ public class CashClient {
             BigDecimal cashPaid,
             BigDecimal cardPaid,
             String token) {
-
-        System.out.println("========== CASH CLIENT ==========");
-        System.out.println("cashId: " + cashId);
-        System.out.println("token: " + token);
-        System.out.println("cashPaid: " + cashPaid);
-        System.out.println("cardPaid: " + cardPaid);
-
         restClient.post()
                 .uri("/api/cash-registers/{id}/sale", cashId)
                 .contentType(MediaType.APPLICATION_JSON)

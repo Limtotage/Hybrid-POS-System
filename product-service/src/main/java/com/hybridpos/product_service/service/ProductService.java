@@ -28,5 +28,6 @@ public interface ProductService{
     );
 
     void increaseStock(long productId, int amount);
+    void decreaseStock(long productId, int amount);
     ProductReportDTO getProductReport();
 }

@@ -16,10 +16,11 @@ docker start hybridpos-postgres 2>/dev/null || echo "PostgreSQL zaten çalışı
 
 echo "[2/10] Redis başlatılıyor..."
 docker start hybridpos-redis 2>/dev/null || echo "Redis zaten çalışıyor."
-echo "[3/10] Redis başlatılıyor..."
+
+echo "[3/10] Kafka başlatılıyor..."
 docker start hybridpos-kafka 2>/dev/null || echo "Kafka zaten çalışıyor."
 
-sleep 2
+sleep 3
 
 # ----------------------------------------
 # Eureka
@@ -32,7 +33,7 @@ MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
 exec bash
 "
 
-sleep 5
+sleep 7
 
 # ----------------------------------------
 # Auth
@@ -116,3 +117,4 @@ echo "Gateway    : 8080"
 echo ""
 echo "JVM Heap   : 128 MB - 512 MB"
 echo "========================================"
+sleep 2

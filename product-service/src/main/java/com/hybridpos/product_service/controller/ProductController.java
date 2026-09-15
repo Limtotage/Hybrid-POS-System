@@ -22,7 +22,9 @@ import com.hybridpos.product_service.dto.ProductPriceUpdateDTO;
 import com.hybridpos.product_service.dto.ProductReportDTO;
 import com.hybridpos.product_service.dto.ProductResponseDTO;
 import com.hybridpos.product_service.dto.StockUpdateDTO;
+import com.hybridpos.product_service.entity.StockMovement;
 import com.hybridpos.product_service.service.ProductService;
+import com.hybridpos.product_service.service.StockMovementService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
         private final ProductService productService;
+        private final StockMovementService stockMovementService;
 
         @PreAuthorize("hasRole('ADMIN')")
         @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -99,5 +102,14 @@ public class ProductController {
 
                 return ResponseEntity.ok(
                                 productService.getProductReport());
+        }
+
+        @GetMapping("/{id}/stock-movements/purchases")
+        @PreAuthorize("hasAnyRole('ADMIN', 'CASHIER')")
+        public ResponseEntity<List<StockMovement>> getPurchaseMovements(
+                        @PathVariable Long id) {
+
+                return ResponseEntity.ok(
+                                stockMovementService.getPurchaseMovements(id));
         }
 }

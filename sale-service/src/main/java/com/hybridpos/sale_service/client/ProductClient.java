@@ -106,14 +106,6 @@ public class ProductClient {
             Long productId,
             int amount,
             String token) {
-
-        System.out.println("===== PRODUCT CLIENT STOCK UPDATE =====");
-        System.out.println("PRODUCT ID: " + productId);
-        System.out.println("AMOUNT: " + amount);
-        System.out.println("TOKEN EXISTS: " + (token != null));
-        System.out.println("TOKEN LENGTH: " +
-                (token != null ? token.length() : 0));
-
         restClient.post()
                 .uri("/api/products/{id}/stock", productId)
                 .header("Authorization", "Bearer " + token)
