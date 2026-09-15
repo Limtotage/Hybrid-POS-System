@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-
 @Component
 public class ProductClient {
 
     private final RestClient restClient;
+
     public ProductClient(@Qualifier("productRestClient") RestClient restClient) {
         this.restClient = restClient;
     }
@@ -108,6 +108,24 @@ public class ProductClient {
             String token) {
         restClient.post()
                 .uri("/api/products/{id}/stock", productId)
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .body("""
+                        {
+                            "amount": %d
+                        }
+                        """.formatted(amount))
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void sale(
+            Long productId,
+            int amount,
+            String token) {
+                System.err.println("ProductClient.sale called with productId: " + productId + ", amount: " + amount + ", token: " + token);
+        restClient.post()
+                .uri("/api/products/{id}/sale", productId)
                 .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")
                 .body("""

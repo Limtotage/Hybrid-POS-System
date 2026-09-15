@@ -75,6 +75,13 @@ public class ProductServiceImpl implements ProductService {
                 .map(this::mapToResponse)
                 .toList();
     }
+    @Override
+    public ProductResponseDTO getById(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        return mapToResponse(product);
+    }
 
     @Override
     public void deleteProduct(long productId) {

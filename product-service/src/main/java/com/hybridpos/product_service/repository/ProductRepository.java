@@ -15,6 +15,7 @@ import com.hybridpos.product_service.entity.Product;
 public interface  ProductRepository extends JpaRepository<Product, Long> {
     
     Optional<Product> findByBarcode(String barcode);
+    Optional<Product> findById(Long id);
     List<Product> findByStockQuantityGreaterThan(int quantity);
 
     boolean existsByBarcode(String barcode);

@@ -40,6 +40,7 @@ public class SaleEventConsumer {
             item.setProductName(eventItem.getProductName());
             item.setPriceAtSale(eventItem.getPriceAtSale());
             item.setQuantity(eventItem.getQuantity());
+            item.setCreatedAt(event.getCreatedAt());
 
             saleReportItemRepository.save(item);
         }

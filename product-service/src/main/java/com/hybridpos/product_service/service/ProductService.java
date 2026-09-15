@@ -17,6 +17,7 @@ public interface ProductService{
     ProductResponseDTO createProduct(ProductCreateDTO dto,MultipartFile image);
 
     ProductResponseDTO getByBarcode(String barcode);
+    ProductResponseDTO getById(Long productId);
 
     List<ProductResponseDTO> getAllProducts();
 

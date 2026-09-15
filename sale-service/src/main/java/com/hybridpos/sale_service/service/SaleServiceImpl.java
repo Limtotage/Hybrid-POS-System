@@ -71,9 +71,9 @@ public class SaleServiceImpl implements SaleService {
                                                                 + product.getName());
                         }
 
-                        productClient.updateStock(
+                        productClient.sale(
                                         product.getId(),
-                                        -itemDTO.getQuantity(),
+                                        itemDTO.getQuantity(),
                                         token);
 
                         SaleItem item = new SaleItem();

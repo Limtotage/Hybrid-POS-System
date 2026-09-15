@@ -78,6 +78,19 @@ public class ProductController {
 
                 return ResponseEntity.ok().build();
         }
+        @PreAuthorize("hasAnyRole('ADMIN', 'CASHIER')")
+        @PostMapping("/{id}/sale")
+        public ResponseEntity<Void> decreaseStock(
+                        @PathVariable Long id,
+                        @RequestBody StockUpdateDTO dto) {
+                System.out.println("SomeOne Trying to access here");
+                productService.decreaseStock(
+                                id,
+                                dto.getAmount());
+
+                return ResponseEntity.ok().build();
+        }
+        
 
         @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
         @GetMapping
@@ -86,7 +99,14 @@ public class ProductController {
                 return ResponseEntity.ok(
                                 productService.getAllProducts());
         }
+        @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
+        @GetMapping("/{id}")
+        public ResponseEntity<ProductResponseDTO> getById(
+                @PathVariable Long id) {
 
+            return ResponseEntity.ok(
+                    productService.getById(id));
+        }
         @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
         @GetMapping("/barcode/{barcode}")
         public ResponseEntity<ProductResponseDTO> getByBarcode(

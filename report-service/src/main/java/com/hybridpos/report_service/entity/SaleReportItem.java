@@ -1,6 +1,7 @@
 package com.hybridpos.report_service.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,4 +34,5 @@ public class SaleReportItem {
     private BigDecimal priceAtSale;
 
     private Integer quantity;
+    private LocalDateTime createdAt;
 }
