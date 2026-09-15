@@ -1,4 +1,4 @@
-package com.hybridpos.sale_service.config;
+package com.hybridpos.report_service.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -15,14 +15,4 @@ public class RestClientConfig {
                 .baseUrl("http://PRODUCT-SERVICE")
                 .build();
     }
-
-    @Bean
-    @LoadBalanced
-    public RestClient cashRestClient() {
-        return RestClient.builder()
-                .baseUrl("http://CASH-SERVICE")
-                .build();
-    }
-
-
 }

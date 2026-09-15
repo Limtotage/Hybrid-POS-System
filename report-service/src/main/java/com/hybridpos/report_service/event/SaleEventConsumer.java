@@ -2,6 +2,7 @@ package com.hybridpos.report_service.event;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hybridpos.report_service.entity.SaleReport;
 import com.hybridpos.report_service.entity.SaleReportItem;
@@ -16,8 +17,14 @@ public class SaleEventConsumer {
     private final SaleReportRepository saleReportRepository;
     private final SaleReportItemRepository saleReportItemRepository;
 
+    @Transactional
     @KafkaListener(topics = "sale-created", groupId = "report-service-group")
     public void consume(SaleCreatedEvent event) {
+        if (saleReportRepository.existsBySaleId(event.getSaleId())) {
+            System.out.println(
+                    "Sale event zaten işlendi: " + event.getSaleId());
+            return;
+        }
         SaleReport report = new SaleReport();
 
         report.setSaleId(event.getSaleId());

@@ -2,24 +2,39 @@ package com.hybridpos.sale_service.client;
 
 import java.math.BigDecimal;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class ProductClient {
 
-    private final RestClient restClient;
+    private final LoadBalancerClient loadBalancerClient;
 
-    public ProductClient(@Qualifier("productRestClient") RestClient restClient) {
-        this.restClient = restClient;
+    private RestClient getRestClient() {
+
+        ServiceInstance instance = loadBalancerClient.choose("PRODUCT-SERVICE");
+
+        if (instance == null) {
+            throw new RuntimeException(
+                    "PRODUCT-SERVICE Eureka'da bulunamadı.");
+        }
+        System.out.println("PRODUCT-SERVICE instance: " + instance.getUri().toString());
+
+        return RestClient.builder()
+                .baseUrl(instance.getUri().toString())
+                .build();
     }
 
     public ProductResponse getProductByBarcode(
             String barcode,
             String token) {
 
-        return restClient.get()
+        return getRestClient().get()
                 .uri("/api/products/barcode/{barcode}", barcode)
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
@@ -106,7 +121,7 @@ public class ProductClient {
             Long productId,
             int amount,
             String token) {
-        restClient.post()
+        getRestClient().post()
                 .uri("/api/products/{id}/stock", productId)
                 .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")
@@ -123,8 +138,9 @@ public class ProductClient {
             Long productId,
             int amount,
             String token) {
-                System.err.println("ProductClient.sale called with productId: " + productId + ", amount: " + amount + ", token: " + token);
-        restClient.post()
+        System.err.println(
+                "ProductClient.sale called with productId: " + productId + ", amount: " + amount + ", token: " + token);
+        getRestClient().post()
                 .uri("/api/products/{id}/sale", productId)
                 .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")

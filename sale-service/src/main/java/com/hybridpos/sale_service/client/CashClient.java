@@ -2,18 +2,32 @@ package com.hybridpos.sale_service.client;
 
 import java.math.BigDecimal;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class CashClient {
 
-    private final RestClient restClient;
+    private final LoadBalancerClient loadBalancerClient;
 
-    public CashClient(@Qualifier("cashRestClient") RestClient restClient) {
-        this.restClient = restClient;
+    private RestClient getRestClient() {
+
+        ServiceInstance instance = loadBalancerClient.choose("CASH-SERVICE");
+
+        if (instance == null) {
+            throw new RuntimeException(
+                    "CASH-SERVICE Eureka'da bulunamadı.");
+        }
+        System.out.println("CASH-SERVICE instance: " + instance.getUri().toString());
+        return RestClient.builder()
+                .baseUrl(instance.getUri().toString())
+                .build();
     }
 
     public void processSale(
@@ -21,7 +35,7 @@ public class CashClient {
             BigDecimal cashPaid,
             BigDecimal cardPaid,
             String token) {
-        restClient.post()
+        getRestClient().post()
                 .uri("/api/cash-registers/{id}/sale", cashId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
@@ -41,7 +55,7 @@ public class CashClient {
             Long cashId,
             String token) {
 
-        restClient.post()
+        getRestClient().post()
                 .uri("/api/cash-registers/{id}/validate-sale", cashId)
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
