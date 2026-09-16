@@ -1,5 +1,8 @@
 package com.hybridpos.product_service.service;
 
+import com.hybridpos.product_service.exception.ProductNotFoundException;
+import com.hybridpos.product_service.exception.InsufficientStockException;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -63,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     @Cacheable(value = "products", key = "#barcode")
     public ProductResponseDTO getByBarcode(String barcode) {
         Product product = productRepository.findByBarcode(barcode)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
         return mapToResponse(product);
     }
 
@@ -78,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO getById(Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         return mapToResponse(product);
     }
@@ -86,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         productRepository.delete(product);
 
@@ -143,7 +146,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow();
         if (product.getStockQuantity() < amount) {
-            throw new RuntimeException("Insufficient stock");
+            throw new InsufficientStockException("Insufficient stock");
         }
 
         product.setStockQuantity(

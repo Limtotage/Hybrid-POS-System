@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.hybridpos.cash_service.dto.CashRegisterReportDTO;
 import com.hybridpos.cash_service.dto.CashSaleDTO;
 import com.hybridpos.cash_service.entity.CashRegister;
+import com.hybridpos.cash_service.exception.CashRegisterException;
+import com.hybridpos.cash_service.exception.CashRegisterNotFoundException;
 import com.hybridpos.cash_service.repository.CashRegisterRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -47,16 +49,14 @@ public class CashRegisterServiceImpl
         public CashRegister getCashRegister(Long id) {
 
                 return cashRegisterRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException(
-                                                "Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
         }
 
         @Override
         public void deleteCashRegister(Long id) {
 
                 CashRegister cashRegister = cashRegisterRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException(
-                                                "Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
 
                 cashRegisterRepository.delete(cashRegister);
         }
@@ -65,10 +65,10 @@ public class CashRegisterServiceImpl
         public void processSale(Long cashRegisterId, CashSaleDTO dto) {
 
                 CashRegister cashRegister = cashRegisterRepository.findById(cashRegisterId)
-                                .orElseThrow(() -> new RuntimeException("Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
 
                 if (!cashRegister.isOpen()) {
-                        throw new RuntimeException("Cash register is closed");
+                        throw new CashRegisterException("Cash register is closed");
                 }
 
                 BigDecimal cashPaid = dto.getCashPaid() != null
@@ -97,10 +97,10 @@ public class CashRegisterServiceImpl
         public void closeCashRegister(Long id) {
 
                 CashRegister cashRegister = cashRegisterRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException("Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
 
                 if (!cashRegister.isOpen()) {
-                        throw new RuntimeException("Cash register is already closed");
+                        throw new CashRegisterException("Cash register is already closed");
                 }
 
                 cashRegister.setOpen(false);
@@ -112,10 +112,10 @@ public class CashRegisterServiceImpl
         public void openCashRegister(Long id) {
 
                 CashRegister cashRegister = cashRegisterRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException("Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
 
                 if (cashRegister.isOpen()) {
-                        throw new RuntimeException("Cash register is already open");
+                        throw new CashRegisterException("Cash register is already open");
                 }
 
                 cashRegister.setOpen(true);
@@ -127,10 +127,10 @@ public class CashRegisterServiceImpl
         public boolean validateSale(Long cashRegisterId) {
 
                 CashRegister cashRegister = cashRegisterRepository.findById(cashRegisterId)
-                                .orElseThrow(() -> new RuntimeException("Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
 
                 if (!cashRegister.isOpen()) {
-                        throw new RuntimeException("Cash register is closed");
+                        throw new CashRegisterException("Cash register is closed");
                 }
 
                 return true;
@@ -140,7 +140,7 @@ public class CashRegisterServiceImpl
         public CashRegisterReportDTO getCashRegisterReport(Long id) {
 
                 CashRegister cashRegister = cashRegisterRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException("Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
 
                 CashRegisterReportDTO report = new CashRegisterReportDTO();
 

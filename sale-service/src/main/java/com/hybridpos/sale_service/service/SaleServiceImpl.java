@@ -23,6 +23,7 @@ import com.hybridpos.sale_service.entity.SaleItem;
 import com.hybridpos.sale_service.event.SaleCreatedEvent;
 import com.hybridpos.sale_service.event.SaleCreatedItemEvent;
 import com.hybridpos.sale_service.event.SaleEventProducer;
+import com.hybridpos.sale_service.exception.InsufficientStockException;
 import com.hybridpos.sale_service.repository.SaleRepository;
 
 import jakarta.transaction.Transactional;
@@ -66,7 +67,7 @@ public class SaleServiceImpl implements SaleService {
 
                         // Stok kontrolü
                         if (product.getStockQuantity() < itemDTO.getQuantity()) {
-                                throw new RuntimeException(
+                                throw new InsufficientStockException(
                                                 "Insufficient stock for product: "
                                                                 + product.getName());
                         }
