@@ -1,118 +1,82 @@
 #!/bin/bash
 
-PROJECT_DIR="$HOME/Desktop/Hybrid-POS-System"
-
 echo "========================================"
 echo "       HybridPOS System Starting"
 echo "========================================"
 echo ""
 
 # ----------------------------------------
-# Docker Services
+# Docker Infrastructure
 # ----------------------------------------
 
-echo "[1/11] PostgreSQL başlatılıyor..."
+echo "[1/10] PostgreSQL başlatılıyor..."
 docker start hybridpos-postgres 2>/dev/null || echo "PostgreSQL zaten çalışıyor."
 
-echo "[2/11] Redis başlatılıyor..."
+echo "[2/10] Redis başlatılıyor..."
 docker start hybridpos-redis 2>/dev/null || echo "Redis zaten çalışıyor."
 
-echo "[3/11] Kafka başlatılıyor..."
+echo "[3/10] Kafka başlatılıyor..."
 docker start hybridpos-kafka 2>/dev/null || echo "Kafka zaten çalışıyor."
-
-sleep 3
 
 # ----------------------------------------
 # Config Server
 # ----------------------------------------
 
-echo "[4/11] Config Server başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/config-server' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
-
-sleep 5
+echo "[4/10] Config Server başlatılıyor..."
+docker start hybridpos-config-server 2>/dev/null || echo "Config Server zaten çalışıyor."
 
 # ----------------------------------------
 # Eureka
 # ----------------------------------------
 
-echo "[5/11] Eureka Server başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/eureka-server' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
+echo "[5/10] Eureka Server başlatılıyor..."
+docker start hybridpos-eureka-server 2>/dev/null || echo "Eureka Server zaten çalışıyor."
 
-sleep 7
+# Servislerin hazır olması için
+sleep 5
 
 # ----------------------------------------
 # Auth
 # ----------------------------------------
 
-echo "[6/11] Auth Service başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/auth-service' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
+echo "[6/10] Auth Service başlatılıyor..."
+docker start hybridpos-auth-service 2>/dev/null || echo "Auth Service zaten çalışıyor."
 
 # ----------------------------------------
 # Product
 # ----------------------------------------
 
-echo "[7/11] Product Service başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/product-service' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
+echo "[7/10] Product Service başlatılıyor..."
+docker start hybridpos-product-service 2>/dev/null || echo "Product Service zaten çalışıyor."
 
 # ----------------------------------------
 # Sale
 # ----------------------------------------
 
-echo "[8/11] Sale Service başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/sale-service' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
+echo "[8/10] Sale Service başlatılıyor..."
+docker start hybridpos-sale-service 2>/dev/null || echo "Sale Service zaten çalışıyor."
 
 # ----------------------------------------
 # Cash
 # ----------------------------------------
 
-echo "[9/11] Cash Service başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/cash-service' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
+echo "[9/10] Cash Service başlatılıyor..."
+docker start hybridpos-cash-service 2>/dev/null || echo "Cash Service zaten çalışıyor."
 
 # ----------------------------------------
 # Report
 # ----------------------------------------
 
-echo "[10/11] Report Service başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/report-service' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
+echo "[10/10] Report Service başlatılıyor..."
+docker start hybridpos-report-service 2>/dev/null || echo "Report Service zaten çalışıyor."
 
 # ----------------------------------------
 # API Gateway
 # ----------------------------------------
 
-echo "[11/11] API Gateway başlatılıyor..."
-gnome-terminal -- bash -c "
-cd '$PROJECT_DIR/api-gateway' &&
-MAVEN_OPTS='-Xms128m -Xmx512m' ./mvnw spring-boot:run;
-exec bash
-"
+echo ""
+echo "API Gateway başlatılıyor..."
+docker start hybridpos-api-gateway 2>/dev/null || echo "API Gateway zaten çalışıyor."
 
 echo ""
 echo "========================================"
@@ -131,7 +95,9 @@ echo "Cash       : 8084"
 echo "Report     : 8085"
 echo "Gateway    : 8080"
 echo ""
-echo "JVM Heap   : 128 MB - 512 MB"
+echo "All services are running in Docker."
 echo "========================================"
 
 sleep 2
+
+
