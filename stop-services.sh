@@ -9,26 +9,29 @@ echo ""
 # Spring Boot Services
 # ----------------------------------------
 
-echo "[1/7] API Gateway durduruluyor..."
+echo "[1/8] API Gateway durduruluyor..."
 pkill -f "api-gateway.*spring-boot:run" 2>/dev/null
 
-echo "[2/7] Report Service durduruluyor..."
+echo "[2/8] Report Service durduruluyor..."
 pkill -f "report-service.*spring-boot:run" 2>/dev/null
 
-echo "[3/7] Cash Service durduruluyor..."
+echo "[3/8] Cash Service durduruluyor..."
 pkill -f "cash-service.*spring-boot:run" 2>/dev/null
 
-echo "[4/7] Sale Service durduruluyor..."
+echo "[4/8] Sale Service durduruluyor..."
 pkill -f "sale-service.*spring-boot:run" 2>/dev/null
 
-echo "[5/7] Product Service durduruluyor..."
+echo "[5/8] Product Service durduruluyor..."
 pkill -f "product-service.*spring-boot:run" 2>/dev/null
 
-echo "[6/7] Auth Service durduruluyor..."
+echo "[6/8] Auth Service durduruluyor..."
 pkill -f "auth-service.*spring-boot:run" 2>/dev/null
 
-echo "[7/7] Eureka Server durduruluyor..."
+echo "[7/8] Eureka Server durduruluyor..."
 pkill -f "eureka-server.*spring-boot:run" 2>/dev/null
+
+echo "[8/8] Config Server durduruluyor..."
+pkill -f "config-server.*spring-boot:run" 2>/dev/null
 
 sleep 3
 
@@ -51,6 +54,7 @@ echo ""
 echo "PostgreSQL : stopped"
 echo "Redis      : stopped"
 echo "Kafka      : stopped"
+echo "Config     : stopped"
 echo "Eureka     : stopped"
 echo "Auth       : stopped"
 echo "Product    : stopped"
