@@ -22,6 +22,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         private final JwtUtil jwtUtil;
 
         @Override
+        protected boolean shouldNotFilter(HttpServletRequest request) {
+                String path = request.getServletPath();
+
+                return path.startsWith("/uploads/products/")
+                                || path.equals("/actuator/health")
+                                || path.equals("/actuator/info");
+        }
+
+        @Override
         protected void doFilterInternal(
                         @NonNull HttpServletRequest request,
                         @NonNull HttpServletResponse response,

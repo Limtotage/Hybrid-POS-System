@@ -46,7 +46,7 @@ echo "✓ Redis hazır."
 
 echo ""
 echo "Kafka bekleniyor..."
-sleep 5
+sleep 1
 echo "✓ Kafka başlatıldı."
 
 # ========================================
@@ -99,7 +99,7 @@ echo "Auth Service..."
 docker compose up -d auth-service
 
 echo "Auth Service bekleniyor..."
-sleep 8
+sleep 3
 
 echo "✓ Auth Service başlatıldı."
 
@@ -108,7 +108,7 @@ echo "Product Service..."
 docker compose up -d product-service
 
 echo "Product Service bekleniyor..."
-sleep 8
+sleep 3
 
 echo "✓ Product Service başlatıldı."
 
@@ -117,7 +117,7 @@ echo "Cash Service..."
 docker compose up -d cash-service
 
 echo "Cash Service bekleniyor..."
-sleep 8
+sleep 3
 
 echo "✓ Cash Service başlatıldı."
 
@@ -126,7 +126,7 @@ echo "Report Service..."
 docker compose up -d report-service
 
 echo "Report Service bekleniyor..."
-sleep 8
+sleep 3
 
 echo "✓ Report Service başlatıldı."
 
@@ -135,7 +135,7 @@ echo "Sale Service..."
 docker compose up -d sale-service
 
 echo "Sale Service bekleniyor..."
-sleep 8
+sleep 3
 
 echo "✓ Sale Service başlatıldı."
 
@@ -149,7 +149,7 @@ echo "[5/5] API Gateway başlatılıyor..."
 docker compose up -d api-gateway
 
 echo "Gateway bekleniyor..."
-sleep 8
+sleep 3
 
 echo "✓ API Gateway başlatıldı."
 

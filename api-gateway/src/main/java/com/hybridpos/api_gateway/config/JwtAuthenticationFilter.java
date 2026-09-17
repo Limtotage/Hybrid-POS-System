@@ -43,7 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Login endpoint'i JWT gerektirmez
 
-        if (path.equals("/api/auth/login") || path.equals("/actuator/health") || path.equals("/actuator/info")) {
+        if (path.equals("/api/auth/login")
+        || path.equals("/actuator/health")
+        || path.equals("/actuator/info")
+        || path.startsWith("/uploads/products/")) {
 
             filterChain.doFilter(request, response);
 

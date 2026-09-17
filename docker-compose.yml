@@ -63,6 +63,8 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    volumes:
+      - ./product-service/uploads/products:/app/uploads/products
     networks:
       - hybridpos-network
   sale-service:
