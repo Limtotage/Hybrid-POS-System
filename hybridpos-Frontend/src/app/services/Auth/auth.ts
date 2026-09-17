@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class Auth {
   private readonly TOKEN_KEY = 'token';
-  private readonly baseUrl = 'http://localhost:8080/auth';
+  private readonly baseUrl = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) {}
 

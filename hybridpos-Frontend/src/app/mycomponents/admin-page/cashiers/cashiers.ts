@@ -19,7 +19,6 @@ export class Cashiers {
     username: '',
     password: ''
   };
-
   private readonly baseUrl =
     'http://localhost:8080/api/admin/cashiers';
 

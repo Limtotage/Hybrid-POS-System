@@ -36,10 +36,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getRequestURI();
+        if (request.getMethod().equals("OPTIONS")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // Login endpoint'i JWT gerektirmez
 
-        if (path.equals("/api/auth/login")|| path.equals("/actuator/health")|| path.equals("/actuator/info")) {
+        if (path.equals("/api/auth/login") || path.equals("/actuator/health") || path.equals("/actuator/info")) {
 
             filterChain.doFilter(request, response);
 

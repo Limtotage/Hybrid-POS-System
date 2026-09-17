@@ -1,11 +1,11 @@
 #!/bin/bash
 
 PROJECT_DIR="$HOME/Desktop/Hybrid-POS-System"
-SERVICE_DIR="$PROJECT_DIR/sale-service"
-IMAGE_NAME="hybridpos-sale-service:latest"
+SERVICE_DIR="$PROJECT_DIR/api-gateway"
+IMAGE_NAME="hybridpos-api-gateway:latest"
 
 echo "========================================"
-echo "       Sale Service Update"
+echo "       api-gateway Update"
 echo "========================================"
 echo ""
 
@@ -13,7 +13,7 @@ echo ""
 # 1. Maven Build
 # ----------------------------------------
 
-echo "[1/3] Sale Service build ediliyor..."
+echo "[1/3] api-gateway build ediliyor..."
 cd "$SERVICE_DIR" || exit 1
 
 ./mvnw clean package -DskipTests
@@ -54,7 +54,7 @@ echo "[3/3] Sale Service container güncelleniyor..."
 
 cd "$PROJECT_DIR" || exit 1
 
-docker compose up -d --no-deps --force-recreate sale-service
+docker compose up -d --no-deps --force-recreate api-gateway
 
 if [ $? -ne 0 ]; then
     echo ""
@@ -68,7 +68,7 @@ echo "       Sale Service Updated"
 echo "========================================"
 echo ""
 
-docker compose ps sale-service
+docker compose ps api-gateway
 
 echo ""
 echo "========================================"
