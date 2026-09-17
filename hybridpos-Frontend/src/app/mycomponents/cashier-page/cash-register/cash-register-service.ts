@@ -6,19 +6,27 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CashRegisterService {
-  private readonly baseUrl = 'http://localhost:8080/api/cash';
+
+  private readonly baseUrl =
+    'http://localhost:8080/api/cash-registers';
 
   constructor(private http: HttpClient) {}
 
-  getMyOpenCash(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/my-open`);
+  getAllCashRegisters(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl);
   }
 
-  openCash(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/open`, data);
+  openCash(cashId: number): Observable<void> {
+    return this.http.post<void>(
+      `${this.baseUrl}/${cashId}/open`,
+      {}
+    );
   }
 
-  closeCash(cashId: number, data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/close/${cashId}`, data);
+  closeCash(cashId: number): Observable<void> {
+    return this.http.post<void>(
+      `${this.baseUrl}/${cashId}/close`,
+      {}
+    );
   }
 }

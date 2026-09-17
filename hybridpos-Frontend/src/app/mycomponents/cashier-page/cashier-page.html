@@ -1,18 +1,33 @@
 <div class="cash-overlay" *ngIf="!cashOpen">
   <div class="cash-open-panel">
+    <div class="cash-open-icon">🏦</div>
+
     <h2>Kasayı Aç</h2>
 
-    <p>Satış işlemlerine başlamadan önce kasayı açmalısınız.</p>
+    <p>Satış işlemlerine başlamadan önce çalışacağınız kasayı seçin.</p>
 
-    <div class="input-group">
-      <label>Kasadaki Para</label>
+    <div class="cash-select-group">
+      <label>Kasa Seç</label>
 
-      <input type="number" [(ngModel)]="openingCash" min="0" step="0.01" placeholder="0.00" />
+      <select [(ngModel)]="selectedCashId" [disabled]="cashRegistersLoading">
+        <option [ngValue]="null">
+          {{ cashRegistersLoading ? 'Kasalar yükleniyor...' : 'Kasa seçiniz' }}
+        </option>
 
-      <small> Kasayı açarken mevcut para miktarını girin. </small>
+        <option *ngFor="let cash of cashRegisters" [ngValue]="cash.id" [disabled]="cash.open">
+          {{ cash.name }}
+          {{ cash.open ? '(Açık)' : '(Kapalı)' }}
+        </option>
+      </select>
     </div>
 
-    <button class="open-cash-btn" (click)="openCash()">Kasayı Aç</button>
+    <button
+      class="open-cash-btn"
+      (click)="openCash()"
+      [disabled]="selectedCashId === null || cashRegistersLoading"
+    >
+      {{ cashRegistersLoading ? 'Kasalar yükleniyor...' : 'Kasayı Aç' }}
+    </button>
   </div>
 </div>
 <div *ngIf="cashOpen" class="pos-page">
@@ -30,13 +45,6 @@
       </div>
     </div>
     <div class="top-actions">
-      <input
-        type="number"
-        [(ngModel)]="closingCash"
-        min="0"
-        step="0.1"
-        placeholder="Kasadaki para"
-      />
       <button class="close-cash-btn" (click)="closeCash()">Kasayı Kapat</button>
     </div>
   </header>
@@ -55,6 +63,27 @@
             placeholder="Ürün Adı Giriniz..."
             [(ngModel)]="searchText"
             (input)="filterProducts()"
+          />
+        </div>
+        <div class="barcode-box">
+          <span class="barcode-icon">▦</span>
+
+          <input
+            type="text"
+            placeholder="Barkod okutunuz..."
+            [(ngModel)]="barcodeInput"
+            (keyup.enter)="addByBarcode()"
+            autofocus
+          />
+        </div>
+        <div class="barcode-quantity-box">
+          <label>Adet</label>
+
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="barcodeQuantity"
+            (keyup.enter)="addByBarcode()"
           />
         </div>
         <button class="brand-btn">Tüm Ürünleri Göster</button>

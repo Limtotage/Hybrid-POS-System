@@ -153,13 +153,9 @@
 
 .products-header {
   display: grid;
-
-  grid-template-columns: auto minmax(200px, 1fr) auto;
-
+  grid-template-columns: auto minmax(180px, 1fr) minmax(180px, 1fr) auto;
   align-items: center;
-
-  gap: 20px;
-
+  gap: 12px;
   margin-bottom: 20px;
 }
 
@@ -931,6 +927,262 @@
   opacity: 0.5;
 
   cursor: not-allowed;
+}
+  /* =========================================================
+   CASH OPEN OVERLAY
+========================================================= */
+
+.cash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+}
+/* =========================================================
+   BARCODE
+========================================================= */
+
+.barcode-box {
+  position: relative;
+}
+
+.barcode-box input {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 15px 0 38px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+
+  background: white;
+
+  outline: none;
+
+  font-size: 13px;
+}
+
+.barcode-box input:focus {
+  border-color: #159570;
+
+  box-shadow:
+    0 0 0 3px rgba(21, 149, 112, 0.08);
+}
+
+.barcode-icon {
+  position: absolute;
+
+  left: 13px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-size: 16px;
+
+  z-index: 1;
+}
+.barcode-quantity-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.barcode-quantity-box label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.barcode-quantity-box input {
+  width: 65px;
+  height: 40px;
+
+  padding: 0 8px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+
+  outline: none;
+
+  font-size: 13px;
+  text-align: center;
+}
+
+/* =========================================================
+   CASH OPEN PANEL
+========================================================= */
+
+.cash-overlay {
+  position: fixed ;
+  top: 0 ;
+  left: 0 ;
+  right: 0 ;
+  bottom: 0 ;
+
+  width: 100vw ;
+  height: 100vh ;
+
+  display: flex ;
+  align-items: center ;
+  justify-content: center ;
+
+  z-index: 99999 ;
+
+  background: rgba(15, 23, 42, 0.50);
+}
+
+.cash-open-panel {
+  position: relative ;
+
+  width: 400px ;
+  max-width: calc(100vw - 40px);
+
+  padding: 32px ;
+
+  background: #ffffff ;
+
+  border-radius: 14px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+
+  text-align: center;
+
+  margin: 0 ;
+}
+
+/* ICON */
+
+.cash-open-icon {
+  width: 58px;
+  height: 58px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e8f7f1;
+
+  font-size: 26px;
+}
+
+/* TITLE */
+
+.cash-open-panel h2 {
+  margin: 0 0 8px;
+
+  color: #172b4d;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* DESCRIPTION */
+
+.cash-open-panel p {
+  margin: 0 auto 25px;
+
+  max-width: 300px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* SELECT */
+
+.cash-select-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.cash-select-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #374151;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cash-select-group select {
+  width: 100%;
+  height: 44px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  font-size: 13px;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.cash-select-group select:focus {
+  border-color: #159570;
+
+  box-shadow:
+    0 0 0 3px rgba(21, 149, 112, 0.10);
+}
+
+.cash-select-group select:disabled {
+  background: #f5f6f8;
+  cursor: not-allowed;
+}
+
+/* OPEN BUTTON */
+
+.open-cash-btn {
+  width: 100%;
+  height: 44px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #159570;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.open-cash-btn:hover:not(:disabled) {
+  background: #117d5e;
+
+  transform: translateY(-1px);
+}
+
+.open-cash-btn:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  transform: none;
 }
 
 
