@@ -5,9 +5,9 @@
 # ========================================
 
 PROJECT_DIR="$HOME/Desktop/Hybrid-POS-System"
-SERVICE_DIR="$PROJECT_DIR/sale-service"
-IMAGE_NAME="hybridpos-sale-service:latest"
-SERVICE_NAME="sale-service"
+SERVICE_DIR="$PROJECT_DIR/report-service"
+IMAGE_NAME="hybridpos-report-service:latest"
+SERVICE_NAME="report-service"
 
 
 echo "========================================"

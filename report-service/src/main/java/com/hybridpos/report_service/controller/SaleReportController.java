@@ -26,195 +26,237 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SaleReportController {
 
-    private final SaleReportService saleReportService;
+        private final SaleReportService saleReportService;
 
-    @GetMapping("/sales")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<SaleReport> getAllSales() {
-        return saleReportService.getAllSales();
-    }
+        @GetMapping("/sales")
+        @PreAuthorize("hasRole('ADMIN')")
+        public List<SaleReport> getAllSales() {
+                return saleReportService.getAllSales();
+        }
 
-    @GetMapping("/summary")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SaleSummaryDTO> getSaleSummary() {
-        return ResponseEntity.ok(saleReportService.getSaleSummary());
-    }
+        @GetMapping("/summary")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<SaleSummaryDTO> getSaleSummary() {
+                return ResponseEntity.ok(saleReportService.getSaleSummary());
+        }
 
-    @GetMapping("/summary/today")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SaleSummaryDTO> getTodaySummary() {
+        @GetMapping("/summary/today")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<SaleSummaryDTO> getTodaySummary() {
 
-        LocalDate today = LocalDate.now();
+                LocalDate today = LocalDate.now();
 
-        LocalDateTime start = today.atStartOfDay();
-        LocalDateTime end = today.plusDays(1).atStartOfDay();
+                LocalDateTime start = today.atStartOfDay();
+                LocalDateTime end = today.plusDays(1).atStartOfDay();
 
-        return ResponseEntity.ok(
-                saleReportService.getSaleSummaryBetween(start, end));
-    }
+                return ResponseEntity.ok(
+                                saleReportService.getSaleSummaryBetween(start, end));
+        }
 
-    @GetMapping("/summary/year")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SaleSummaryDTO> getYearSummary() {
+        @GetMapping("/summary/week")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<SaleSummaryDTO> getWeeklySummary() {
 
-        LocalDate today = LocalDate.now();
-        LocalDateTime start = today.withDayOfYear(1).atStartOfDay();
-        LocalDateTime end = today.plusYears(1)
-                .withDayOfYear(1)
-                .atStartOfDay();
+                LocalDate today = LocalDate.now();
 
-        return ResponseEntity.ok(
-                saleReportService.getSaleSummaryBetween(start, end));
-    }
+                LocalDateTime start = today.with(java.time.DayOfWeek.MONDAY).atStartOfDay();
 
-    @GetMapping("/summary/month")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SaleSummaryDTO> getMonthSummary() {
+                LocalDateTime end = start.plusWeeks(1);
 
-        LocalDate today = LocalDate.now();
-        LocalDateTime start = today.withDayOfMonth(1).atStartOfDay();
-        LocalDateTime end = today.plusMonths(1)
-                .withDayOfMonth(1)
-                .atStartOfDay();
+                return ResponseEntity.ok(
+                                saleReportService.getSaleSummaryBetween(start, end));
+        }
 
-        return ResponseEntity.ok(
-                saleReportService.getSaleSummaryBetween(start, end));
-    }
+        @GetMapping("/summary/year")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<SaleSummaryDTO> getYearSummary() {
 
-    @GetMapping("/products/month")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ProductSalesReportDTO>> getMonthlyProductSales() {
+                LocalDate today = LocalDate.now();
+                LocalDateTime start = today.withDayOfYear(1).atStartOfDay();
+                LocalDateTime end = today.plusYears(1)
+                                .withDayOfYear(1)
+                                .atStartOfDay();
 
-        LocalDate today = LocalDate.now();
+                return ResponseEntity.ok(
+                                saleReportService.getSaleSummaryBetween(start, end));
+        }
 
-        LocalDateTime start = today
-                .withDayOfMonth(1)
-                .atStartOfDay();
+        @GetMapping("/summary/month")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<SaleSummaryDTO> getMonthSummary() {
 
-        LocalDateTime end = today
-                .plusMonths(1)
-                .withDayOfMonth(1)
-                .atStartOfDay();
+                LocalDate today = LocalDate.now();
+                LocalDateTime start = today.withDayOfMonth(1).atStartOfDay();
+                LocalDateTime end = today.plusMonths(1)
+                                .withDayOfMonth(1)
+                                .atStartOfDay();
 
-        return ResponseEntity.ok(
-                saleReportService.getProductSalesReport(start, end));
-    }
+                return ResponseEntity.ok(
+                                saleReportService.getSaleSummaryBetween(start, end));
+        }
 
-    @GetMapping("/products/year")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ProductSalesReportDTO>> getYearlyProductSales() {
+        @GetMapping("/products/month")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<ProductSalesReportDTO>> getMonthlyProductSales() {
 
-        LocalDate today = LocalDate.now();
+                LocalDate today = LocalDate.now();
 
-        LocalDateTime start = today
-                .withDayOfYear(1)
-                .atStartOfDay();
+                LocalDateTime start = today
+                                .withDayOfMonth(1)
+                                .atStartOfDay();
 
-        LocalDateTime end = today
-                .plusYears(1)
-                .withDayOfYear(1)
-                .atStartOfDay();
+                LocalDateTime end = today
+                                .plusMonths(1)
+                                .withDayOfMonth(1)
+                                .atStartOfDay();
 
-        return ResponseEntity.ok(
-                saleReportService.getProductSalesReport(start, end));
-    }
+                return ResponseEntity.ok(
+                                saleReportService.getProductSalesReport(start, end));
+        }
 
-    @GetMapping("/products/today")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ProductSalesReportDTO>> getTodaysProductSales() {
+        @GetMapping("/products/year")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<ProductSalesReportDTO>> getYearlyProductSales() {
 
-        LocalDate today = LocalDate.now();
+                LocalDate today = LocalDate.now();
 
-        LocalDateTime start = today.atStartOfDay();
-        LocalDateTime end = today.plusDays(1).atStartOfDay();
+                LocalDateTime start = today
+                                .withDayOfYear(1)
+                                .atStartOfDay();
 
-        return ResponseEntity.ok(
-                saleReportService.getProductSalesReport(start, end));
-    }
+                LocalDateTime end = today
+                                .plusYears(1)
+                                .withDayOfYear(1)
+                                .atStartOfDay();
 
-    @GetMapping("/products/top/year")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsYear() {
+                return ResponseEntity.ok(
+                                saleReportService.getProductSalesReport(start, end));
+        }
 
-        LocalDate today = LocalDate.now();
+        @GetMapping("/products/today")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<ProductSalesReportDTO>> getTodaysProductSales() {
 
-        LocalDateTime start = today
-                .withDayOfYear(1)
-                .atStartOfDay();
+                LocalDate today = LocalDate.now();
 
-        LocalDateTime end = today
-                .plusYears(1)
-                .withDayOfYear(1)
-                .atStartOfDay();
+                LocalDateTime start = today.atStartOfDay();
+                LocalDateTime end = today.plusDays(1).atStartOfDay();
 
-        return ResponseEntity.ok(
-                saleReportService.getTopSellingProducts(start, end));
-    }
+                return ResponseEntity.ok(
+                                saleReportService.getProductSalesReport(start, end));
+        }
 
-    @GetMapping("/products/top/month")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsMonth() {
+        @GetMapping("/products/week")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<ProductSalesReportDTO>> getWeeklyProductSales() {
 
-        LocalDate today = LocalDate.now();
+                LocalDate today = LocalDate.now();
 
-        LocalDateTime start = today
-                .withDayOfMonth(1)
-                .atStartOfDay();
+                LocalDateTime start = today.with(java.time.DayOfWeek.MONDAY).atStartOfDay();
 
-        LocalDateTime end = today
-                .plusMonths(1)
-                .withDayOfMonth(1)
-                .atStartOfDay();
+                LocalDateTime end = start.plusWeeks(1);
 
-        return ResponseEntity.ok(
-                saleReportService.getTopSellingProducts(start, end));
-    }
+                return ResponseEntity.ok(
+                                saleReportService.getProductSalesReport(start, end));
+        }
 
-    @GetMapping("/products/top/today")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsToday() {
+        @GetMapping("/products/top/year")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsYear() {
 
-        LocalDate today = LocalDate.now();
+                LocalDate today = LocalDate.now();
 
-        LocalDateTime start = today.atStartOfDay();
-        LocalDateTime end = today.plusDays(1).atStartOfDay();
+                LocalDateTime start = today
+                                .withDayOfYear(1)
+                                .atStartOfDay();
 
-        return ResponseEntity.ok(
-                saleReportService.getTopSellingProducts(start, end));
-    }
+                LocalDateTime end = today
+                                .plusYears(1)
+                                .withDayOfYear(1)
+                                .atStartOfDay();
 
-    @GetMapping("/products/top/all")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsAllTime() {
+                return ResponseEntity.ok(
+                                saleReportService.getTopSellingProducts(start, end));
+        }
 
-        return ResponseEntity.ok(
-                saleReportService.getTopSellingProductsAllTime());
-    }
+        @GetMapping("/products/top/month")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsMonth() {
 
-    @GetMapping("/supplier/{productId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SupplierReportDTO> getSoldQuantitySinceLastPurchase(
-            @PathVariable Long productId,
-            @RequestHeader("Authorization") String authorizationHeader) {
+                LocalDate today = LocalDate.now();
 
-        String token = authorizationHeader.replace("Bearer ", "");
+                LocalDateTime start = today
+                                .withDayOfMonth(1)
+                                .atStartOfDay();
 
-        SupplierReportDTO supplierReport = saleReportService.getSupplierReport(
-                productId,
-                token);
+                LocalDateTime end = today
+                                .plusMonths(1)
+                                .withDayOfMonth(1)
+                                .atStartOfDay();
 
-        return ResponseEntity.ok(supplierReport);
-    }
+                return ResponseEntity.ok(
+                                saleReportService.getTopSellingProducts(start, end));
+        }
 
-    @GetMapping("/supplier")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<SupplierReportDTO>> getAllSupplierReports(
-            @RequestHeader("Authorization") String authorizationHeader) {
+        @GetMapping("/products/top/today")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsToday() {
 
-        String token = authorizationHeader.replace("Bearer ", "");
+                LocalDate today = LocalDate.now();
 
-        List<SupplierReportDTO> reports = saleReportService.getAllSupplierReports(token);
+                LocalDateTime start = today.atStartOfDay();
+                LocalDateTime end = today.plusDays(1).atStartOfDay();
 
-        return ResponseEntity.ok(reports);
-    }
+                return ResponseEntity.ok(
+                                saleReportService.getTopSellingProducts(start, end));
+        }
+
+        @GetMapping("/products/top/week")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsWeek() {
+
+                LocalDate today = LocalDate.now();
+
+                LocalDateTime start = today.with(java.time.DayOfWeek.MONDAY).atStartOfDay();
+
+                LocalDateTime end = start.plusWeeks(1);
+
+                return ResponseEntity.ok(
+                                saleReportService.getTopSellingProducts(start, end));
+        }
+
+        @GetMapping("/products/top/all")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProductsAllTime() {
+
+                return ResponseEntity.ok(
+                                saleReportService.getTopSellingProductsAllTime());
+        }
+
+        @GetMapping("/supplier/{productId}")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<SupplierReportDTO> getSoldQuantitySinceLastPurchase(
+                        @PathVariable Long productId,
+                        @RequestHeader("Authorization") String authorizationHeader) {
+
+                String token = authorizationHeader.replace("Bearer ", "");
+
+                SupplierReportDTO supplierReport = saleReportService.getSupplierReport(
+                                productId,
+                                token);
+
+                return ResponseEntity.ok(supplierReport);
+        }
+
+        @GetMapping("/supplier")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<List<SupplierReportDTO>> getAllSupplierReports(
+                        @RequestHeader("Authorization") String authorizationHeader) {
+
+                String token = authorizationHeader.replace("Bearer ", "");
+
+                List<SupplierReportDTO> reports = saleReportService.getAllSupplierReports(token);
+
+                return ResponseEntity.ok(reports);
+        }
 }

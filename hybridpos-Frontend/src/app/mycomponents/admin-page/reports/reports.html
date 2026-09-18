@@ -1,313 +1,174 @@
 <div class="reports-page">
-
   <!-- PAGE HEADER -->
 
   <div class="page-header">
-
     <div>
       <h1>Reports</h1>
 
-      <p>
-        Sales, inventory and business performance overview.
-      </p>
+      <p>Sales, inventory and business performance overview.</p>
     </div>
 
     <div class="report-actions">
+      <select class="date-filter" [value]="selectedPeriod" (change)="onPeriodChange($event)">
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+        <option value="year">This Year</option>
+      </select>
 
-      <button class="date-filter">
-        This Month
-        <span>⌄</span>
-      </button>
-
-      <button
-        class="export-btn"
-        disabled>
-
-        ↓ Export
-
-      </button>
-
+      <button class="export-btn" disabled>↓ Export</button>
     </div>
-
   </div>
-
 
   <!-- ERROR -->
 
-  <div
-    class="error-message"
-    *ngIf="error">
-
-    Report data could not be loaded.
-
-  </div>
-
+  <div class="error-message" *ngIf="error">Report data could not be loaded.</div>
 
   <!-- SUMMARY CARDS -->
 
   <div class="summary-grid">
-
     <!-- SALES -->
 
     <div class="summary-card">
-
       <div class="summary-top">
-
-        <div class="summary-icon green">
-          ₺
-        </div>
-
+        <div class="summary-icon green">₺</div>
       </div>
 
-      <span class="summary-title">
-        Total Sales
-      </span>
+      <span class="summary-title"> Total Sales </span>
 
       <strong>
         {{ formatCurrency(monthSummary?.totalRevenue) }}
       </strong>
 
-      <small>
-        Sales this month
-      </small>
-
+      <small> Sales this month </small>
     </div>
-
 
     <!-- TRANSACTIONS -->
 
     <div class="summary-card">
-
       <div class="summary-top">
-
-        <div class="summary-icon blue">
-          #
-        </div>
-
+        <div class="summary-icon blue">#</div>
       </div>
 
-      <span class="summary-title">
-        Transactions
-      </span>
+      <span class="summary-title"> Transactions </span>
 
       <strong>
         {{ monthSummary?.totalSales || 0 }}
       </strong>
 
-      <small>
-        Completed sales
-      </small>
-
+      <small> Completed sales </small>
     </div>
-
 
     <!-- PROFIT -->
 
     <div class="summary-card">
-
       <div class="summary-top">
+        <div class="summary-icon purple">↗</div>
 
-        <div class="summary-icon purple">
-          ↗
-        </div>
-
-        <span class="coming-soon">
-          Coming Soon
-        </span>
-
+        <span class="coming-soon"> Coming Soon </span>
       </div>
 
-      <span class="summary-title">
-        Estimated Profit
-      </span>
+      <span class="summary-title"> Estimated Profit </span>
 
-      <strong>
-        ₺0.00
-      </strong>
+      <strong> ₺0.00 </strong>
 
-      <small>
-        Sales profit
-      </small>
-
+      <small> Sales profit </small>
     </div>
-
 
     <!-- PRODUCTS -->
 
     <div class="summary-card">
-
       <div class="summary-top">
-
-        <div class="summary-icon orange">
-          □
-        </div>
-
+        <div class="summary-icon orange">□</div>
       </div>
 
-      <span class="summary-title">
-        Products Sold
-      </span>
+      <span class="summary-title"> Products Sold </span>
 
       <strong>
         {{ totalProductsSold }}
       </strong>
 
-      <small>
-        Items sold this month
-      </small>
-
+      <small> Items sold this month </small>
     </div>
-
   </div>
-
-
 
   <!-- MAIN REPORTS -->
 
   <div class="reports-grid">
-
-
     <!-- SALES OVERVIEW -->
 
     <div class="report-card sales-report">
-
       <div class="report-card-header">
-
         <div>
+          <h2>Sales Overview</h2>
 
-          <h2>
-            Sales Overview
-          </h2>
-
-          <p>
-            Sales performance over time
-          </p>
-
+          <p>Sales performance over time</p>
         </div>
 
-        <span class="report-badge">
-          Monthly
-        </span>
-
+        <span class="report-badge"> {{ periodLabel }} </span>
       </div>
 
-
       <div class="sales-summary">
-
         <div class="sales-summary-item">
-
-          <span>
-            Revenue
-          </span>
+          <span> Revenue </span>
 
           <strong>
             {{ formatCurrency(monthSummary?.totalRevenue) }}
           </strong>
-
         </div>
 
-
         <div class="sales-summary-item">
-
-          <span>
-            Cash
-          </span>
+          <span> Cash </span>
 
           <strong>
             {{ formatCurrency(monthSummary?.totalCash) }}
           </strong>
-
         </div>
 
-
         <div class="sales-summary-item">
-
-          <span>
-            Card
-          </span>
+          <span> Card </span>
 
           <strong>
             {{ formatCurrency(monthSummary?.totalCard) }}
           </strong>
-
         </div>
 
-
         <div class="sales-summary-item">
-
-          <span>
-            Transactions
-          </span>
+          <span> Transactions </span>
 
           <strong>
             {{ monthSummary?.totalSales || 0 }}
           </strong>
-
         </div>
-
       </div>
-
     </div>
-
-
 
     <!-- TOP PRODUCTS -->
 
     <div class="report-card">
-
       <div class="report-card-header">
-
         <div>
+          <h2>Top Selling Products</h2>
 
-          <h2>
-            Top Selling Products
-          </h2>
-
-          <p>
-            Best performing products
-          </p>
-
+          <p>Best performing products</p>
         </div>
 
-        <span class="report-badge">
-          This Month
-        </span>
-
+        <span class="report-badge"> {{ periodLabel }} </span>
       </div>
 
+      <div class="empty-report" *ngIf="topSellingProducts.length === 0">
+        <div class="empty-icon">★</div>
 
-      <div
-        class="empty-report"
-        *ngIf="topSellingProducts.length === 0">
-
-        <div class="empty-icon">
-          ★
-        </div>
-
-        <span>
-          No sales data yet
-        </span>
-
+        <span> No sales data yet </span>
       </div>
 
-
-      <div
-        class="top-products"
-        *ngIf="topSellingProducts.length > 0">
-
-        <div
-          class="top-product-row"
-          *ngFor="
-            let product of topSellingProducts;
-            let i = index
-          ">
-
+      <div class="top-products" *ngIf="topSellingProducts.length > 0">
+        <div class="top-product-row" *ngFor="let product of topSellingProducts; let i = index">
           <div class="product-rank">
             {{ i + 1 }}
           </div>
 
           <div class="product-details">
-
             <strong>
               {{ product.productName }}
             </strong>
@@ -315,344 +176,179 @@
             <small>
               {{ product.barcode }}
             </small>
-
           </div>
 
           <strong class="product-quantity">
             {{ product.soldQuantity }}
           </strong>
-
         </div>
-
       </div>
-
     </div>
-
-
 
     <!-- SUPPLIER REPORT -->
 
     <div class="report-card">
-
       <div class="report-card-header">
-
         <div>
+          <h2>Supplier Report</h2>
 
-          <h2>
-            Supplier Report
-          </h2>
-
-          <p>
-            Wholesale and purchasing overview
-          </p>
-
+          <p>Wholesale and purchasing overview</p>
         </div>
 
-        <span class="report-badge supplier">
-          Active
-        </span>
-
+        <span class="report-badge supplier"> Active </span>
       </div>
 
+      <div class="empty-report" *ngIf="supplierReports.length === 0">
+        <div class="empty-icon">📦</div>
 
-      <div
-        class="empty-report"
-        *ngIf="supplierReports.length === 0">
-
-        <div class="empty-icon">
-          📦
-        </div>
-
-        <span>
-          No supplier data yet
-        </span>
-
+        <span> No supplier data yet </span>
       </div>
 
-
-      <div
-        class="supplier-preview"
-        *ngIf="supplierReports.length > 0">
-
+      <div class="supplier-preview" *ngIf="supplierReports.length > 0">
         <div class="report-row">
-
-          <span>
-            Products
-          </span>
+          <span> Products </span>
 
           <strong>
             {{ supplierReports.length }}
           </strong>
-
         </div>
 
-
         <div class="report-row">
-
-          <span>
-            Supplied Quantity
-          </span>
+          <span> Supplied Quantity </span>
 
           <strong>
             {{ totalSuppliedQuantity }}
           </strong>
-
         </div>
 
-
         <div class="report-row">
-
-          <span>
-            Sold Quantity
-          </span>
+          <span> Sold Quantity </span>
 
           <strong>
-
             {{ totalSupplierSoldQuantity }}
-
           </strong>
-
         </div>
-
 
         <div class="report-row">
-
-          <span>
-            Remaining Quantity
-          </span>
+          <span> Remaining Quantity </span>
 
           <strong>
-
             {{ totalRemainingQuantity }}
-
           </strong>
-
         </div>
-
       </div>
-
     </div>
-
-
 
     <!-- PAYMENT REPORT -->
 
     <div class="report-card">
-
       <div class="report-card-header">
-
         <div>
+          <h2>Payment Summary</h2>
 
-          <h2>
-            Payment Summary
-          </h2>
-
-          <p>
-            Payment method distribution
-          </p>
-
+          <p>Payment method distribution</p>
         </div>
 
-        <span class="report-badge">
-          This Month
-        </span>
-
+        <span class="report-badge"> {{ periodLabel }} </span>
       </div>
 
-
       <div class="payment-preview">
-
-
         <div class="payment-item">
-
           <div class="payment-label">
-
-            <span
-              class="payment-dot cash">
-            </span>
+            <span class="payment-dot cash"> </span>
 
             Cash
-
           </div>
 
           <strong>
             {{ formatCurrency(monthSummary?.totalCash) }}
           </strong>
-
         </div>
 
-
         <div class="payment-item">
-
           <div class="payment-label">
-
-            <span
-              class="payment-dot card">
-            </span>
+            <span class="payment-dot card"> </span>
 
             Card
-
           </div>
 
           <strong>
             {{ formatCurrency(monthSummary?.totalCard) }}
           </strong>
-
         </div>
-
 
         <div class="payment-item">
-
           <div class="payment-label">
-
-            <span
-              class="payment-dot mixed">
-            </span>
+            <span class="payment-dot mixed"> </span>
 
             Mixed
-
           </div>
 
-          <strong>
-            ₺0.00
-          </strong>
-
+          <strong> ₺0.00 </strong>
         </div>
-
       </div>
-
     </div>
-
   </div>
-
-
 
   <!-- FUTURE REPORTS -->
 
   <div class="future-section">
-
     <div class="future-header">
-
       <div>
+        <h2>More Reports</h2>
 
-        <h2>
-          More Reports
-        </h2>
-
-        <p>
-          Additional analytics will be available here.
-        </p>
-
+        <p>Additional analytics will be available here.</p>
       </div>
-
     </div>
-
 
     <div class="future-grid">
-
-
       <div class="future-card">
-
-        <div class="future-icon">
-          📦
-        </div>
+        <div class="future-icon">📦</div>
 
         <div>
+          <h3>Inventory Report</h3>
 
-          <h3>
-            Inventory Report
-          </h3>
-
-          <p>
-            Stock movements and inventory value.
-          </p>
-
+          <p>Stock movements and inventory value.</p>
         </div>
 
-        <span>
-          Soon
-        </span>
-
+        <span> Soon </span>
       </div>
-
 
       <div class="future-card">
-
-        <div class="future-icon">
-          💰
-        </div>
+        <div class="future-icon">💰</div>
 
         <div>
+          <h3>Profit Analysis</h3>
 
-          <h3>
-            Profit Analysis
-          </h3>
-
-          <p>
-            Purchase cost vs sales revenue.
-          </p>
-
+          <p>Purchase cost vs sales revenue.</p>
         </div>
 
-        <span>
-          Soon
-        </span>
-
+        <span> Soon </span>
       </div>
-
 
       <div class="future-card">
-
-        <div class="future-icon">
-          🏆
-        </div>
+        <div class="future-icon">🏆</div>
 
         <div>
+          <h3>Best Sellers</h3>
 
-          <h3>
-            Best Sellers
-          </h3>
-
-          <p>
-            Most sold products and categories.
-          </p>
-
+          <p>Most sold products and categories.</p>
         </div>
 
-        <span>
-          Soon
-        </span>
-
+        <span> Soon </span>
       </div>
-
 
       <div class="future-card">
-
-        <div class="future-icon">
-          👤
-        </div>
+        <div class="future-icon">👤</div>
 
         <div>
+          <h3>Cashier Performance</h3>
 
-          <h3>
-            Cashier Performance
-          </h3>
-
-          <p>
-            Sales performance by cashier.
-          </p>
-
+          <p>Sales performance by cashier.</p>
         </div>
 
-        <span>
-          Soon
-        </span>
-
+        <span> Soon </span>
       </div>
-
     </div>
-
   </div>
-
 </div>
-

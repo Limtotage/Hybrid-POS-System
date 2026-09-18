@@ -31,6 +31,11 @@ export class ReportService {
       `${this.baseUrl}/summary/today`
     );
   }
+    getWeekSummary(): Observable<SaleSummary> {
+    return this.http.get<SaleSummary>(
+      `${this.baseUrl}/summary/week`
+    );
+  }
 
   getMonthSummary(): Observable<SaleSummary> {
     return this.http.get<SaleSummary>(
@@ -49,6 +54,11 @@ export class ReportService {
       `${this.baseUrl}/products/today`
     );
   }
+    getWeekProductSales(): Observable<ProductSalesReport[]> {
+    return this.http.get<ProductSalesReport[]>(
+      `${this.baseUrl}/products/week`
+    );
+  }
 
   getMonthlyProductSales(): Observable<ProductSalesReport[]> {
     return this.http.get<ProductSalesReport[]>(
@@ -65,6 +75,11 @@ export class ReportService {
   getTopSellingProductsToday(): Observable<TopSellingProduct[]> {
     return this.http.get<TopSellingProduct[]>(
       `${this.baseUrl}/products/top/today`
+    );
+  }
+    getTopSellingProductsWeek(): Observable<TopSellingProduct[]> {
+    return this.http.get<TopSellingProduct[]>(
+      `${this.baseUrl}/products/top/week`
     );
   }
 

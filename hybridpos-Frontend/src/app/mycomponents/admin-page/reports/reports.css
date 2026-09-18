@@ -6,7 +6,6 @@
   width: 100%;
 }
 
-
 /* =====================================================
    PAGE HEADER
 ===================================================== */
@@ -21,7 +20,6 @@
   margin-bottom: 20px;
 }
 
-
 .page-header h1 {
   margin: 0 0 5px;
 
@@ -32,7 +30,6 @@
   font-weight: 600;
 }
 
-
 .page-header p {
   margin: 0;
 
@@ -40,7 +37,6 @@
 
   font-size: 11px;
 }
-
 
 /* =====================================================
    ACTIONS
@@ -51,7 +47,6 @@
 
   gap: 8px;
 }
-
 
 .date-filter,
 .export-btn {
@@ -72,22 +67,23 @@
   cursor: pointer;
 }
 
-
 .date-filter {
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
+  min-width: 125px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #dfe6e2;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #53615b;
+  font-size: 10px;
+  cursor: pointer;
 }
 
-
 .export-btn:disabled {
-  opacity: .45;
+  opacity: 0.45;
 
   cursor: not-allowed;
 }
-
 
 /* =====================================================
    SUMMARY
@@ -96,14 +92,12 @@
 .summary-grid {
   display: grid;
 
-  grid-template-columns:
-    repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   gap: 14px;
 
   margin-bottom: 16px;
 }
-
 
 .summary-card {
   min-height: 145px;
@@ -117,7 +111,6 @@
   border-radius: 8px;
 }
 
-
 .summary-top {
   display: flex;
 
@@ -127,7 +120,6 @@
 
   margin-bottom: 14px;
 }
-
 
 .summary-icon {
   width: 40px;
@@ -147,13 +139,11 @@
   font-weight: 600;
 }
 
-
 .summary-icon.green {
   background: #e8f6ef;
 
   color: #198754;
 }
-
 
 .summary-icon.blue {
   background: #edf4ff;
@@ -161,20 +151,17 @@
   color: #3b82f6;
 }
 
-
 .summary-icon.purple {
   background: #f3efff;
 
   color: #7c3aed;
 }
 
-
 .summary-icon.orange {
   background: #fff4e8;
 
   color: #f59e0b;
 }
-
 
 .coming-soon {
   padding: 4px 7px;
@@ -188,7 +175,6 @@
   font-size: 8px;
 }
 
-
 .summary-title {
   display: block;
 
@@ -198,7 +184,6 @@
 
   font-size: 10px;
 }
-
 
 .summary-card strong {
   display: block;
@@ -210,13 +195,11 @@
   font-size: 19px;
 }
 
-
 .summary-card small {
   color: #a2aba6;
 
   font-size: 9px;
 }
-
 
 /* =====================================================
    REPORT GRID
@@ -225,14 +208,12 @@
 .reports-grid {
   display: grid;
 
-  grid-template-columns:
-    1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 
   gap: 15px;
 
   margin-bottom: 16px;
 }
-
 
 .report-card {
   min-height: 310px;
@@ -246,7 +227,6 @@
   border-radius: 8px;
 }
 
-
 .report-card-header {
   display: flex;
 
@@ -259,7 +239,6 @@
   border-bottom: 1px solid #edf0ee;
 }
 
-
 .report-card-header h2 {
   margin: 0 0 4px;
 
@@ -270,7 +249,6 @@
   font-weight: 600;
 }
 
-
 .report-card-header p {
   margin: 0;
 
@@ -278,7 +256,6 @@
 
   font-size: 9px;
 }
-
 
 .report-badge {
   padding: 5px 8px;
@@ -292,13 +269,11 @@
   font-size: 8px;
 }
 
-
 .report-badge.supplier {
   background: #f2f5f3;
 
   color: #89958f;
 }
-
 
 /* =====================================================
    CHART PLACEHOLDER
@@ -318,15 +293,13 @@
   text-align: center;
 }
 
-
 .chart-icon {
   margin-bottom: 10px;
 
   font-size: 30px;
 
-  opacity: .5;
+  opacity: 0.5;
 }
-
 
 .chart-placeholder h3 {
   margin: 0 0 6px;
@@ -335,7 +308,6 @@
 
   font-size: 12px;
 }
-
 
 .chart-placeholder p {
   max-width: 280px;
@@ -348,7 +320,6 @@
 
   line-height: 1.5;
 }
-
 
 /* =====================================================
    EMPTY REPORT
@@ -372,7 +343,6 @@
   font-size: 10px;
 }
 
-
 .empty-icon {
   width: 42px;
 
@@ -391,7 +361,6 @@
   font-size: 18px;
 }
 
-
 /* =====================================================
    SUPPLIER
 ===================================================== */
@@ -399,7 +368,6 @@
 .supplier-preview {
   padding-top: 10px;
 }
-
 
 .report-row {
   height: 48px;
@@ -413,11 +381,9 @@
   border-bottom: 1px solid #f0f2f1;
 }
 
-
 .report-row:last-child {
   border-bottom: none;
 }
-
 
 .report-row span {
   color: #69756f;
@@ -425,13 +391,11 @@
   font-size: 10px;
 }
 
-
 .report-row strong {
   color: #263238;
 
   font-size: 11px;
 }
-
 
 /* =====================================================
    PAYMENT
@@ -440,7 +404,6 @@
 .payment-preview {
   padding-top: 15px;
 }
-
 
 .payment-item {
   height: 55px;
@@ -454,11 +417,9 @@
   border-bottom: 1px solid #f0f2f1;
 }
 
-
 .payment-item:last-child {
   border-bottom: none;
 }
-
 
 .payment-label {
   display: flex;
@@ -472,13 +433,11 @@
   font-size: 10px;
 }
 
-
 .payment-item strong {
   color: #263238;
 
   font-size: 11px;
 }
-
 
 .payment-dot {
   width: 8px;
@@ -488,21 +447,17 @@
   border-radius: 50%;
 }
 
-
 .payment-dot.cash {
   background: #198754;
 }
-
 
 .payment-dot.card {
   background: #3b82f6;
 }
 
-
 .payment-dot.mixed {
   background: #7c3aed;
 }
-
 
 /* =====================================================
    FUTURE REPORTS
@@ -518,18 +473,15 @@
   border-radius: 8px;
 }
 
-
 .future-header {
   margin-bottom: 15px;
 }
-
 
 .future-header h2 {
   margin: 0 0 4px;
 
   font-size: 14px;
 }
-
 
 .future-header p {
   margin: 0;
@@ -539,16 +491,13 @@
   font-size: 9px;
 }
 
-
 .future-grid {
   display: grid;
 
-  grid-template-columns:
-    repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   gap: 10px;
 }
-
 
 .future-card {
   min-height: 100px;
@@ -570,7 +519,6 @@
   position: relative;
 }
 
-
 .future-icon {
   width: 32px;
 
@@ -591,7 +539,6 @@
   font-size: 14px;
 }
 
-
 .future-card h3 {
   margin: 2px 0 5px;
 
@@ -599,7 +546,6 @@
 
   font-size: 10px;
 }
-
 
 .future-card p {
   margin: 0;
@@ -610,7 +556,6 @@
 
   line-height: 1.4;
 }
-
 
 .future-card > span {
   position: absolute;
@@ -624,28 +569,21 @@
   font-size: 7px;
 }
 
-
 /* =====================================================
    RESPONSIVE
 ===================================================== */
 
 @media (max-width: 1000px) {
-
   .summary-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .future-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
-
 }
 
-
 @media (max-width: 700px) {
-
   .page-header {
     align-items: flex-start;
 
@@ -659,5 +597,4 @@
   .future-grid {
     grid-template-columns: 1fr;
   }
-
 }

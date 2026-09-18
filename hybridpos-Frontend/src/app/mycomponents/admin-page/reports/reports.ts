@@ -10,7 +10,7 @@ import {
   TopSellingProduct,
   SupplierReport,
 } from '../../../services/report/report-models';
-
+type ReportPeriod = 'today' | 'week' | 'month' | 'year';
 @Component({
   selector: 'app-reports',
   standalone: true,
@@ -22,7 +22,6 @@ export class Reports implements OnInit {
   // SUMMARY
 
   monthSummary!: SaleSummary;
-  todaySummary!: SaleSummary;
 
   // PRODUCTS
 
@@ -47,33 +46,74 @@ export class Reports implements OnInit {
     this.loadReports();
   }
 
+  selectedPeriod: ReportPeriod = 'month';
+
+  get periodLabel(): string {
+    switch (this.selectedPeriod) {
+      case 'today':
+        return 'Today';
+      case 'week':
+        return 'This Week';
+      case 'year':
+        return 'This Year';
+      default:
+        return 'This Month';
+    }
+  }
+
+  onPeriodChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value as ReportPeriod;
+
+    this.selectedPeriod = value;
+    this.loadReports();
+  }
+
   loadReports(): void {
     this.loading = true;
     this.error = false;
 
+    let summary$;
+    let products$;
+    let topProducts$;
+
+    switch (this.selectedPeriod) {
+      case 'today':
+        summary$ = this.reportService.getTodaySummary();
+        products$ = this.reportService.getTodaysProductSales();
+        topProducts$ = this.reportService.getTopSellingProductsToday();
+        break;
+      case 'week':
+        summary$ = this.reportService.getWeekSummary();
+        products$ = this.reportService.getWeekProductSales();
+        topProducts$ = this.reportService.getTopSellingProductsWeek();
+        break;
+
+      case 'year':
+        summary$ = this.reportService.getYearSummary();
+        products$ = this.reportService.getYearlyProductSales();
+        topProducts$ = this.reportService.getTopSellingProductsYear();
+        break;
+
+      default:
+        summary$ = this.reportService.getMonthSummary();
+        products$ = this.reportService.getMonthlyProductSales();
+        topProducts$ = this.reportService.getTopSellingProductsMonth();
+        break;
+    }
+
     forkJoin({
-      monthSummary: this.reportService.getMonthSummary(),
-
-      todaySummary: this.reportService.getTodaySummary(),
-
-      monthlyProducts: this.reportService.getMonthlyProductSales(),
-
-      topSellingProducts: this.reportService.getTopSellingProductsMonth(),
-
+      summary: summary$,
+      products: products$,
+      topProducts: topProducts$,
       supplierReports: this.reportService.getAllSupplierReports(),
     }).subscribe({
       next: (result) => {
-        this.monthSummary = result.monthSummary;
-        this.todaySummary = result.todaySummary;
-
-        this.monthlyProducts = result.monthlyProducts;
-
-        this.topSellingProducts = result.topSellingProducts;
-
+        this.monthSummary = result.summary;
+        this.monthlyProducts = result.products;
+        this.topSellingProducts = result.topProducts;
         this.supplierReports = result.supplierReports;
 
         this.loading = false;
-
         this.cdr.detectChanges();
       },
 
