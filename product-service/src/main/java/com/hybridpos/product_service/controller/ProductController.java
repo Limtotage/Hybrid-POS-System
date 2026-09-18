@@ -21,6 +21,7 @@ import com.hybridpos.product_service.dto.ProductCreateDTO;
 import com.hybridpos.product_service.dto.ProductPriceUpdateDTO;
 import com.hybridpos.product_service.dto.ProductReportDTO;
 import com.hybridpos.product_service.dto.ProductResponseDTO;
+import com.hybridpos.product_service.dto.ProductUpdateDTO;
 import com.hybridpos.product_service.dto.StockUpdateDTO;
 import com.hybridpos.product_service.entity.StockMovement;
 import com.hybridpos.product_service.service.ProductService;
@@ -66,6 +67,18 @@ public class ProductController {
                                 productService.updatePrice(id, dto));
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
+        @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        public ResponseEntity<ProductResponseDTO> updateProduct(
+                        @PathVariable Long id,
+                        @RequestPart("product") ProductUpdateDTO dto,
+                        @RequestPart(value = "image", required = false) MultipartFile image)
+                        throws IOException {
+
+                return ResponseEntity.ok(
+                                productService.updateProduct(id, dto, image));
+        }
+
         @PreAuthorize("hasAnyRole('ADMIN', 'CASHIER')")
         @PostMapping("/{id}/stock")
         public ResponseEntity<Void> increaseStock(
@@ -78,19 +91,30 @@ public class ProductController {
 
                 return ResponseEntity.ok().build();
         }
+
         @PreAuthorize("hasAnyRole('ADMIN', 'CASHIER')")
         @PostMapping("/{id}/sale")
         public ResponseEntity<Void> decreaseStock(
                         @PathVariable Long id,
                         @RequestBody StockUpdateDTO dto) {
-                System.out.println("SomeOne Trying to access here");
                 productService.decreaseStock(
                                 id,
                                 dto.getAmount());
 
                 return ResponseEntity.ok().build();
         }
-        
+
+        @PreAuthorize("hasAnyRole('ADMIN')")
+        @PostMapping("/{id}/adjust-stock")
+        public ResponseEntity<Void> setStock(
+                        @PathVariable Long id,
+                        @RequestBody StockUpdateDTO dto) {
+                productService.setStock(
+                                id,
+                                dto.getAmount());
+
+                return ResponseEntity.ok().build();
+        }
 
         @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
         @GetMapping
@@ -99,14 +123,16 @@ public class ProductController {
                 return ResponseEntity.ok(
                                 productService.getAllProducts());
         }
+
         @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
         @GetMapping("/{id}")
         public ResponseEntity<ProductResponseDTO> getById(
-                @PathVariable Long id) {
+                        @PathVariable Long id) {
 
-            return ResponseEntity.ok(
-                    productService.getById(id));
+                return ResponseEntity.ok(
+                                productService.getById(id));
         }
+
         @PreAuthorize("hasAnyRole('ADMIN','CASHIER')")
         @GetMapping("/barcode/{barcode}")
         public ResponseEntity<ProductResponseDTO> getByBarcode(

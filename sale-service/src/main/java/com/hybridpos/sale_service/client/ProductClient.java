@@ -117,23 +117,6 @@ public class ProductClient {
         }
     }
 
-    public void updateStock(
-            Long productId,
-            int amount,
-            String token) {
-        getRestClient().post()
-                .uri("/api/products/{id}/stock", productId)
-                .header("Authorization", "Bearer " + token)
-                .header("Content-Type", "application/json")
-                .body("""
-                        {
-                            "amount": %d
-                        }
-                        """.formatted(amount))
-                .retrieve()
-                .toBodilessEntity();
-    }
-
     public void sale(
             Long productId,
             int amount,

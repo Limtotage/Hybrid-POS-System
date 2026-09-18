@@ -1,8 +1,5 @@
 package com.hybridpos.product_service.service;
 
-import com.hybridpos.product_service.exception.ProductNotFoundException;
-import com.hybridpos.product_service.exception.InsufficientStockException;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,9 +15,13 @@ import com.hybridpos.product_service.dto.ProductCreateDTO;
 import com.hybridpos.product_service.dto.ProductPriceUpdateDTO;
 import com.hybridpos.product_service.dto.ProductReportDTO;
 import com.hybridpos.product_service.dto.ProductResponseDTO;
+import com.hybridpos.product_service.dto.ProductUpdateDTO;
 import com.hybridpos.product_service.entity.Product;
 import com.hybridpos.product_service.entity.StockMovement;
 import com.hybridpos.product_service.enums.StockMovementType;
+import com.hybridpos.product_service.exception.BarcodeAlreadyUsedException;
+import com.hybridpos.product_service.exception.InsufficientStockException;
+import com.hybridpos.product_service.exception.ProductNotFoundException;
 import com.hybridpos.product_service.repository.ProductRepository;
 import com.hybridpos.product_service.repository.StockMovementRepository;
 
@@ -78,6 +79,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(this::mapToResponse)
                 .toList();
     }
+
     @Override
     public ProductResponseDTO getById(Long productId) {
         Product product = productRepository.findById(productId)
@@ -100,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO updatePrice(long productId, ProductPriceUpdateDTO dto) {
         Product product = productRepository.findById(productId)
-                .orElseThrow();
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         BigDecimal price = product.getSalePrice();
 
@@ -112,6 +114,54 @@ public class ProductServiceImpl implements ProductService {
 
         product.setSalePrice(price);
         productRepository.save(product);
+        cacheManager.getCache("products")
+                .evict(product.getBarcode());
+
+        return mapToResponse(product);
+    }
+
+    @Override
+    public ProductResponseDTO updateProduct(
+            Long productId,
+            ProductUpdateDTO dto,
+            MultipartFile image) {
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+
+        String oldBarcode = product.getBarcode();
+
+        // Barkod değiştiriliyorsa yeni barkodun başka üründe kullanılmadığını kontrol
+        // et
+        if (!oldBarcode.equals(dto.getBarcode())
+                && productRepository.existsByBarcode(dto.getBarcode())) {
+
+            throw new BarcodeAlreadyUsedException(
+                    "Bu barkod başka bir üründe zaten kullanılıyor.");
+        }
+
+        product.setBarcode(dto.getBarcode());
+        product.setName(dto.getName());
+        product.setPurchasePrice(dto.getPurchasePrice());
+        product.setSalePrice(dto.getSalePrice());
+
+        // Yeni resim gönderildiyse değiştir
+        if (image != null && !image.isEmpty()) {
+            try {
+                String imageUrl = fileStorageService.saveProductImage(image);
+                product.setImageURL(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException("Ürün resmi kaydedilemedi.", e);
+            }
+        }
+
+        productRepository.save(product);
+
+        // Eski barkod cache'ini temizle
+        cacheManager.getCache("products")
+                .evict(oldBarcode);
+
+        // Yeni barkod cache'ini de temizle
         cacheManager.getCache("products")
                 .evict(product.getBarcode());
 
@@ -140,6 +190,7 @@ public class ProductServiceImpl implements ProductService {
         cacheManager.getCache("products")
                 .evict(product.getBarcode());
     }
+
     @Override
     public void decreaseStock(long productId, int amount) {
 
@@ -158,6 +209,25 @@ public class ProductServiceImpl implements ProductService {
         movement.setProductId(productId);
         movement.setType(StockMovementType.SALE);
         movement.setQuantity(amount);
+        movement.setCreatedAt(LocalDateTime.now());
+
+        stockMovementRepository.save(movement);
+
+        cacheManager.getCache("products")
+                .evict(product.getBarcode());
+    }
+
+    @Override
+    public void setStock(long productId, int amount) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow();
+        int adjustment = amount - product.getStockQuantity();
+        product.setStockQuantity(amount);
+        productRepository.save(product);
+        StockMovement movement = new StockMovement();
+        movement.setProductId(productId);
+        movement.setType(StockMovementType.ADJUSTMENT);
+        movement.setQuantity(adjustment);
         movement.setCreatedAt(LocalDateTime.now());
 
         stockMovementRepository.save(movement);

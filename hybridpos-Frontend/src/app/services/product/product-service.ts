@@ -21,6 +21,9 @@ export class ProductService {
   changePrice(productId: number, data: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/${productId}/price`, data);
   }
+  updateProduct(productId: number, data: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${productId}`, data);
+  }
 
   getAllProducts(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
@@ -33,5 +36,7 @@ export class ProductService {
   increaseStock(productId: number, amount: number): Observable<any> {
     return this.http.post(`${this.baseUrl}/${productId}/stock`, { amount });
   }
-
+  adjustStock(productId: number, amount: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${productId}/adjust-stock`, { amount });
+  }
 }

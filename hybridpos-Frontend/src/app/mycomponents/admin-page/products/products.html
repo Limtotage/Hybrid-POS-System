@@ -1,54 +1,32 @@
 <div class="products-page">
-
   <!-- PAGE HEADER -->
   <div class="page-header">
-
     <div>
       <h1>Create Product</h1>
 
-      <p>
-        Add a new product to your inventory.
-      </p>
+      <p>Add a new product to your inventory.</p>
     </div>
-
   </div>
-
 
   <!-- PRODUCT FORM CARD -->
   <div class="product-form-card">
-
     <!-- CARD HEADER -->
     <div class="form-card-header">
-
-      <div class="header-icon">
-        +
-      </div>
+      <div class="header-icon">+</div>
 
       <div>
         <h2>Product Information</h2>
 
-        <p>
-          Enter the product details below.
-        </p>
+        <p>Enter the product details below.</p>
       </div>
-
     </div>
 
-
     <!-- FORM -->
-    <form
-      #ProductForm="ngForm"
-      (ngSubmit)="addProduct(ProductForm)"
-    >
-
+    <form #ProductForm="ngForm" (ngSubmit)="addProduct(ProductForm)">
       <div class="form-grid">
-
         <!-- BARCODE -->
         <div class="form-group">
-
-          <label for="barcode">
-            Barcode
-          </label>
+          <label for="barcode"> Barcode </label>
 
           <input
             id="barcode"
@@ -58,16 +36,11 @@
             name="barcode"
             required
           />
-
         </div>
-
 
         <!-- PRODUCT NAME -->
         <div class="form-group">
-
-          <label for="name">
-            Product Name
-          </label>
+          <label for="name"> Product Name </label>
 
           <input
             id="name"
@@ -77,19 +50,13 @@
             name="name"
             required
           />
-
         </div>
-
 
         <!-- PURCHASE PRICE -->
         <div class="form-group">
-
-          <label for="purchasePrice">
-            Purchase Price
-          </label>
+          <label for="purchasePrice"> Purchase Price </label>
 
           <div class="input-with-symbol">
-
             <span>₺</span>
 
             <input
@@ -102,21 +69,14 @@
               step="0.01"
               required
             />
-
           </div>
-
         </div>
-
 
         <!-- SALE PRICE -->
         <div class="form-group">
-
-          <label for="salePrice">
-            Sale Price
-          </label>
+          <label for="salePrice"> Sale Price </label>
 
           <div class="input-with-symbol">
-
             <span>₺</span>
 
             <input
@@ -129,18 +89,12 @@
               step="0.01"
               required
             />
-
           </div>
-
         </div>
-
 
         <!-- STOCK -->
         <div class="form-group">
-
-          <label for="stockQuantity">
-            Stock Quantity
-          </label>
+          <label for="stockQuantity"> Stock Quantity </label>
 
           <input
             id="stockQuantity"
@@ -151,19 +105,13 @@
             min="0"
             required
           />
-
         </div>
-
 
         <!-- IMAGE -->
         <div class="form-group">
-
-          <label for="productImage">
-            Product Image
-          </label>
+          <label for="productImage"> Product Image </label>
 
           <div class="file-input-wrapper">
-
             <input
               id="productImage"
               type="file"
@@ -171,37 +119,304 @@
               (change)="onImageSelected($event)"
             />
 
-            <span class="file-text">
-              Choose image
-            </span>
-
+            <span class="file-text"> Choose image </span>
           </div>
-
         </div>
-
       </div>
-
 
       <!-- FORM FOOTER -->
       <div class="form-footer">
+        <span class="required-info"> * Required fields </span>
 
-        <span class="required-info">
-          * Required fields
-        </span>
-
-        <button
-          type="submit"
-          class="add-product-btn"
-          [disabled]="!ProductForm.valid"
-        >
+        <button type="submit" class="add-product-btn" [disabled]="!ProductForm.valid">
           <span>+</span>
           Add Product
         </button>
+      </div>
+    </form>
+  </div>
+  <!-- PRODUCT LIST -->
 
+  <div class="product-list-section">
+    <div class="list-header">
+      <div>
+        <h2>Products</h2>
+        <p>Manage your products and inventory.</p>
       </div>
 
-    </form>
+      <span class="product-count"> {{ products.length }} Products </span>
+    </div>
 
+    <div class="product-table-wrapper">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Barcode</th>
+            <th>Purchase Price</th>
+            <th>Sale Price</th>
+            <th>Stock</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let product of products">
+            <!-- PRODUCT -->
+            <td>
+              <div class="product-info">
+                <div class="product-image">
+                  <img
+                    *ngIf="product.imageUrl"
+                    [src]="'http://localhost:8080' + product.imageUrl"
+                    [alt]="product.name"
+                  />
+
+                  <span *ngIf="!product.imageUrl"> 📦 </span>
+                </div>
+
+                <div>
+                  <strong>{{ product.name }}</strong>
+                </div>
+              </div>
+            </td>
+
+            <!-- BARCODE -->
+            <td>
+              {{ product.barcode }}
+            </td>
+
+            <!-- PURCHASE PRICE -->
+            <td>₺{{ product.purchasePrice | number: '1.2-2' }}</td>
+
+            <!-- SALE PRICE -->
+            <td>₺{{ product.salePrice | number: '1.2-2' }}</td>
+
+            <!-- STOCK -->
+            <td>
+              <span [class.low-stock]="product.stockQuantity <= 5">
+                {{ product.stockQuantity }}
+              </span>
+            </td>
+
+            <!-- STATUS -->
+            <td>
+              <span class="status-badge" [class.inactive]="!product.active">
+                {{ product.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <!-- ACTIONS -->
+            <td>
+              <div class="action-buttons">
+                <button type="button" class="update-btn" (click)="openUpdateModal(product)">
+                  Update
+                </button>
+
+                <button type="button" class="stock-btn" (click)="openStockModal(product)">
+                  Stock
+                </button>
+
+                <button type="button" class="delete-btn" (click)="deleteProduct(product.id)">
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- EMPTY -->
+          <tr *ngIf="products.length === 0">
+            <td colspan="7" class="empty-products">No products found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  <!-- UPDATE PRODUCT MODAL -->
 
+  <div class="modal-overlay" *ngIf="selectedProduct" (click)="selectedProduct = null">
+    <div class="update-modal" (click)="$event.stopPropagation()">
+      <!-- MODAL HEADER -->
+
+      <div class="modal-header">
+        <div>
+          <h2>Update Product</h2>
+          <p>Edit product information.</p>
+        </div>
+
+        <button type="button" class="modal-close" (click)="selectedProduct = null">×</button>
+      </div>
+
+      <!-- FORM -->
+
+      <form #UpdateForm="ngForm" (ngSubmit)="updateProduct()">
+        <div class="update-form-grid">
+          <!-- IMAGE -->
+
+          <div class="update-image-section">
+            <div class="update-image-preview">
+              <!-- Yeni resim seçildiyse -->
+              <img
+                *ngIf="updateImagePreviewUrl"
+                [src]="updateImagePreviewUrl"
+                alt="New Product Image"
+              />
+
+              <!-- Yeni resim seçilmediyse mevcut resmi göster -->
+              <img
+                *ngIf="!updateImagePreviewUrl && selectedProduct.imageUrl"
+                [src]="'http://localhost:8080' + selectedProduct.imageUrl"
+                alt="Product"
+              />
+
+              <!-- Hiç resim yoksa -->
+              <span *ngIf="!updateImagePreviewUrl && !selectedProduct.imageUrl"> 📦 </span>
+            </div>
+
+            <label for="updateProductImage" class="image-upload-btn"> Change Image </label>
+
+            <input
+              id="updateProductImage"
+              type="file"
+              accept="image/*"
+              hidden
+              (change)="onUpdateImageSelected($event)"
+            />
+          </div>
+
+          <!-- BARCODE -->
+
+          <div class="form-group">
+            <label for="updateBarcode"> Barcode </label>
+
+            <input
+              id="updateBarcode"
+              type="text"
+              [(ngModel)]="updateProductData.barcode"
+              name="updateBarcode"
+              required
+            />
+          </div>
+
+          <!-- PRODUCT NAME -->
+
+          <div class="form-group">
+            <label for="updateName"> Product Name </label>
+
+            <input
+              id="updateName"
+              type="text"
+              [(ngModel)]="updateProductData.name"
+              name="updateName"
+              required
+            />
+          </div>
+
+          <!-- PURCHASE PRICE -->
+
+          <div class="form-group">
+            <label for="updatePurchasePrice"> Purchase Price </label>
+
+            <div class="input-with-symbol">
+              <span>₺</span>
+
+              <input
+                id="updatePurchasePrice"
+                type="number"
+                [(ngModel)]="updateProductData.purchasePrice"
+                name="updatePurchasePrice"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- SALE PRICE -->
+
+          <div class="form-group">
+            <label for="updateSalePrice"> Sale Price </label>
+
+            <div class="input-with-symbol">
+              <span>₺</span>
+
+              <input
+                id="updateSalePrice"
+                type="number"
+                [(ngModel)]="updateProductData.salePrice"
+                name="updateSalePrice"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" (click)="selectedProduct = null">Cancel</button>
+
+          <button type="submit" class="save-btn" [disabled]="!UpdateForm.valid">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- STOCK MODAL -->
+  <div class="modal-overlay" *ngIf="selectedStockProduct" (click)="selectedStockProduct = null">
+    <div class="stock-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h2>Stock Management</h2>
+          <p>Add stock to this product.</p>
+        </div>
+
+        <button type="button" class="modal-close" (click)="selectedStockProduct = null">×</button>
+      </div>
+
+      <div class="stock-product-info">
+        <strong>
+          {{ selectedStockProduct.name }}
+        </strong>
+
+        <span>
+          Current Stock:
+          <b>{{ selectedStockProduct.stockQuantity }}</b>
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="stockAmount"> Amount </label>
+
+        <input
+          id="stockAmount"
+          type="number"
+          [(ngModel)]="stockAmount"
+          name="stockAmount"
+          min="1"
+          step="1"
+          placeholder="Enter amount"
+        />
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="cancel-btn" (click)="selectedStockProduct = null">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="save-btn"
+          [disabled]="stockAmount <= 0"
+          (click)="increaseStock()"
+        >
+          Add Stock
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

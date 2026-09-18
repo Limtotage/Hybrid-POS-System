@@ -386,6 +386,524 @@
   cursor: not-allowed;
 
 }
+/* ========================================
+   PRODUCT LIST
+======================================== */
+
+.product-list-section {
+  margin-top: 30px;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #222;
+}
+
+.list-header p {
+  margin: 5px 0 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.product-count {
+  background: #eaf7ef;
+  color: #198754;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* ========================================
+   PRODUCT TABLE
+======================================== */
+
+.product-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 850px;
+}
+
+.product-table th {
+  padding: 13px 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #777;
+  background: #f8faf9;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.product-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #eeeeee;
+  font-size: 13px;
+  color: #333;
+  vertical-align: middle;
+}
+
+.product-table tbody tr:hover {
+  background: #fafdfb;
+}
+
+
+/* ========================================
+   PRODUCT INFO
+======================================== */
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 180px;
+}
+
+.product-image {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: #f1f5f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info strong {
+  font-size: 13px;
+  color: #222;
+}
+
+
+/* ========================================
+   STOCK / STATUS
+======================================== */
+
+.low-stock {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #eaf7ef;
+  color: #198754;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-badge.inactive {
+  background: #f1f1f1;
+  color: #777;
+}
+
+
+/* ========================================
+   ACTION BUTTONS
+======================================== */
+
+.action-buttons {
+  display: flex;
+  gap: 7px;
+}
+
+.update-btn,
+.delete-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.update-btn {
+  background: #eaf7ef;
+  color: #198754;
+}
+
+.update-btn:hover {
+  background: #d9f1e2;
+}
+
+.delete-btn {
+  background: #fff0f0;
+  color: #dc3545;
+}
+
+.delete-btn:hover {
+  background: #ffe0e0;
+}
+
+
+/* ========================================
+   EMPTY PRODUCTS
+======================================== */
+
+.empty-products {
+  text-align: center !important;
+  padding: 35px !important;
+  color: #888 !important;
+}
+
+
+/* ========================================
+   MODAL
+======================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.update-modal {
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+}
+
+
+/* ========================================
+   MODAL HEADER
+======================================== */
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 22px 24px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 19px;
+  color: #222;
+}
+
+.modal-header p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: #888;
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+  color: #777;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: #222;
+}
+
+
+/* ========================================
+   UPDATE FORM
+======================================== */
+
+.update-form-grid {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.update-form-grid .form-group {
+  margin: 0;
+}
+
+.update-image-section {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 5px;
+}
+
+.update-image-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f1f5f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.update-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-upload-btn {
+  display: inline-block;
+  padding: 9px 13px;
+  border-radius: 7px;
+  background: #eaf7ef;
+  color: #198754;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.image-upload-btn:hover {
+  background: #d9f1e2;
+}
+
+
+/* ========================================
+   MODAL FOOTER
+======================================== */
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px 24px;
+  border-top: 1px solid #eeeeee;
+}
+
+.cancel-btn,
+.save-btn {
+  border: none;
+  border-radius: 7px;
+  padding: 9px 15px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #f1f1f1;
+  color: #555;
+}
+
+.save-btn {
+  background: #198754;
+  color: #ffffff;
+}
+
+.save-btn:hover {
+  background: #157347;
+}
+
+.save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 700px) {
+
+  .product-list-section {
+    padding: 16px;
+  }
+
+  .list-header {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .update-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .update-image-section {
+    grid-column: auto;
+  }
+
+  .modal-header,
+  .update-form-grid,
+  .modal-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+/* ============================= */
+/* STOCK MODAL */
+/* ============================= */
+
+.stock-modal {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  animation: stockModalOpen 0.2s ease;
+}
+
+@keyframes stockModalOpen {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* PRODUCT INFO */
+
+.stock-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  margin: 22px 0;
+  padding: 16px 18px;
+
+  background: #f4f8f5;
+  border: 1px solid #e1ebe4;
+  border-radius: 12px;
+}
+
+.stock-product-info strong {
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.stock-product-info span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.stock-product-info b {
+  color: #16a34a;
+  font-size: 15px;
+}
+
+/* STOCK INPUT */
+
+.stock-modal .form-group {
+  margin-top: 18px;
+}
+
+.stock-modal .form-group label {
+  display: block;
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.stock-modal .form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  font-size: 15px;
+  color: #1f2937;
+
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stock-modal .form-group input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+/* STOCK BUTTON */
+
+.stock-btn {
+  border: none;
+  cursor: pointer;
+
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  background: #e8f5ec;
+  color: #15803d;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: all 0.2s ease;
+}
+
+.stock-btn:hover {
+  background: #d7efdf;
+  transform: translateY(-1px);
+}
+
+/* DISABLED ADD STOCK BUTTON */
+
+.stock-modal .save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  .stock-modal {
+    max-width: calc(100% - 32px);
+    padding: 22px;
+    border-radius: 14px;
+  }
+
+  .stock-product-info {
+    margin: 18px 0;
+  }
+}
 
 
 /* =====================================================
