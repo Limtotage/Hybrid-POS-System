@@ -372,7 +372,7 @@
       <div class="modal-header">
         <div>
           <h2>Stock Management</h2>
-          <p>Add stock to this product.</p>
+          <p>Set the current stock quantity.</p>
         </div>
 
         <button type="button" class="modal-close" (click)="selectedStockProduct = null">×</button>
@@ -390,14 +390,14 @@
       </div>
 
       <div class="form-group">
-        <label for="stockAmount"> Amount </label>
+        <label for="stockAmount"> New Stock Quantity </label>
 
         <input
           id="stockAmount"
           type="number"
           [(ngModel)]="stockAmount"
           name="stockAmount"
-          min="1"
+          min="0"
           step="1"
           placeholder="Enter amount"
         />
@@ -411,10 +411,10 @@
         <button
           type="button"
           class="save-btn"
-          [disabled]="stockAmount <= 0"
-          (click)="increaseStock()"
+          [disabled]="stockAmount < 0"
+          (click)="setStock()"
         >
-          Add Stock
+          Update Stock
         </button>
       </div>
     </div>

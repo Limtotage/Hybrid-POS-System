@@ -164,29 +164,8 @@ export class Products {
   }
   openStockModal(product: any): void {
     this.selectedStockProduct = product;
-    this.stockAmount = 0;
+    this.stockAmount = product.stockQuantity;
   }
-  increaseStock(): void {
-    if (!this.selectedStockProduct || this.stockAmount <= 0) {
-      return;
-    }
-
-    this.productService.increaseStock(this.selectedStockProduct.id, this.stockAmount).subscribe({
-      next: () => {
-        alert('Stok başarıyla güncellendi.');
-
-        this.selectedStockProduct = null;
-        this.stockAmount = 0;
-
-        this.getProducts();
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Stok güncellenemedi.');
-      },
-    });
-  }
-
   onUpdateImageSelected(event: any): void {
     const file = event.target.files[0];
 
@@ -231,6 +210,26 @@ export class Products {
         } else {
           alert('Ürün güncellenemedi.');
         }
+      },
+    });
+  }
+  setStock(): void {
+    if (!this.selectedStockProduct || this.stockAmount < 0) {
+      return;
+    }
+
+    this.productService.adjustStock(this.selectedStockProduct.id, this.stockAmount).subscribe({
+      next: () => {
+        alert('Stok başarıyla güncellendi.');
+
+        this.selectedStockProduct = null;
+        this.stockAmount = 0;
+
+        this.getProducts();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Stok güncellenemedi.');
       },
     });
   }

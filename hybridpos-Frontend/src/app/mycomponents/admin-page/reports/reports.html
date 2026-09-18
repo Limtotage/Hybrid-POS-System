@@ -1,6 +1,7 @@
 <div class="reports-page">
 
   <!-- PAGE HEADER -->
+
   <div class="page-header">
 
     <div>
@@ -18,11 +19,26 @@
         <span>⌄</span>
       </button>
 
-      <button class="export-btn" disabled>
+      <button
+        class="export-btn"
+        disabled>
+
         ↓ Export
+
       </button>
 
     </div>
+
+  </div>
+
+
+  <!-- ERROR -->
+
+  <div
+    class="error-message"
+    *ngIf="error">
+
+    Report data could not be loaded.
 
   </div>
 
@@ -41,10 +57,6 @@
           ₺
         </div>
 
-        <span class="coming-soon">
-          Coming Soon
-        </span>
-
       </div>
 
       <span class="summary-title">
@@ -52,7 +64,7 @@
       </span>
 
       <strong>
-        ₺0.00
+        {{ formatCurrency(monthSummary?.totalRevenue) }}
       </strong>
 
       <small>
@@ -72,10 +84,6 @@
           #
         </div>
 
-        <span class="coming-soon">
-          Coming Soon
-        </span>
-
       </div>
 
       <span class="summary-title">
@@ -83,7 +91,7 @@
       </span>
 
       <strong>
-        0
+        {{ monthSummary?.totalSales || 0 }}
       </strong>
 
       <small>
@@ -134,10 +142,6 @@
           □
         </div>
 
-        <span class="coming-soon">
-          Coming Soon
-        </span>
-
       </div>
 
       <span class="summary-title">
@@ -145,7 +149,7 @@
       </span>
 
       <strong>
-        0
+        {{ totalProductsSold }}
       </strong>
 
       <small>
@@ -155,6 +159,7 @@
     </div>
 
   </div>
+
 
 
   <!-- MAIN REPORTS -->
@@ -170,7 +175,9 @@
 
         <div>
 
-          <h2>Sales Overview</h2>
+          <h2>
+            Sales Overview
+          </h2>
 
           <p>
             Sales performance over time
@@ -185,24 +192,63 @@
       </div>
 
 
-      <div class="chart-placeholder">
+      <div class="sales-summary">
 
-        <div class="chart-icon">
-          📊
+        <div class="sales-summary-item">
+
+          <span>
+            Revenue
+          </span>
+
+          <strong>
+            {{ formatCurrency(monthSummary?.totalRevenue) }}
+          </strong>
+
         </div>
 
-        <h3>
-          Sales analytics will appear here
-        </h3>
 
-        <p>
-          This section will show your daily and monthly
-          sales performance.
-        </p>
+        <div class="sales-summary-item">
+
+          <span>
+            Cash
+          </span>
+
+          <strong>
+            {{ formatCurrency(monthSummary?.totalCash) }}
+          </strong>
+
+        </div>
+
+
+        <div class="sales-summary-item">
+
+          <span>
+            Card
+          </span>
+
+          <strong>
+            {{ formatCurrency(monthSummary?.totalCard) }}
+          </strong>
+
+        </div>
+
+
+        <div class="sales-summary-item">
+
+          <span>
+            Transactions
+          </span>
+
+          <strong>
+            {{ monthSummary?.totalSales || 0 }}
+          </strong>
+
+        </div>
 
       </div>
 
     </div>
+
 
 
     <!-- TOP PRODUCTS -->
@@ -213,7 +259,9 @@
 
         <div>
 
-          <h2>Top Selling Products</h2>
+          <h2>
+            Top Selling Products
+          </h2>
 
           <p>
             Best performing products
@@ -228,7 +276,9 @@
       </div>
 
 
-      <div class="empty-report">
+      <div
+        class="empty-report"
+        *ngIf="topSellingProducts.length === 0">
 
         <div class="empty-icon">
           ★
@@ -240,7 +290,44 @@
 
       </div>
 
+
+      <div
+        class="top-products"
+        *ngIf="topSellingProducts.length > 0">
+
+        <div
+          class="top-product-row"
+          *ngFor="
+            let product of topSellingProducts;
+            let i = index
+          ">
+
+          <div class="product-rank">
+            {{ i + 1 }}
+          </div>
+
+          <div class="product-details">
+
+            <strong>
+              {{ product.productName }}
+            </strong>
+
+            <small>
+              {{ product.barcode }}
+            </small>
+
+          </div>
+
+          <strong class="product-quantity">
+            {{ product.soldQuantity }}
+          </strong>
+
+        </div>
+
+      </div>
+
     </div>
+
 
 
     <!-- SUPPLIER REPORT -->
@@ -251,7 +338,9 @@
 
         <div>
 
-          <h2>Supplier Report</h2>
+          <h2>
+            Supplier Report
+          </h2>
 
           <p>
             Wholesale and purchasing overview
@@ -260,22 +349,39 @@
         </div>
 
         <span class="report-badge supplier">
-          Coming Soon
+          Active
         </span>
 
       </div>
 
 
-      <div class="supplier-preview">
+      <div
+        class="empty-report"
+        *ngIf="supplierReports.length === 0">
+
+        <div class="empty-icon">
+          📦
+        </div>
+
+        <span>
+          No supplier data yet
+        </span>
+
+      </div>
+
+
+      <div
+        class="supplier-preview"
+        *ngIf="supplierReports.length > 0">
 
         <div class="report-row">
 
           <span>
-            Total Purchases
+            Products
           </span>
 
           <strong>
-            ₺0.00
+            {{ supplierReports.length }}
           </strong>
 
         </div>
@@ -284,11 +390,11 @@
         <div class="report-row">
 
           <span>
-            Purchase Cost
+            Supplied Quantity
           </span>
 
           <strong>
-            ₺0.00
+            {{ totalSuppliedQuantity }}
           </strong>
 
         </div>
@@ -297,11 +403,13 @@
         <div class="report-row">
 
           <span>
-            Active Suppliers
+            Sold Quantity
           </span>
 
           <strong>
-            0
+
+            {{ totalSupplierSoldQuantity }}
+
           </strong>
 
         </div>
@@ -310,11 +418,13 @@
         <div class="report-row">
 
           <span>
-            Products Purchased
+            Remaining Quantity
           </span>
 
           <strong>
-            0
+
+            {{ totalRemainingQuantity }}
+
           </strong>
 
         </div>
@@ -322,6 +432,7 @@
       </div>
 
     </div>
+
 
 
     <!-- PAYMENT REPORT -->
@@ -332,7 +443,9 @@
 
         <div>
 
-          <h2>Payment Summary</h2>
+          <h2>
+            Payment Summary
+          </h2>
 
           <p>
             Payment method distribution
@@ -341,7 +454,7 @@
         </div>
 
         <span class="report-badge">
-          Coming Soon
+          This Month
         </span>
 
       </div>
@@ -349,15 +462,21 @@
 
       <div class="payment-preview">
 
+
         <div class="payment-item">
 
           <div class="payment-label">
-            <span class="payment-dot cash"></span>
+
+            <span
+              class="payment-dot cash">
+            </span>
+
             Cash
+
           </div>
 
           <strong>
-            ₺0.00
+            {{ formatCurrency(monthSummary?.totalCash) }}
           </strong>
 
         </div>
@@ -366,12 +485,17 @@
         <div class="payment-item">
 
           <div class="payment-label">
-            <span class="payment-dot card"></span>
+
+            <span
+              class="payment-dot card">
+            </span>
+
             Card
+
           </div>
 
           <strong>
-            ₺0.00
+            {{ formatCurrency(monthSummary?.totalCard) }}
           </strong>
 
         </div>
@@ -380,8 +504,13 @@
         <div class="payment-item">
 
           <div class="payment-label">
-            <span class="payment-dot mixed"></span>
+
+            <span
+              class="payment-dot mixed">
+            </span>
+
             Mixed
+
           </div>
 
           <strong>
@@ -397,6 +526,7 @@
   </div>
 
 
+
   <!-- FUTURE REPORTS -->
 
   <div class="future-section">
@@ -405,7 +535,9 @@
 
       <div>
 
-        <h2>More Reports</h2>
+        <h2>
+          More Reports
+        </h2>
 
         <p>
           Additional analytics will be available here.
@@ -426,11 +558,15 @@
         </div>
 
         <div>
-          <h3>Inventory Report</h3>
+
+          <h3>
+            Inventory Report
+          </h3>
 
           <p>
             Stock movements and inventory value.
           </p>
+
         </div>
 
         <span>
@@ -447,11 +583,15 @@
         </div>
 
         <div>
-          <h3>Profit Analysis</h3>
+
+          <h3>
+            Profit Analysis
+          </h3>
 
           <p>
             Purchase cost vs sales revenue.
           </p>
+
         </div>
 
         <span>
@@ -468,11 +608,15 @@
         </div>
 
         <div>
-          <h3>Best Sellers</h3>
+
+          <h3>
+            Best Sellers
+          </h3>
 
           <p>
             Most sold products and categories.
           </p>
+
         </div>
 
         <span>
@@ -489,11 +633,15 @@
         </div>
 
         <div>
-          <h3>Cashier Performance</h3>
+
+          <h3>
+            Cashier Performance
+          </h3>
 
           <p>
             Sales performance by cashier.
           </p>
+
         </div>
 
         <span>
@@ -502,9 +650,9 @@
 
       </div>
 
-
     </div>
 
   </div>
 
 </div>
+
