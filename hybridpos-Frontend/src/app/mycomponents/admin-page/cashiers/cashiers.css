@@ -1,175 +1,499 @@
+/* =====================================================
+   CASHIERS PAGE
+===================================================== */
+
 .cashiers-page {
-  max-width: 100%;
+  width: 100%;
 }
 
+/* =====================================================
+   PAGE HEADER
+===================================================== */
 
 .page-header {
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
 }
-
 
 .page-header h1 {
   margin: 0 0 5px;
-
   font-size: 21px;
+  color: #263238;
 }
-
 
 .page-header p {
   margin: 0;
-
   color: #89958f;
-
   font-size: 11px;
 }
 
+/* =====================================================
+   ADD CASHIER BUTTON
+===================================================== */
 
-.cashier-card {
-  width: 100%;
+.add-cashier-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 7px;
+  background: #198754;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
 
-  max-width: 650px;
+.add-cashier-btn:hover {
+  background: #157347;
+}
 
-  padding: 22px;
+/* =====================================================
+   LOADING / EMPTY
+===================================================== */
 
+.loading-state,
+.empty-state {
+  padding: 50px 20px;
+  text-align: center;
   background: white;
-
   border: 1px solid #e5ebe8;
-
   border-radius: 8px;
 }
 
+.loading-state {
+  color: #89958f;
+  font-size: 12px;
+}
 
-.card-title {
+.empty-icon {
+  margin-bottom: 12px;
+  font-size: 30px;
+}
+
+.empty-state h3 {
+  margin: 0 0 6px;
+  color: #263238;
+  font-size: 15px;
+}
+
+.empty-state p {
+  margin: 0 0 18px;
+  color: #89958f;
+  font-size: 11px;
+}
+
+/* =====================================================
+   CASHIER GRID
+===================================================== */
+
+.cashier-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* =====================================================
+   CASHIER CARD
+===================================================== */
+
+.cashier-card {
+  padding: 20px;
+  background: white;
+  border: 1px solid #e5ebe8;
+  border-radius: 8px;
+  transition: 0.2s ease;
+}
+
+.cashier-card:hover {
+  border-color: #d5e2dc;
+}
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.cashier-card-header {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #edf0ee;
+}
 
+.cashier-user {
+  display: flex;
   align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
 
+.cashier-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #e8f6ef;
+  color: #198754;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cashier-user h2 {
+  margin: 0 0 4px;
+  color: #263238;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cashier-id {
+  color: #9aa49f;
+  font-size: 10px;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px 9px;
+  border-radius: 20px;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.status-badge.active {
+  background: #e8f6ef;
+  color: #198754;
+}
+
+.status-badge.inactive {
+  background: #f1f3f2;
+  color: #89958f;
+}
+
+/* =====================================================
+   CASHIER INFO
+===================================================== */
+
+.cashier-card-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
 
-  padding-bottom: 18px;
+  margin-top: 17px;
+}
 
-  margin-bottom: 20px;
+.cashier-info-item {
+  padding: 13px;
+  background: #f8faf9;
+  border: 1px solid #edf0ee;
+  border-radius: 7px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cashier-info-item span {
+  color: #89958f;
+  font-size: 10px;
+}
+
+.cashier-info-item strong {
+  color: #263238;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =====================================================
+   CARD ACTIONS
+===================================================== */
+
+.cashier-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  margin-top: 17px;
+  padding-top: 15px;
+
+  border-top: 1px solid #edf0ee;
+}
+
+.edit-btn,
+.delete-btn {
+  height: 32px;
+  padding: 0 13px;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.edit-btn {
+  border: 1px solid #dfe6e2;
+  background: white;
+  color: #198754;
+}
+
+.edit-btn:hover {
+  background: #e8f6ef;
+}
+
+.delete-btn {
+  border: none;
+  background: #fcebea;
+  color: #dc3545;
+}
+
+.delete-btn:hover {
+  background: #f8d7da;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(20, 30, 25, 0.35);
+
+  z-index: 1000;
+}
+
+.cashier-modal {
+  width: 100%;
+  max-width: 460px;
+
+  background: white;
+  border-radius: 10px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+
+  overflow: hidden;
+}
+
+/* =====================================================
+   MODAL HEADER
+===================================================== */
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding: 20px 22px;
 
   border-bottom: 1px solid #edf0ee;
 }
 
+.modal-header h2 {
+  margin: 0 0 5px;
 
-.title-icon {
-  width: 40px;
-  height: 40px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 7px;
-
-  background: #e8f6ef;
-
-  color: #198754;
-
-  font-size: 22px;
+  color: #263238;
+  font-size: 16px;
 }
 
-
-.card-title h2 {
-  margin: 0 0 3px;
-
-  font-size: 15px;
-}
-
-
-.card-title p {
+.modal-header p {
   margin: 0;
 
-  color: #929c97;
-
+  color: #89958f;
   font-size: 10px;
 }
 
+.modal-close {
+  width: 30px;
+  height: 30px;
 
-.form-group {
+  border: none;
+  border-radius: 6px;
+
+  background: #f5f7f6;
+  color: #69756f;
+
+  font-size: 20px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: #e8f6ef;
+  color: #198754;
+}
+
+/* =====================================================
+   MODAL CONTENT
+===================================================== */
+
+.modal-content {
+  padding: 22px;
+}
+
+.modal-content .form-group {
   display: flex;
-
   flex-direction: column;
-
   margin-bottom: 17px;
 }
 
+.modal-content .form-group:last-child {
+  margin-bottom: 0;
+}
 
-.form-group label {
+.modal-content label {
   margin-bottom: 7px;
 
   color: #53615b;
-
   font-size: 11px;
-
   font-weight: 600;
 }
 
-
-.form-group input {
+.modal-content input {
+  width: 100%;
   height: 40px;
 
   padding: 0 12px;
 
-  border: 1px solid #dfe6e2;
+  box-sizing: border-box;
 
+  border: 1px solid #dfe6e2;
   border-radius: 6px;
 
   outline: none;
 
+  color: #263238;
   font-size: 11px;
 }
 
-
-.form-group input:focus {
+.modal-content input:focus {
   border-color: #198754;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(25, 135, 84, .08);
+  box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.08);
 }
 
+.modal-content small {
+  margin-top: 6px;
 
-.form-actions {
+  color: #9aa49f;
+  font-size: 9px;
+}
+
+/* =====================================================
+   MODAL FOOTER
+===================================================== */
+
+.modal-footer {
   display: flex;
-
   justify-content: flex-end;
+  gap: 8px;
 
-  margin-top: 10px;
+  padding: 15px 22px;
+
+  border-top: 1px solid #edf0ee;
 }
 
-
-.form-actions button {
-  height: 38px;
-
-  padding: 0 18px;
-
-  border: none;
+.cancel-btn,
+.save-btn {
+  height: 36px;
+  padding: 0 15px;
 
   border-radius: 6px;
 
-  background: #198754;
-
-  color: white;
-
-  font-size: 11px;
-
+  font-size: 10px;
   font-weight: 600;
 
   cursor: pointer;
 }
 
+.cancel-btn {
+  border: 1px solid #dfe6e2;
+  background: white;
+  color: #69756f;
+}
 
-.form-actions button:hover {
+.cancel-btn:hover {
+  background: #f5f7f6;
+}
+
+.save-btn {
+  border: none;
+  background: #198754;
+  color: white;
+}
+
+.save-btn:hover {
   background: #157347;
 }
 
-
-.form-actions button:disabled {
-  opacity: .5;
-
+.save-btn:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+  .cashier-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .add-cashier-btn {
+    width: 100%;
+  }
+
+  .cashier-card {
+    padding: 16px;
+  }
+
+  .cashier-card-header {
+    flex-direction: column;
+  }
+
+  .cashier-card-info {
+    grid-template-columns: 1fr;
+  }
+
+  .cashier-card-actions {
+    justify-content: stretch;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    flex: 1;
+  }
 }

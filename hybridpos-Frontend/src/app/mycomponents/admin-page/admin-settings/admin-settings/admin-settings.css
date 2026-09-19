@@ -1,0 +1,234 @@
+/* =====================================================
+   SETTINGS PAGE
+===================================================== */
+
+.settings-page {
+  width: 100%;
+}
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.page-header {
+  margin-bottom: 22px;
+}
+
+.page-header h1 {
+  margin: 0 0 5px;
+  color: #263238;
+  font-size: 21px;
+}
+
+.page-header p {
+  margin: 0;
+  color: #89958f;
+  font-size: 11px;
+}
+
+/* =====================================================
+   SETTINGS CARD
+===================================================== */
+
+.settings-card {
+  width: 100%;
+  max-width: 650px;
+
+  background: white;
+  border: 1px solid #e5ebe8;
+  border-radius: 8px;
+}
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.settings-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 20px 22px;
+
+  border-bottom: 1px solid #edf0ee;
+}
+
+.settings-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+  background: #e8f6ef;
+  color: #198754;
+
+  font-size: 20px;
+}
+
+.settings-card-header h2 {
+  margin: 0 0 4px;
+
+  color: #263238;
+  font-size: 15px;
+}
+
+.settings-card-header p {
+  margin: 0;
+
+  color: #929c97;
+  font-size: 10px;
+}
+
+/* =====================================================
+   SETTINGS CONTENT
+===================================================== */
+
+.settings-content {
+  padding: 22px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 18px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+
+  color: #53615b;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  border: 1px solid #dfe6e2;
+  border-radius: 6px;
+
+  outline: none;
+
+  color: #263238;
+  font-size: 11px;
+}
+
+.form-group input:focus {
+  border-color: #198754;
+
+  box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.08);
+}
+
+.form-group small {
+  margin-top: 6px;
+
+  color: #9aa49f;
+  font-size: 9px;
+}
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 15px 22px;
+
+  border-top: 1px solid #edf0ee;
+}
+
+.edit-btn {
+  height: 36px;
+  padding: 0 17px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #198754;
+  color: white;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.edit-btn:hover {
+  background: #157347;
+}
+.cancel-btn,
+.save-btn {
+  height: 36px;
+  padding: 0 15px;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cancel-btn {
+  border: 1px solid #dfe6e2;
+  background: white;
+  color: #69756f;
+}
+
+.cancel-btn:hover {
+  background: #f5f7f6;
+}
+
+.save-btn {
+  border: none;
+  background: #198754;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #157347;
+}
+
+.save-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.settings-actions {
+  gap: 8px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+  .settings-card {
+    max-width: 100%;
+  }
+
+  .settings-card-header,
+  .settings-content {
+    padding: 18px;
+  }
+
+  .settings-actions {
+    padding: 14px 18px;
+  }
+}

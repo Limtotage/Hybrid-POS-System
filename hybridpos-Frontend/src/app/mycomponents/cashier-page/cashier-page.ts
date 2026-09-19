@@ -67,6 +67,7 @@ export class CashierPage {
         }
 
         this.cashRegistersLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Kasalar alınamadı:', err);

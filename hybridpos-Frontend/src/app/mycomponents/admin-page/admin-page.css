@@ -2,7 +2,6 @@
   width: 100%;
 }
 
-
 .page-header {
   display: flex;
 
@@ -13,7 +12,6 @@
   margin-bottom: 22px;
 }
 
-
 .page-header h1 {
   margin: 0 0 5px;
 
@@ -22,7 +20,6 @@
   font-size: 21px;
 }
 
-
 .page-header p {
   margin: 0;
 
@@ -30,7 +27,6 @@
 
   font-size: 11px;
 }
-
 
 .refresh-btn {
   height: 34px;
@@ -48,7 +44,6 @@
   cursor: pointer;
 }
 
-
 /* =========================
    STAT CARDS
 ========================= */
@@ -56,14 +51,12 @@
 .stats-grid {
   display: grid;
 
-  grid-template-columns:
-    repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   gap: 14px;
 
   margin-bottom: 18px;
 }
-
 
 .stat-card {
   min-height: 125px;
@@ -83,7 +76,6 @@
   border-radius: 8px;
 }
 
-
 .stat-icon {
   width: 45px;
   height: 45px;
@@ -102,30 +94,25 @@
   font-weight: bold;
 }
 
-
 .stat-icon.green {
   background: #e8f6ef;
   color: #198754;
 }
-
 
 .stat-icon.blue {
   background: #edf4ff;
   color: #3b82f6;
 }
 
-
 .stat-icon.purple {
   background: #f3efff;
   color: #7c3aed;
 }
 
-
 .stat-icon.orange {
   background: #fff4e8;
   color: #f59e0b;
 }
-
 
 .stat-info span {
   display: block;
@@ -134,7 +121,6 @@
 
   font-size: 10px;
 }
-
 
 .stat-info strong {
   display: block;
@@ -146,13 +132,11 @@
   font-size: 19px;
 }
 
-
 .stat-info small {
   color: #a2aba6;
 
   font-size: 9px;
 }
-
 
 /* =========================
    DASHBOARD GRID
@@ -161,12 +145,10 @@
 .dashboard-grid {
   display: grid;
 
-  grid-template-columns:
-    2fr 1fr;
+  grid-template-columns: 2fr 1fr;
 
   gap: 15px;
 }
-
 
 .dashboard-card {
   min-height: 320px;
@@ -180,7 +162,6 @@
   padding: 18px;
 }
 
-
 .card-header {
   display: flex;
 
@@ -193,20 +174,17 @@
   border-bottom: 1px solid #edf0ee;
 }
 
-
 .card-header h3 {
   margin: 0 0 4px;
 
   font-size: 14px;
 }
 
-
 .card-header span {
   color: #929c97;
 
   font-size: 9px;
 }
-
 
 .card-header button {
   border: none;
@@ -219,7 +197,6 @@
 
   cursor: pointer;
 }
-
 
 /* =========================
    EMPTY
@@ -241,13 +218,11 @@
   text-align: center;
 }
 
-
 .empty-dashboard div {
   margin-bottom: 10px;
 
   font-size: 30px;
 }
-
 
 .empty-dashboard p {
   margin: 0 0 5px;
@@ -257,11 +232,9 @@
   font-size: 12px;
 }
 
-
 .empty-dashboard small {
   font-size: 9px;
 }
-
 
 /* =========================
    QUICK ACTIONS
@@ -276,7 +249,6 @@
 
   margin-top: 18px;
 }
-
 
 .quick-actions a {
   height: 50px;
@@ -300,7 +272,6 @@
   font-size: 11px;
 }
 
-
 .quick-actions a:hover {
   background: #eef8f3;
 
@@ -308,7 +279,6 @@
 
   color: #198754;
 }
-
 
 .quick-actions a span {
   width: 25px;
@@ -327,23 +297,147 @@
 
   font-size: 16px;
 }
-
-
-@media (max-width: 1000px) {
-
-  .stats-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-
+.recent-sales {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
+/* ================================
+   SALE ROW
+================================ */
+
+.sale-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 24px;
+
+  padding: 16px 0;
+
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sale-row:last-child {
+  border-bottom: none;
+}
+
+/* ================================
+   SALE INFO
+================================ */
+
+.sale-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sale-info strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.sale-info span {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* ================================
+   PAYMENT TYPE
+================================ */
+
+.sale-payment {
+  min-width: 75px;
+  text-align: center;
+}
+
+.sale-payment span {
+  display: inline-block;
+
+  padding: 5px 10px;
+
+  border-radius: 6px;
+
+  background: #f1f3f5;
+
+  color: #495057;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ================================
+   SALE TOTAL
+================================ */
+
+.sale-total {
+  min-width: 100px;
+
+  text-align: right;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #198754;
+}
+
+/* ================================
+   EMPTY STATE
+================================ */
+
+.recent-sales .empty-dashboard {
+  padding: 35px 20px;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
 
 @media (max-width: 700px) {
+  .sale-row {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
 
+  .sale-payment {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .sale-total {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+}
+
+@media (max-width: 500px) {
+  .sale-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .sale-payment {
+    text-align: left;
+  }
+
+  .sale-total {
+    text-align: left;
+  }
+}
+
+@media (max-width: 1000px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
   .stats-grid,
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-
 }

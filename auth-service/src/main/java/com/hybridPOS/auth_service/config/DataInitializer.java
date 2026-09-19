@@ -9,34 +9,33 @@ import com.hybridPOS.auth_service.entity.MyUser;
 import com.hybridPOS.auth_service.enums.Role;
 import com.hybridPOS.auth_service.repository.UserRepository;
 
-
-
 @Configuration
 public class DataInitializer {
 
-    @Bean
-    CommandLineRunner createAdmin(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder) {
+@Bean
+CommandLineRunner createAdmin(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder) {
 
-        return args -> {
+    return args -> {
 
-            if (userRepository.findByUsername("admin").isEmpty()) {
+        if (userRepository.findFirstByRole(Role.ADMIN).isEmpty()) {
 
-                MyUser admin = new MyUser();
+            MyUser admin = new MyUser();
 
-                admin.setUsername("admin");
-                admin.setPassword(passwordEncoder.encode("admin123"));
-                admin.setRole(Role.ADMIN);
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole(Role.ADMIN);
+            admin.setEnabled(true);
 
-                userRepository.save(admin);
+            userRepository.save(admin);
 
-                System.out.println("=================================");
-                System.out.println("DEFAULT ADMIN CREATED");
-                System.out.println("Username: admin");
-                System.out.println("Password: admin123");
-                System.out.println("=================================");
-            }
-        };
-    }
+            System.out.println("=================================");
+            System.out.println("DEFAULT ADMIN CREATED");
+            System.out.println("Username: admin");
+            System.out.println("Password: admin123");
+            System.out.println("=================================");
+        }
+    };
+}
 }

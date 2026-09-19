@@ -1,0 +1,434 @@
+/* =====================================================
+   CASH REGISTERS PAGE
+===================================================== */
+
+.cash-registers-page {
+  width: 100%;
+}
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.page-header h1 {
+  margin: 0 0 5px;
+  font-size: 21px;
+  color: #263238;
+}
+
+.page-header p {
+  margin: 0;
+  color: #89958f;
+  font-size: 11px;
+}
+
+/* =====================================================
+   ADD CASH REGISTER BUTTON
+===================================================== */
+
+.add-cash-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 7px;
+  background: #198754;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.add-cash-btn:hover {
+  background: #157347;
+}
+
+/* =====================================================
+   LOADING / EMPTY
+===================================================== */
+
+.loading-state,
+.empty-state {
+  padding: 50px 20px;
+  text-align: center;
+  background: white;
+  border: 1px solid #e5ebe8;
+  border-radius: 8px;
+}
+
+.loading-state {
+  color: #89958f;
+  font-size: 12px;
+}
+
+.empty-icon {
+  margin-bottom: 12px;
+  font-size: 30px;
+}
+
+.empty-state h3 {
+  margin: 0 0 6px;
+  color: #263238;
+  font-size: 15px;
+}
+
+.empty-state p {
+  margin: 0 0 18px;
+  color: #89958f;
+  font-size: 11px;
+}
+
+/* =====================================================
+   CASH REGISTER GRID
+===================================================== */
+
+.cash-register-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* =====================================================
+   CASH REGISTER CARD
+===================================================== */
+
+.cash-register-card {
+  padding: 20px;
+  background: white;
+  border: 1px solid #e5ebe8;
+  border-radius: 8px;
+  transition: 0.2s ease;
+}
+
+.cash-register-card:hover {
+  border-color: #d5e2dc;
+}
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.cash-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #edf0ee;
+}
+
+.cash-card-header h2 {
+  margin: 0 0 4px;
+  color: #263238;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cash-id {
+  color: #9aa49f;
+  font-size: 10px;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.status-badge.open {
+  background: #e8f6ef;
+  color: #198754;
+}
+
+.status-badge.closed {
+  background: #f1f3f2;
+  color: #89958f;
+}
+
+/* =====================================================
+   CASH REGISTER INFO
+===================================================== */
+
+.cash-card-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 17px;
+}
+
+.cash-info-item {
+  padding: 13px;
+  background: #f8faf9;
+  border: 1px solid #edf0ee;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cash-info-item span {
+  color: #89958f;
+  font-size: 10px;
+}
+
+.cash-info-item strong {
+  color: #263238;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =====================================================
+   CARD ACTIONS
+===================================================== */
+
+.cash-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 17px;
+  padding-top: 15px;
+  border-top: 1px solid #edf0ee;
+}
+
+.delete-btn {
+  height: 32px;
+  padding: 0 13px;
+  border: none;
+  border-radius: 6px;
+  background: #fcebea;
+  color: #dc3545;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #f8d7da;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 30, 25, 0.35);
+  z-index: 1000;
+}
+
+.cash-modal {
+  width: 100%;
+  max-width: 460px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+/* =====================================================
+   MODAL HEADER
+===================================================== */
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 22px;
+  border-bottom: 1px solid #edf0ee;
+}
+
+.modal-header h2 {
+  margin: 0 0 5px;
+  color: #263238;
+  font-size: 16px;
+}
+
+.modal-header p {
+  margin: 0;
+  color: #89958f;
+  font-size: 10px;
+}
+
+.modal-close {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: #f5f7f6;
+  color: #69756f;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #e8f6ef;
+  color: #198754;
+}
+
+/* =====================================================
+   MODAL CONTENT
+===================================================== */
+
+.modal-content {
+  padding: 22px;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 7px;
+  color: #53615b;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.modal-content input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border: 1px solid #dfe6e2;
+  border-radius: 6px;
+  outline: none;
+  color: #263238;
+  font-size: 11px;
+  transition: 0.2s ease;
+}
+
+.modal-content input:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.08);
+}
+
+.modal-content input::placeholder {
+  color: #a5afaa;
+}
+
+/* =====================================================
+   MODAL FOOTER
+===================================================== */
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 15px 22px;
+  border-top: 1px solid #edf0ee;
+}
+
+.cancel-btn,
+.save-btn {
+  height: 36px;
+  padding: 0 15px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.cancel-btn {
+  border: 1px solid #dfe6e2;
+  background: white;
+  color: #69756f;
+}
+
+.cancel-btn:hover {
+  background: #f5f7f6;
+}
+
+.save-btn {
+  border: none;
+  background: #198754;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #157347;
+}
+
+.save-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+  .cash-register-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .cash-card-info {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .add-cash-btn {
+    width: 100%;
+  }
+
+  .cash-register-card {
+    padding: 16px;
+  }
+
+  .cash-card-header {
+    flex-direction: column;
+  }
+
+  .cash-card-actions {
+    justify-content: stretch;
+  }
+
+  .delete-btn {
+    flex: 1;
+  }
+
+  .cash-modal {
+    width: calc(100% - 30px);
+  }
+
+  .modal-header,
+  .modal-content,
+  .modal-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}

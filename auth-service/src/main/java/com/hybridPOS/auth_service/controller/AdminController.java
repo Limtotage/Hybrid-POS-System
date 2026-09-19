@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hybridPOS.auth_service.dto.RegisterCashierDTO;
+import com.hybridPOS.auth_service.dto.UpdateAdminDTO;
 import com.hybridPOS.auth_service.dto.UpdateCashierDTO;
 import com.hybridPOS.auth_service.service.UserService;
 
@@ -58,6 +59,14 @@ public class AdminController {
 
         return ResponseEntity.ok(
                 userService.getAllCashiers()
+        );
+    }
+    @PutMapping("/update-admin")
+    public ResponseEntity<?> updateAdmin(
+            @RequestBody UpdateAdminDTO dto) {
+
+        return ResponseEntity.ok(
+                userService.updateAdmin(dto)
         );
     }
 }

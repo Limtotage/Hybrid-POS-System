@@ -6,6 +6,7 @@ import { Cashiers } from './cashiers/cashiers';
 import { Products } from './products/products';
 import { Reports } from './reports/reports';
 import { CashRegisters } from './cash-registers/cash-registers';
+import { AdminSettings } from './admin-settings/admin-settings/admin-settings';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'cashier', component: Cashiers },
       { path: 'cash-registers', component: CashRegisters },
       { path: 'reports',component: Reports },
+      { path: 'admin-settings',component: AdminSettings },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

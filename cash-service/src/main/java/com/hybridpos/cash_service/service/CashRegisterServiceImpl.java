@@ -34,7 +34,7 @@ public class CashRegisterServiceImpl
                 cashRegister.setTotalSales(BigDecimal.ZERO);
 
                 cashRegister.setCreatedAt(LocalDateTime.now());
-                cashRegister.setOpen(true);
+                cashRegister.setOpen(false);
 
                 return cashRegisterRepository.save(cashRegister);
         }

@@ -1,0 +1,63 @@
+<div class="settings-page">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>Profile Settings</h1>
+      <p>Manage your account information and password.</p>
+    </div>
+  </div>
+
+  <!-- ACCOUNT SECTION -->
+  <div class="settings-card">
+    <div class="settings-card-header">
+      <div class="settings-icon">👤</div>
+
+      <div>
+        <h2>Account</h2>
+        <p>Update your administrator account information.</p>
+      </div>
+    </div>
+
+    <div class="settings-content">
+      <!-- USERNAME -->
+      <div class="form-group">
+        <label for="username"> Username </label>
+
+        <input
+          id="username"
+          type="text"
+          [(ngModel)]="admin.username"
+          [disabled]="!isEditMode"
+          placeholder="Enter username"
+        />
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form-group" *ngIf="isEditMode">
+        <label for="password"> New Password </label>
+
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="admin.password"
+          placeholder="Leave blank to keep current password"
+        />
+
+        <small> Leave blank if you don't want to change your password. </small>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="settings-actions">
+      <button *ngIf="!isEditMode" type="button" class="edit-btn" (click)="startEdit()">Edit</button>
+
+      <ng-container *ngIf="isEditMode">
+        <button type="button" class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+
+        <button type="button" class="save-btn" [disabled]="saving" (click)="saveChanges()">
+          {{ saving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>

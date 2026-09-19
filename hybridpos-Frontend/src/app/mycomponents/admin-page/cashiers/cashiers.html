@@ -1,86 +1,143 @@
 <div class="cashiers-page">
+  <!-- PAGE HEADER -->
 
   <div class="page-header">
-
     <div>
       <h1>Cashiers</h1>
-
-      <p>
-        Manage your shop cashiers.
-      </p>
+      <p>Manage your shop cashiers.</p>
     </div>
 
+    <button type="button" class="add-cashier-btn" (click)="openAddModal()">+ Add Cashier</button>
   </div>
 
+  <!-- LOADING -->
 
-  <div class="cashier-card">
+  <div class="loading-state" *ngIf="loading">Loading cashiers...</div>
 
-    <div class="card-title">
+  <!-- EMPTY -->
 
-      <div class="title-icon">
-        +
-      </div>
+  <div class="empty-state" *ngIf="!loading && cashiers.length === 0">
+    <div class="empty-icon">👤</div>
 
-      <div>
-        <h2>Add Cashier</h2>
-        <p>Create a new cashier account.</p>
-      </div>
+    <h3>No Cashiers</h3>
 
-    </div>
+    <p>Create your first cashier account to get started.</p>
 
+    <button type="button" class="add-cashier-btn" (click)="openAddModal()">+ Add Cashier</button>
+  </div>
 
-    <form
-      #cashierForm="ngForm"
-      (ngSubmit)="createCashier(cashierForm)"
-    >
+  <!-- CASHIER GRID -->
 
-      <div class="form-group">
+  <div class="cashier-grid" *ngIf="!loading && cashiers.length > 0">
+    <div class="cashier-card" *ngFor="let cashier of cashiers">
+      <div class="cashier-card-header">
+        <div class="cashier-user">
+          <div class="cashier-avatar">
+            {{ cashier.username.charAt(0).toUpperCase() }}
+          </div>
 
-        <label>
-          Username
-        </label>
+          <div>
+            <h2>
+              {{ cashier.username }}
+            </h2>
 
-        <input
-          type="text"
-          placeholder="Enter username"
-          [(ngModel)]="cashier.username"
-          name="username"
-          required
-        />
+            <span class="cashier-id"> Cashier #{{ cashier.id }} </span>
+          </div>
+        </div>
 
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Password
-        </label>
-
-        <input
-          type="password"
-          placeholder="Enter password"
-          [(ngModel)]="cashier.password"
-          name="password"
-          required
-        />
-
-      </div>
-
-
-      <div class="form-actions">
-
-        <button
-          type="submit"
-          [disabled]="!cashierForm.valid"
+        <span
+          class="status-badge"
+          [class.active]="cashier.enabled"
+          [class.inactive]="!cashier.enabled"
         >
-          Add Cashier
-        </button>
-
+          {{ cashier.enabled ? 'ACTIVE' : 'INACTIVE' }}
+        </span>
       </div>
 
-    </form>
+      <div class="cashier-card-info">
+        <div class="cashier-info-item">
+          <span>Username</span>
 
+          <strong>
+            {{ cashier.username }}
+          </strong>
+        </div>
+
+        <div class="cashier-info-item">
+          <span>Role</span>
+
+          <strong>
+            {{ cashier.role }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="cashier-card-actions">
+        <button type="button" class="edit-btn" (click)="openEditModal(cashier)">Edit</button>
+
+        <button type="button" class="delete-btn" (click)="deleteCashier(cashier.id)">Delete</button>
+      </div>
+    </div>
   </div>
+</div>
 
+<!-- ADD / EDIT MODAL -->
+
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="cashier-modal" (click)="$event.stopPropagation()">
+    <!-- MODAL HEADER -->
+
+    <div class="modal-header">
+      <div>
+        <h2>
+          {{ isEditMode ? 'Edit Cashier' : 'Add Cashier' }}
+        </h2>
+
+        <p>
+          {{ isEditMode ? 'Update cashier account information.' : 'Create a new cashier account.' }}
+        </p>
+      </div>
+
+      <button type="button" class="modal-close" (click)="closeModal()">×</button>
+    </div>
+
+    <!-- MODAL CONTENT -->
+
+    <div class="modal-content">
+      <div class="form-group">
+        <label for="cashierUsername"> Username </label>
+
+        <input
+          id="cashierUsername"
+          type="text"
+          [(ngModel)]="cashier.username"
+          placeholder="Enter username"
+          maxlength="100"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="cashierPassword"> Password </label>
+
+        <input
+          id="cashierPassword"
+          type="password"
+          [(ngModel)]="cashier.password"
+          [placeholder]="isEditMode ? 'Leave blank to keep current password' : 'Enter password'"
+        />
+
+        <small *ngIf="isEditMode"> Leave blank if you don't want to change the password. </small>
+      </div>
+    </div>
+
+    <!-- MODAL FOOTER -->
+
+    <div class="modal-footer">
+      <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+
+      <button type="button" class="save-btn" [disabled]="saving" (click)="saveCashier()">
+        {{ saving ? 'Saving...' : isEditMode ? 'Save Changes' : 'Add Cashier' }}
+      </button>
+    </div>
+  </div>
 </div>

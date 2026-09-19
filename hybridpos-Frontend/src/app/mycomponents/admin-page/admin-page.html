@@ -1,143 +1,147 @@
 <div class="dashboard-page">
-
-  <!-- PAGE HEADER -->
+  <!-- HEADER -->
 
   <div class="page-header">
-
     <div>
       <h1>Dashboard</h1>
 
-      <p>
-        Welcome back, Admin. Here's what's happening today.
-      </p>
+      <p>Welcome back, Admin. Here's what's happening today.</p>
     </div>
 
-    <button class="refresh-btn">
-      ↻ Refresh
+    <button class="refresh-btn" type="button" (click)="refreshDashboard()" [disabled]="loading">
+      ↻ {{ loading ? 'Refreshing...' : 'Refresh' }}
     </button>
-
   </div>
 
-
-  <!-- STAT CARDS -->
+  <!-- STATS -->
 
   <div class="stats-grid">
+    <!-- TOTAL SALES -->
 
     <div class="stat-card">
-
-      <div class="stat-icon green">
-        $
-      </div>
+      <div class="stat-icon green">$</div>
 
       <div class="stat-info">
         <span>Total Sales</span>
-        <strong>₺0.00</strong>
-        <small>Today's sales</small>
-      </div>
 
+        <strong>
+          {{ formatCurrency(totalSales) }}
+        </strong>
+
+        <small> Today's sales </small>
+      </div>
     </div>
 
+    <!-- TOTAL PRODUCTS -->
 
     <div class="stat-card">
-
-      <div class="stat-icon blue">
-        □
-      </div>
+      <div class="stat-icon blue">□</div>
 
       <div class="stat-info">
         <span>Total Products</span>
-        <strong>0</strong>
-        <small>Products in inventory</small>
-      </div>
 
+        <strong>
+          {{ totalProducts }}
+        </strong>
+
+        <small> Products in inventory </small>
+      </div>
     </div>
 
+    <!-- CASHIERS -->
 
     <div class="stat-card">
-
-      <div class="stat-icon purple">
-        ♙
-      </div>
+      <div class="stat-icon purple">♙</div>
 
       <div class="stat-info">
         <span>Cashiers</span>
-        <strong>0</strong>
-        <small>Active cashiers</small>
-      </div>
 
+        <strong>
+          {{ totalCashiers }}
+        </strong>
+
+        <small> Active cashiers </small>
+      </div>
     </div>
 
+    <!-- LOW STOCK -->
 
     <div class="stat-card">
-
-      <div class="stat-icon orange">
-        !
-      </div>
+      <div class="stat-icon orange">!</div>
 
       <div class="stat-info">
         <span>Low Stock</span>
-        <strong>0</strong>
-        <small>Products need attention</small>
+
+        <strong>
+          {{ lowStockProducts }}
+        </strong>
+
+        <small> Products need attention </small>
       </div>
-
     </div>
-
   </div>
 
-
-  <!-- LOWER SECTION -->
+  <!-- DASHBOARD GRID -->
 
   <div class="dashboard-grid">
+    <!-- RECENT SALES -->
 
     <div class="dashboard-card">
-
       <div class="card-header">
-
         <div>
           <h3>Recent Sales</h3>
-          <span>Latest transactions</span>
+
+          <span> Latest transactions </span>
         </div>
 
-        <button>
-          View All
-        </button>
-
+        <button type="button" routerLink="/admin/reports">View All</button>
       </div>
 
+      <div class="recent-sales">
+        <div class="sale-row" *ngFor="let sale of recentSales">
+          <div class="sale-info">
+            <strong> Sale #{{ sale.saleId }} </strong>
 
-      <div class="empty-dashboard">
+            <span>
+              {{ formatDate(sale.createdAt) }}
+            </span>
+          </div>
 
-        <div>
-          📊
+          <div class="sale-payment">
+            <span>
+              {{ sale.paymentType }}
+            </span>
+          </div>
+
+          <div class="sale-total">
+            {{ formatCurrency(sale.totalAmount) }}
+          </div>
         </div>
 
-        <p>
-          No sales yet
-        </p>
+        <!-- EMPTY -->
 
-        <small>
-          Sales will appear here after transactions.
-        </small>
+        <div class="empty-dashboard" *ngIf="recentSales.length === 0">
+          <div>📊</div>
 
+          <p>No sales yet</p>
+
+          <small> Sales will appear here after transactions. </small>
+        </div>
       </div>
-
     </div>
 
+    <!-- QUICK ACTIONS -->
 
     <div class="dashboard-card">
-
       <div class="card-header">
-
         <div>
           <h3>Quick Actions</h3>
-          <span>Frequently used operations</span>
-        </div>
 
+          <span> Frequently used operations </span>
+        </div>
       </div>
 
-
       <div class="quick-actions">
-
         <a routerLink="/admin/products">
           <span>+</span>
           Add Product
@@ -152,11 +156,7 @@
           <span>+</span>
           See Reports
         </a>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

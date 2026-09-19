@@ -40,13 +40,21 @@ export class CashRegisters implements OnInit {
 
         this.cashRegisters = cashRegisters;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Kasalar alınamadı:', err);
         this.loading = false;
       },
     });
-    this.cdr.detach();
+  }
+  formatCurrency(value: number): string {
+    return (
+      new Intl.NumberFormat('tr-TR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(value) + ' ₺'
+    );
   }
 
   openAddModal(): void {
