@@ -1,0 +1,208 @@
+<div class="cash-registers-page">
+
+  <!-- HEADER -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Manage Cash Registers</h1>
+      <p>Manage your store cash registers.</p>
+    </div>
+
+    <button
+      type="button"
+      class="add-cash-btn"
+      (click)="openAddModal()"
+    >
+      + Add Cash Register
+    </button>
+
+  </div>
+
+
+  <!-- LOADING -->
+
+  <div
+    class="loading-state"
+    *ngIf="loading"
+  >
+    Loading cash registers...
+  </div>
+
+
+  <!-- EMPTY -->
+
+  <div
+    class="empty-state"
+    *ngIf="!loading && cashRegisters.length === 0"
+  >
+    <div class="empty-icon">💰</div>
+
+    <h3>No Cash Registers</h3>
+
+    <p>
+      Create your first cash register to get started.
+    </p>
+
+    <button
+      type="button"
+      class="add-cash-btn"
+      (click)="openAddModal()"
+    >
+      + Add Cash Register
+    </button>
+  </div>
+
+
+  <!-- CASH REGISTER LIST -->
+
+  <div
+    class="cash-register-grid"
+    *ngIf="!loading && cashRegisters.length > 0"
+  >
+
+    <div
+      class="cash-register-card"
+      *ngFor="let cash of cashRegisters"
+    >
+
+      <div class="cash-card-header">
+
+        <div>
+          <h2>{{ cash.name }}</h2>
+
+          <span class="cash-id">
+            Cash Register #{{ cash.id }}
+          </span>
+        </div>
+
+        <span
+          class="status-badge"
+          [class.open]="cash.open"
+          [class.closed]="!cash.open"
+        >
+          {{ cash.open ? 'OPEN' : 'CLOSED' }}
+        </span>
+
+      </div>
+
+
+      <div class="cash-card-info">
+
+        <div class="cash-info-item">
+          <span>Total Sales</span>
+
+          <strong>
+            {{ cash.totalSales || 0 | currency:'TRY':'symbol':'1.2-2':'tr-TR' }}
+          </strong>
+        </div>
+
+        <div class="cash-info-item">
+          <span>Cash Sales</span>
+
+          <strong>
+            {{ (cash.totalCashSales || 0) | currency:'TRY':'symbol':'1.2-2':'tr-TR' }}
+          </strong>
+        </div>
+
+        <div class="cash-info-item">
+          <span>Card Sales</span>
+
+          <strong>
+            {{ (cash.totalCardSales || 0) | currency:'TRY':'symbol':'1.2-2':'tr-TR' }}
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div class="cash-card-actions">
+
+        <button
+          type="button"
+          class="delete-btn"
+          (click)="deleteCashRegister(cash.id)"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ADD CASH REGISTER MODAL -->
+
+<div
+  class="modal-overlay"
+  *ngIf="showAddModal"
+  (click)="closeAddModal()"
+>
+
+  <div
+    class="cash-modal"
+    (click)="$event.stopPropagation()"
+  >
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Add Cash Register</h2>
+        <p>Create a new cash register.</p>
+      </div>
+
+      <button
+        type="button"
+        class="modal-close"
+        (click)="closeAddModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-content">
+
+      <label for="cashName">
+        Cash Register Name
+      </label>
+
+      <input
+        id="cashName"
+        type="text"
+        [(ngModel)]="cashRegisterName"
+        placeholder="e.g. Main Cash"
+        maxlength="100"
+      />
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        type="button"
+        class="cancel-btn"
+        (click)="closeAddModal()"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="save-btn"
+        (click)="createCashRegister()"
+      >
+        Add Cash Register
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

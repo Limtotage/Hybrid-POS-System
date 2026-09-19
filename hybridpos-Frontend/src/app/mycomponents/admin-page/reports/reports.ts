@@ -9,7 +9,10 @@ import {
   ProductSalesReport,
   TopSellingProduct,
   SupplierReport,
+  SaleReport,
+  StockMovement,
 } from '../../../services/report/report-models';
+import { ProductService } from '../../../services/product/product-service';
 type ReportPeriod = 'today' | 'week' | 'month' | 'year';
 @Component({
   selector: 'app-reports',
@@ -33,9 +36,11 @@ export class Reports implements OnInit {
   supplierReports: SupplierReport[] = [];
 
   // STATE
-
+  showAllTimeTopProducts = false;
   loading = true;
   error = false;
+  //Sale
+  sales: SaleReport[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -71,6 +76,7 @@ export class Reports implements OnInit {
   loadReports(): void {
     this.loading = true;
     this.error = false;
+    this.showAllTimeTopProducts = false;
 
     let summary$;
     let products$;
@@ -106,12 +112,14 @@ export class Reports implements OnInit {
       products: products$,
       topProducts: topProducts$,
       supplierReports: this.reportService.getAllSupplierReports(),
+      sales: this.reportService.getAllSales(),
     }).subscribe({
       next: (result) => {
         this.monthSummary = result.summary;
         this.monthlyProducts = result.products;
         this.topSellingProducts = result.topProducts;
         this.supplierReports = result.supplierReports;
+        this.sales = result.sales;
 
         this.loading = false;
         this.cdr.detectChanges();
@@ -126,6 +134,24 @@ export class Reports implements OnInit {
         this.cdr.detectChanges();
       },
     });
+  }
+
+  toggleAllTimeTopProducts(): void {
+    this.showAllTimeTopProducts = !this.showAllTimeTopProducts;
+
+    if (this.showAllTimeTopProducts) {
+      this.reportService.getTopSellingProductsAllTime().subscribe({
+        next: (products) => {
+          this.topSellingProducts = products;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('All time top products alınamadı:', error);
+        },
+      });
+    } else {
+      this.loadReports();
+    }
   }
 
   // CALCULATIONS

@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { ProductService } from '../../../services/product/product-service';
+import { StockMovement } from '../../../services/report/report-models';
 
 @Component({
   selector: 'app-products',
@@ -18,6 +19,9 @@ export class Products {
   //stock
   selectedStockProduct: any = null;
   stockAmount = 0;
+  // stock history
+  selectedMovementProduct: any = null;
+  stockMovements: StockMovement[] = [];
   //image
   selectedImage: File | null = null;
   selectedUpdateImage: File | null = null;
@@ -113,7 +117,27 @@ export class Products {
       this.selectedImage = file;
     }
   }
+  openStockHistoryModal(product: any): void {
+    this.selectedMovementProduct = product;
+    this.stockMovements = [];
 
+    this.productService.getStockMovements(product.id).subscribe({
+      next: (movements) => {
+        this.stockMovements = movements;
+        console.log('Stock movements:', movements);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Stock movements alınamadı:', err);
+        alert('Stok hareketleri alınamadı.');
+      },
+    });
+  }
+
+  closeStockHistoryModal(): void {
+    this.selectedMovementProduct = null;
+    this.stockMovements = [];
+  }
   deleteProduct(id: number): void {
     const confirmed = confirm('Bu ürünü silmek istediğinize emin misiniz?');
 

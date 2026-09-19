@@ -3,6 +3,7 @@ package com.hybridpos.cash_service.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class CashRegisterController {
     private final CashRegisterService cashRegisterService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CashRegister> createCashRegister(
             @RequestParam String name) {
 
@@ -35,6 +37,7 @@ public class CashRegisterController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN' ,'CASHIER')")
     public ResponseEntity<List<CashRegister>> getAllCashRegisters() {
 
         return ResponseEntity.ok(
@@ -42,6 +45,7 @@ public class CashRegisterController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN' ,'CASHIER')")
     public ResponseEntity<CashRegister> getCashRegister(
             @PathVariable Long id) {
 
@@ -50,6 +54,7 @@ public class CashRegisterController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCashRegister(
             @PathVariable Long id) {
 
@@ -57,8 +62,10 @@ public class CashRegisterController {
 
         return ResponseEntity.noContent().build();
     }
+    
 
     @PostMapping("/{id}/sale")
+    @PreAuthorize("hasAnyRole('ADMIN' ,'CASHIER')")
     public ResponseEntity<Void> processSale(
             @PathVariable Long id,
             @RequestBody CashSaleDTO dto) {
@@ -74,6 +81,7 @@ public class CashRegisterController {
     }
 
     @PostMapping("/{id}/close")
+    @PreAuthorize("hasAnyRole('CASHIER')")
     public ResponseEntity<Void> closeCashRegister(
             @PathVariable Long id) {
 
@@ -83,6 +91,8 @@ public class CashRegisterController {
     }
 
     @PostMapping("/{id}/open")
+    @PreAuthorize("hasAnyRole('CASHIER')")
+
     public ResponseEntity<Void> openCashRegister(
             @PathVariable Long id) {
 
@@ -92,6 +102,8 @@ public class CashRegisterController {
     }
 
     @PostMapping("/{id}/validate-sale")
+    @PreAuthorize("hasAnyRole('ADMIN' ,'CASHIER')")
+
     public ResponseEntity<Boolean> validateSale(
             @PathVariable Long id) {
 
@@ -100,6 +112,7 @@ public class CashRegisterController {
     }
 
     @GetMapping("/{id}/report")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CashRegisterReportDTO> getCashRegisterReport(
             @PathVariable Long id) {
 

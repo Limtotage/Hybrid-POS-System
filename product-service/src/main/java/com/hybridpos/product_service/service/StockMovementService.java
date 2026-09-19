@@ -22,4 +22,9 @@ public class StockMovementService {
                 StockMovementType.PURCHASE
         );
     }
+
+    public List<StockMovement> getMovements(Long productId) {
+
+        return stockMovementRepository.findByProductId(productId);
+    }
 }

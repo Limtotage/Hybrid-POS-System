@@ -149,11 +149,18 @@
       <div class="report-card-header">
         <div>
           <h2>Top Selling Products</h2>
-
-          <p>Best performing products</p>
+          <p>
+            {{
+              showAllTimeTopProducts
+                ? 'Best selling products of all time'
+                : 'Best performing products'
+            }}
+          </p>
         </div>
 
-        <span class="report-badge"> {{ periodLabel }} </span>
+        <button class="report-badge report-toggle" (click)="toggleAllTimeTopProducts()">
+          {{ showAllTimeTopProducts ? 'All Time' : periodLabel }}
+        </button>
       </div>
 
       <div class="empty-report" *ngIf="topSellingProducts.length === 0">
@@ -191,50 +198,60 @@
       <div class="report-card-header">
         <div>
           <h2>Supplier Report</h2>
-
           <p>Wholesale and purchasing overview</p>
         </div>
 
-        <span class="report-badge supplier"> Active </span>
+        <span class="report-badge supplier">Active</span>
       </div>
+
+      <!-- EMPTY STATE -->
 
       <div class="empty-report" *ngIf="supplierReports.length === 0">
         <div class="empty-icon">📦</div>
-
-        <span> No supplier data yet </span>
+        <span>No supplier data yet</span>
       </div>
 
-      <div class="supplier-preview" *ngIf="supplierReports.length > 0">
-        <div class="report-row">
-          <span> Products </span>
+      <!-- SUPPLIER TABLE -->
 
-          <strong>
-            {{ supplierReports.length }}
-          </strong>
+      <div class="supplier-report-table" *ngIf="supplierReports.length > 0">
+        <!-- HEADER -->
+
+        <div class="supplier-report-header">
+          <span>Product</span>
+          <span>Supplied</span>
+          <span>Sold</span>
+          <span>Remaining</span>
+          <span>Last Supply</span>
         </div>
 
-        <div class="report-row">
-          <span> Supplied Quantity </span>
+        <!-- ROWS -->
+
+        <div class="supplier-report-row" *ngFor="let report of supplierReports">
+          <div class="supplier-product-info">
+            <strong>
+              {{ report.productName }}
+            </strong>
+
+            <small>
+              {{ report.barcode }}
+            </small>
+          </div>
 
           <strong>
-            {{ totalSuppliedQuantity }}
+            {{ report.suppliedQuantity }}
           </strong>
-        </div>
-
-        <div class="report-row">
-          <span> Sold Quantity </span>
 
           <strong>
-            {{ totalSupplierSoldQuantity }}
+            {{ report.soldQuantity }}
           </strong>
-        </div>
-
-        <div class="report-row">
-          <span> Remaining Quantity </span>
 
           <strong>
-            {{ totalRemainingQuantity }}
+            {{ report.remainingQuantity }}
           </strong>
+
+          <span>
+            {{ formatDate(report.lastSupplyDate) }}
+          </span>
         </div>
       </div>
     </div>
@@ -286,6 +303,88 @@
 
           <strong> ₺0.00 </strong>
         </div>
+      </div>
+    </div>
+    <!-- PRODUCT SALES REPORT -->
+    <div class="report-card product-sales-report">
+      <div class="report-card-header">
+        <div>
+          <h2>Product Sales Report</h2>
+          <p>Sales performance by product</p>
+        </div>
+
+        <span class="report-badge">
+          {{ periodLabel }}
+        </span>
+      </div>
+
+      <div class="empty-report" *ngIf="monthlyProducts.length === 0">
+        <div class="empty-icon">📊</div>
+        <span>No product sales data yet</span>
+      </div>
+
+      <div class="product-sales-table" *ngIf="monthlyProducts.length > 0">
+        <div class="product-sales-header">
+          <span>Product</span>
+          <span>Sold</span>
+          <span>Revenue</span>
+        </div>
+
+        <div class="product-sales-row" *ngFor="let product of monthlyProducts">
+          <div class="product-sales-info">
+            <strong>{{ product.productName }}</strong>
+            <small>{{ product.barcode }}</small>
+          </div>
+
+          <strong class="product-sales-quantity">
+            {{ product.soldQuantity }}
+          </strong>
+
+          <strong class="product-sales-revenue">
+            {{ formatCurrency(product.totalRevenue) }}
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- RECENT SALES -->
+  <div class="recent-sales-section">
+    <div class="recent-sales-header">
+      <div>
+        <h2>Recent Sales</h2>
+        <p>Latest completed sales transactions.</p>
+      </div>
+
+      <span class="report-badge">Latest 10</span>
+    </div>
+
+    <div class="empty-report" *ngIf="sales.length === 0">
+      <div class="empty-icon">🧾</div>
+      <span>No sales data yet</span>
+    </div>
+
+    <div class="sales-table" *ngIf="sales.length > 0">
+      <div class="sales-table-header">
+        <span>Sale</span>
+        <span>Payment</span>
+        <span>Amount</span>
+        <span>Date</span>
+      </div>
+
+      <div class="sales-table-row" *ngFor="let sale of sales.slice(0, 10)">
+        <strong> #{{ sale.saleId }} </strong>
+
+        <span class="payment-type">
+          {{ sale.paymentType }}
+        </span>
+
+        <strong class="sale-amount">
+          {{ formatCurrency(sale.totalAmount) }}
+        </strong>
+
+        <span class="sale-date">
+          {{ formatDate(sale.createdAt) }}
+        </span>
       </div>
     </div>
   </div>

@@ -217,6 +217,9 @@
                 <button type="button" class="stock-btn" (click)="openStockModal(product)">
                   Stock
                 </button>
+                <button type="button" class="history-btn" (click)="openStockHistoryModal(product)">
+                  History
+                </button>
 
                 <button type="button" class="delete-btn" (click)="deleteProduct(product.id)">
                   Delete
@@ -408,14 +411,68 @@
           Cancel
         </button>
 
-        <button
-          type="button"
-          class="save-btn"
-          [disabled]="stockAmount < 0"
-          (click)="setStock()"
-        >
+        <button type="button" class="save-btn" [disabled]="stockAmount < 0" (click)="setStock()">
           Update Stock
         </button>
+      </div>
+    </div>
+  </div>
+  <!-- STOCK HISTORY MODAL -->
+
+  <div class="modal-overlay" *ngIf="selectedMovementProduct" (click)="closeStockHistoryModal()">
+    <div class="stock-history-modal" (click)="$event.stopPropagation()">
+      <!-- HEADER -->
+
+      <div class="modal-header">
+        <div>
+          <h2>Stock Movement History</h2>
+          <p>
+            {{ selectedMovementProduct.name }}
+          </p>
+        </div>
+
+        <button type="button" class="modal-close" (click)="closeStockHistoryModal()">×</button>
+      </div>
+
+      <!-- CONTENT -->
+
+      <div class="stock-history-content">
+        <div class="empty-history" *ngIf="stockMovements.length === 0">
+          No stock movements found.
+        </div>
+
+        <div class="stock-history-table" *ngIf="stockMovements.length > 0">
+          <div class="stock-history-header">
+            <span>Date</span>
+            <span>Type</span>
+            <span>Quantity</span>
+          </div>
+
+          <div class="stock-history-row" *ngFor="let movement of stockMovements">
+            <span>
+              {{ movement.createdAt | date: 'dd MMM yyyy, HH:mm' }}
+            </span>
+
+            <span
+              class="movement-type"
+              [class.purchase]="movement.type === 'PURCHASE'"
+              [class.sale]="movement.type === 'SALE'"
+              [class.adjustment]="movement.type === 'ADJUSTMENT'"
+            >
+              {{ movement.type }}
+            </span>
+
+            <strong>
+              {{ movement.quantity }}
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+
+      <div class="modal-footer">
+        <button type="button" class="cancel-btn" (click)="closeStockHistoryModal()">Close</button>
       </div>
     </div>
   </div>

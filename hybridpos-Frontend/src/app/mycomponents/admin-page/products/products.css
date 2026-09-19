@@ -6,7 +6,6 @@
   width: 100%;
 }
 
-
 /* =====================================================
    PAGE HEADER
 ===================================================== */
@@ -21,7 +20,6 @@
   margin-bottom: 20px;
 }
 
-
 .page-header h1 {
   margin: 0 0 5px;
 
@@ -32,7 +30,6 @@
   font-weight: 600;
 }
 
-
 .page-header p {
   margin: 0;
 
@@ -41,13 +38,11 @@
   font-size: 11px;
 }
 
-
 /* =====================================================
    FORM CARD
 ===================================================== */
 
 .product-form-card {
-
   width: 100%;
 
   max-width: 900px;
@@ -59,16 +54,13 @@
   border-radius: 9px;
 
   padding: 24px;
-
 }
-
 
 /* =====================================================
    CARD HEADER
 ===================================================== */
 
 .form-card-header {
-
   display: flex;
 
   align-items: center;
@@ -80,12 +72,9 @@
   margin-bottom: 24px;
 
   border-bottom: 1px solid #edf0ee;
-
 }
 
-
 .header-icon {
-
   width: 42px;
 
   height: 42px;
@@ -105,12 +94,9 @@
   font-size: 23px;
 
   font-weight: 500;
-
 }
 
-
 .form-card-header h2 {
-
   margin: 0 0 4px;
 
   color: #263238;
@@ -118,27 +104,21 @@
   font-size: 15px;
 
   font-weight: 600;
-
 }
 
-
 .form-card-header p {
-
   margin: 0;
 
   color: #929c97;
 
   font-size: 10px;
-
 }
-
 
 /* =====================================================
    FORM GRID
 ===================================================== */
 
 .form-grid {
-
   display: grid;
 
   grid-template-columns: 1fr 1fr;
@@ -146,25 +126,19 @@
   column-gap: 22px;
 
   row-gap: 18px;
-
 }
-
 
 /* =====================================================
    FORM GROUP
 ===================================================== */
 
 .form-group {
-
   display: flex;
 
   flex-direction: column;
-
 }
 
-
 .form-group label {
-
   margin-bottom: 7px;
 
   color: #53615b;
@@ -172,17 +146,14 @@
   font-size: 11px;
 
   font-weight: 600;
-
 }
-
 
 /* =====================================================
    INPUT
 ===================================================== */
 
-.form-group input[type="text"],
-.form-group input[type="number"] {
-
+.form-group input[type='text'],
+.form-group input[type='number'] {
   width: 240px;
 
   height: 40px;
@@ -201,43 +172,29 @@
 
   font-size: 11px;
 
-  transition: .2s;
-
+  transition: 0.2s;
 }
-
 
 .form-group input::placeholder {
-
   color: #aeb7b3;
-
 }
 
-
-.form-group input[type="text"]:focus,
-.form-group input[type="number"]:focus {
-
+.form-group input[type='text']:focus,
+.form-group input[type='number']:focus {
   border-color: #198754;
 
-  box-shadow:
-    0 0 0 2px
-    rgba(25, 135, 84, .08);
-
+  box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.08);
 }
-
 
 /* =====================================================
    PRICE INPUT
 ===================================================== */
 
 .input-with-symbol {
-
   position: relative;
-
 }
 
-
 .input-with-symbol span {
-
   position: absolute;
 
   left: 12px;
@@ -251,32 +208,23 @@
   font-size: 11px;
 
   z-index: 1;
-
 }
-
 
 .input-with-symbol input {
-
   padding-left: 28px !important;
-
 }
-
 
 /* =====================================================
    FILE INPUT
 ===================================================== */
 
 .file-input-wrapper {
-
   position: relative;
 
   height: 40px;
-
 }
 
-
-.file-input-wrapper input[type="file"] {
-
+.file-input-wrapper input[type='file'] {
   width: 240px;
 
   height: 40px;
@@ -294,16 +242,13 @@
   font-size: 10px;
 
   cursor: pointer;
-
 }
-
 
 /* =====================================================
    FORM FOOTER
 ===================================================== */
 
 .form-footer {
-
   display: flex;
 
   align-items: center;
@@ -315,25 +260,19 @@
   padding-top: 18px;
 
   border-top: 1px solid #edf0ee;
-
 }
 
-
 .required-info {
-
   color: #9aa49f;
 
   font-size: 9px;
-
 }
-
 
 /* =====================================================
    ADD PRODUCT BUTTON
 ===================================================== */
 
 .add-product-btn {
-
   height: 40px;
 
   display: flex;
@@ -358,33 +297,23 @@
 
   cursor: pointer;
 
-  transition: .2s;
-
+  transition: 0.2s;
 }
-
 
 .add-product-btn:hover {
-
   background: #157347;
-
 }
 
-
 .add-product-btn span {
-
   font-size: 17px;
 
   line-height: 1;
-
 }
 
-
 .add-product-btn:disabled {
-
   background: #a8cbb9;
 
   cursor: not-allowed;
-
 }
 /* ========================================
    PRODUCT LIST
@@ -426,7 +355,6 @@
   font-weight: 600;
 }
 
-
 /* ========================================
    PRODUCT TABLE
 ======================================== */
@@ -464,7 +392,6 @@
   background: #fafdfb;
 }
 
-
 /* ========================================
    PRODUCT INFO
 ======================================== */
@@ -499,7 +426,6 @@
   color: #222;
 }
 
-
 /* ========================================
    STOCK / STATUS
 ======================================== */
@@ -523,7 +449,6 @@
   background: #f1f1f1;
   color: #777;
 }
-
 
 /* ========================================
    ACTION BUTTONS
@@ -562,7 +487,6 @@
   background: #ffe0e0;
 }
 
-
 /* ========================================
    EMPTY PRODUCTS
 ======================================== */
@@ -572,7 +496,6 @@
   padding: 35px !important;
   color: #888 !important;
 }
-
 
 /* ========================================
    MODAL
@@ -598,7 +521,6 @@
   border-radius: 14px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
 }
-
 
 /* ========================================
    MODAL HEADER
@@ -636,7 +558,6 @@
 .modal-close:hover {
   color: #222;
 }
-
 
 /* ========================================
    UPDATE FORM
@@ -694,7 +615,6 @@
   background: #d9f1e2;
 }
 
-
 /* ========================================
    MODAL FOOTER
 ======================================== */
@@ -736,13 +656,11 @@
   cursor: not-allowed;
 }
 
-
 /* ========================================
    RESPONSIVE
 ======================================== */
 
 @media (max-width: 700px) {
-
   .product-list-section {
     padding: 16px;
   }
@@ -822,6 +740,98 @@
   color: #16a34a;
   font-size: 15px;
 }
+/* ========================================
+   STOCK HISTORY MODAL
+======================================== */
+
+.stock-history-modal {
+  width: 720px;
+  max-width: 90%;
+  max-height: 80vh;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stock-history-content {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.stock-history-table {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.stock-history-header,
+.stock-history-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 0.7fr;
+  align-items: center;
+  padding: 13px 16px;
+}
+
+.stock-history-header {
+  background: #f5f7f6;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.stock-history-row {
+  border-top: 1px solid #edf0ee;
+  color: #374151;
+  font-size: 13px;
+}
+
+.stock-history-row:hover {
+  background: #f8faf9;
+}
+
+.stock-history-row strong {
+  text-align: right;
+  color: #111827;
+}
+
+.movement-type {
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.movement-type.purchase {
+  background: #e8f7ed;
+  color: #23844b;
+}
+
+.movement-type.sale {
+  background: #fff1f0;
+  color: #c2413b;
+}
+
+.movement-type.adjustment {
+  background: #fff8e7;
+  color: #b7791f;
+}
+
+.empty-history {
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.stock-history-modal .modal-footer {
+  border-top: 1px solid #edf0ee;
+}
 
 /* STOCK INPUT */
 
@@ -851,7 +861,9 @@
   color: #1f2937;
 
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .stock-modal .form-group input:focus {
@@ -905,44 +917,30 @@
   }
 }
 
-
 /* =====================================================
    RESPONSIVE
 ===================================================== */
 
 @media (max-width: 700px) {
-
   .product-form-card {
-
     padding: 18px;
-
   }
-
 
   .form-grid {
-
     grid-template-columns: 1fr;
-
   }
 
-
   .form-footer {
-
     align-items: flex-start;
 
     flex-direction: column;
 
     gap: 12px;
-
   }
 
-
   .add-product-btn {
-
     width: 100%;
 
     justify-content: center;
-
   }
-
 }

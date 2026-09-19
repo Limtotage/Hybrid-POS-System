@@ -29,4 +29,21 @@ export interface SupplierReport {
   soldQuantity: number;
   remainingQuantity: number;
 }
+export interface SaleReport {
+  id: number;
+  saleId: number;
+  cashRegisterId: number;
+  totalAmount: number;
+  cashPaid: number;
+  cardPaid: number;
+  paymentType: string;
+  createdAt: string;
+}
+export interface StockMovement {
+  id: number;
+  productId: number;
+  type: 'PURCHASE' | 'SALE' | 'ADJUSTMENT';
+  quantity: number;
+  createdAt: string;
+}
 

@@ -56,7 +56,13 @@ public class CashRegisterServiceImpl
         public void deleteCashRegister(Long id) {
 
                 CashRegister cashRegister = cashRegisterRepository.findById(id)
-                                .orElseThrow(() -> new CashRegisterNotFoundException("Cash register not found"));
+                                .orElseThrow(() -> new CashRegisterNotFoundException(
+                                                "Cash register not found"));
+
+                if (cashRegister.isOpen()) {
+                        throw new CashRegisterException(
+                                        "Open cash register cannot be deleted");
+                }
 
                 cashRegisterRepository.delete(cashRegister);
         }

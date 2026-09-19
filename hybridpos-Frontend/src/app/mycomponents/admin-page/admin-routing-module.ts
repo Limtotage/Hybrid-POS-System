@@ -5,6 +5,7 @@ import { AdminLayout } from './admin-layout/admin-layout';
 import { Cashiers } from './cashiers/cashiers';
 import { Products } from './products/products';
 import { Reports } from './reports/reports';
+import { CashRegisters } from './cash-registers/cash-registers';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
       { path: 'products', component: Products },
       { path: 'categories', component: AdminPage },
       { path: 'cashier', component: Cashiers },
+      { path: 'cash-registers', component: CashRegisters },
       { path: 'reports',component: Reports },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

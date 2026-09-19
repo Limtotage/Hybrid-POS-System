@@ -158,4 +158,13 @@ public class ProductController {
                 return ResponseEntity.ok(
                                 stockMovementService.getPurchaseMovements(id));
         }
+
+        @GetMapping("/{id}/stock-movements")
+        @PreAuthorize("hasAnyRole('ADMIN', 'CASHIER')")
+        public ResponseEntity<List<StockMovement>> getStockMovements(
+                        @PathVariable Long id) {
+
+                return ResponseEntity.ok(
+                                stockMovementService.getMovements(id));
+        }
 }

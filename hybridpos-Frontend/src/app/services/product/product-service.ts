@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { StockMovement } from '../report/report-models';
 
 @Injectable({
   providedIn: 'root',
@@ -39,4 +40,9 @@ export class ProductService {
   adjustStock(productId: number, amount: number): Observable<any> {
     return this.http.post(`${this.baseUrl}/${productId}/adjust-stock`, { amount });
   }
+  getStockMovements(productId: number): Observable<StockMovement[]> {
+  return this.http.get<StockMovement[]>(
+    `${this.baseUrl}/${productId}/stock-movements`
+  );
+}
 }

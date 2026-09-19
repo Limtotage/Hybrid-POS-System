@@ -84,6 +84,79 @@
 
   cursor: not-allowed;
 }
+/* =====================================================
+   PRODUCT SALES REPORT
+===================================================== */
+
+.product-sales-report {
+  min-height: 310px;
+}
+
+.product-sales-table {
+  padding-top: 10px;
+}
+
+.product-sales-header,
+.product-sales-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 60px 100px;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-sales-header {
+  height: 34px;
+  border-bottom: 1px solid #edf0ee;
+  color: #9aa49f;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.product-sales-header span:nth-child(2),
+.product-sales-header span:nth-child(3) {
+  text-align: right;
+}
+
+.product-sales-row {
+  min-height: 55px;
+  border-bottom: 1px solid #f0f2f1;
+}
+
+.product-sales-row:last-child {
+  border-bottom: none;
+}
+
+.product-sales-info {
+  min-width: 0;
+}
+
+.product-sales-info strong {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 3px;
+  color: #53615b;
+  font-size: 10px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-sales-info small {
+  color: #a0aaa5;
+  font-size: 8px;
+}
+
+.product-sales-quantity {
+  color: #263238;
+  font-size: 10px;
+  text-align: right;
+}
+
+.product-sales-revenue {
+  color: #198754;
+  font-size: 10px;
+  text-align: right;
+}
 
 /* =====================================================
    SUMMARY
@@ -226,6 +299,27 @@
 
   border-radius: 8px;
 }
+.report-toggle {
+  padding: 5px 9px;
+  border: 1px solid #f3d28b;
+  border-radius: 5px;
+  background: #fff8e7;
+  color: #b7791f;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 8px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.report-toggle:hover {
+  background: #fff1c9;
+  border-color: #e8bd62;
+}
+
+.report-toggle:active {
+  transform: translateY(1px);
+}
 
 .report-card-header {
   display: flex;
@@ -273,6 +367,233 @@
   background: #f2f5f3;
 
   color: #89958f;
+}
+/* =====================================================
+   RECENT SALES
+===================================================== */
+
+.recent-sales-section {
+  margin-bottom: 16px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e5ebe8;
+  border-radius: 8px;
+}
+
+.recent-sales-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #edf0ee;
+}
+
+.recent-sales-header h2 {
+  margin: 0 0 4px;
+  color: #263238;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.recent-sales-header p {
+  margin: 0;
+  color: #929c97;
+  font-size: 9px;
+}
+
+.sales-table {
+  padding-top: 8px;
+}
+
+.sales-table-header,
+.sales-table-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 15px;
+}
+
+.sales-table-header {
+  min-height: 34px;
+  border-bottom: 1px solid #edf0ee;
+  color: #9aa49f;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.sales-table-row {
+  min-height: 48px;
+  border-bottom: 1px solid #f0f2f1;
+}
+
+.sales-table-row:last-child {
+  border-bottom: none;
+}
+
+.sales-table-row strong {
+  color: #263238;
+  font-size: 10px;
+}
+
+.payment-type {
+  color: #69756f;
+  font-size: 9px;
+}
+
+.sale-amount {
+  color: #198754 !important;
+}
+
+.sale-date {
+  color: #89958f;
+  font-size: 9px;
+}
+/* =====================================================
+   SALES OVERVIEW
+===================================================== */
+
+.sales-report {
+  overflow: hidden;
+}
+
+.sales-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.sales-summary-item {
+  padding: 18px;
+  background: #f8faf9;
+  border: 1px solid #edf0ee;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sales-summary-item span {
+  color: #69756f;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sales-summary-item strong {
+  color: #263238;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* =====================================================
+   TOP SELLING PRODUCTS
+===================================================== */
+
+.top-products {
+  margin-top: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.top-product-row {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  gap: 14px;
+
+  min-height: 68px;
+  padding: 12px 18px;
+
+  border-bottom: 1px solid #edf0ee;
+}
+
+.top-product-row:last-child {
+  border-bottom: none;
+}
+
+.top-product-row:hover {
+  background: #f8faf9;
+}
+
+.product-rank {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #edf7f0;
+  color: #23844b;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.product-details strong {
+  color: #263238;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.product-details small {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.product-quantity {
+  min-width: 45px;
+  text-align: right;
+
+  color: #23844b;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* =====================================================
+   REPORT TOGGLE
+===================================================== */
+
+.report-toggle {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: 0.2s ease;
+}
+
+.report-toggle:hover {
+  opacity: 0.85;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+  .sales-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .sales-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .top-product-row {
+    grid-template-columns: 36px 1fr auto;
+    padding: 12px 14px;
+  }
 }
 
 /* =====================================================
@@ -361,40 +682,91 @@
   font-size: 18px;
 }
 
-/* =====================================================
-   SUPPLIER
-===================================================== */
+/* ========================================
+   SUPPLIER REPORT
+   ======================================== */
 
-.supplier-preview {
-  padding-top: 10px;
+.supplier-report-table {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 18px;
 }
 
-.report-row {
-  height: 48px;
-
-  display: flex;
-
+.supplier-report-header,
+.supplier-report-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.3fr;
   align-items: center;
-
-  justify-content: space-between;
-
-  border-bottom: 1px solid #f0f2f1;
+  column-gap: 20px;
+  padding: 14px 18px;
 }
 
-.report-row:last-child {
-  border-bottom: none;
+.supplier-report-header {
+  background: #f5f7f6;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.report-row span {
-  color: #69756f;
-
-  font-size: 10px;
+.supplier-report-row {
+  border-top: 1px solid #edf0ee;
+  color: #374151;
+  font-size: 14px;
+  min-height: 64px;
 }
 
-.report-row strong {
-  color: #263238;
+.supplier-report-row:hover {
+  background: #f8faf9;
+}
 
-  font-size: 11px;
+.supplier-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.supplier-product-info strong {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.supplier-product-info small {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.supplier-report-row > strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.supplier-report-row > span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Empty state */
+
+.supplier-report-table + .empty-report {
+  margin-top: 18px;
+}
+
+/* Responsive */
+
+@media (max-width: 800px) {
+  .supplier-report-table {
+    overflow-x: auto;
+  }
+
+  .supplier-report-header,
+  .supplier-report-row {
+    min-width: 700px;
+  }
 }
 
 /* =====================================================
