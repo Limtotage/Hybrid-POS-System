@@ -1,11 +1,13 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import Quagga from '@ericblade/quagga2'; // Quagga2 Import Edildi
 
 import { ProductService } from '../../services/product/product-service';
 import { SaleService } from '../../services/sales/sale-service';
 import { CashRegisterService } from './cash-register/cash-register-service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cashier-page',
@@ -13,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './cashier-page.html',
   styleUrl: './cashier-page.css',
 })
-export class CashierPage {
+export class CashierPage implements OnInit {
   constructor(
     private productService: ProductService,
     private saleService: SaleService,
@@ -21,51 +23,128 @@ export class CashierPage {
     private router: Router,
     private cdr: ChangeDetectorRef,
   ) {}
-  //=========================
+
+  // CASH REGISTER
   cashRegistersLoading = false;
   cashId: number | null = null;
-  cashName: string = 'Ana Kasa';
-  cashOpen: boolean = false;
+  cashName = 'Ana Kasa';
+  cashOpen = false;
   cashRegisters: any[] = [];
   selectedCashId: number | null = null;
-  //========================
-  showPayment = false;
-  cashGiven: number = 0;
-  cardAmount: number = 0;
-  //=======================
-  barcodeInput: string = '';
-  barcodeQuantity: number = 1;
 
+  // PAYMENT
+  showPayment = false;
+  cashGiven = 0;
+  cardAmount = 0;
+
+  // BARCODE
+  barcodeQuantity = 1;
+  barcodeBuffer = '';
+  barcodeInput = '';
+  lastKeyTime = 0;
+  // PRODUCTS / CART
   products: any[] = [];
   filteredProducts: any[] = [];
-
-  searchText: string = '';
-
+  searchText = '';
   cart: any[] = [];
+  totalAmount = 0;
 
-  totalAmount: number = 0;
-  //======================
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadProducts();
     this.loadCashRegisters();
   }
+  // =========================================================
+  // GLOBAL KLAVYE DİNLENMESİ (USB BARKOD OKUYUCU)
+  // =========================================================
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    const activeElement = document.activeElement;
+
+    if (
+      activeElement &&
+      (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')
+    ) {
+      const inputElement = activeElement as HTMLInputElement;
+      if (inputElement.id !== 'barcode-input-field') {
+        return;
+      }
+    }
+
+    const currentTime = Date.now();
+
+    if (currentTime - this.lastKeyTime > 100) {
+      this.barcodeBuffer = '';
+    }
+    this.lastKeyTime = currentTime;
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      if (this.barcodeBuffer.trim().length >= 3) {
+        console.log('================================');
+        console.log('🎯 USB BARKOD OKUNDU:', this.barcodeBuffer);
+        console.log('================================');
+
+        this.barcodeInput = this.barcodeBuffer.trim();
+        this.addByBarcode();
+        this.barcodeBuffer = '';
+      }
+    } else if (event.key.length === 1) {
+      this.barcodeBuffer += event.key;
+    }
+  }
+
+  addByBarcode(): void {
+    if (!this.barcodeInput.trim()) {
+      return;
+    }
+
+    const quantity = Number(this.barcodeQuantity);
+
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      alert('Geçerli bir adet giriniz.');
+      return;
+    }
+
+    this.productService.getByBarcode(this.barcodeInput).subscribe({
+      next: (product) => {
+        const existing = this.cart.find((item) => item.id === product.id);
+
+        if (existing) {
+          existing.quantity += quantity;
+        } else {
+          this.cart.push({
+            ...product,
+            quantity,
+          });
+        }
+
+        this.calculateTotal();
+
+        this.barcodeInput = '';
+        this.barcodeQuantity = 1;
+
+        this.cdr.detectChanges();
+      },
+
+      error: () => {
+        alert('Ürün bulunamadı.');
+      },
+    });
+  }
+
+  // CASH REGISTER METHODS
   loadCashRegisters(): void {
     this.cashRegistersLoading = true;
-
     this.cashRegisterService.getAllCashRegisters().subscribe({
       next: (cashRegisters) => {
-        console.log('Kasalar:', cashRegisters);
-
         this.cashRegisters = cashRegisters;
-
         const openCash = cashRegisters.find((cash) => cash.open);
-
         if (openCash) {
           this.cashId = openCash.id;
           this.cashName = openCash.name;
           this.cashOpen = true;
         }
-
         this.cashRegistersLoading = false;
         this.cdr.detectChanges();
       },
@@ -75,6 +154,7 @@ export class CashierPage {
       },
     });
   }
+
   openCash(): void {
     if (this.selectedCashId === null) {
       alert('Lütfen bir kasa seçin.');
@@ -84,89 +164,70 @@ export class CashierPage {
     this.cashRegisterService.openCash(this.selectedCashId).subscribe({
       next: () => {
         const selectedCash = this.cashRegisters.find((cash) => cash.id === this.selectedCashId);
-
         this.cashId = this.selectedCashId;
         this.cashName = selectedCash?.name ?? 'Kasa';
         this.cashOpen = true;
-
-        console.log('Kasa açıldı:', selectedCash);
-
         this.loadProducts();
       },
       error: (err) => {
-        console.error('Kasa açılamadı:', err);
-
         alert(err?.error?.message || 'Kasa açılırken bir hata oluştu.');
       },
     });
   }
-  //=========================
+
   closeCash(): void {
     if (this.cashId === null) {
       alert('Açık kasa bulunamadı.');
       return;
     }
-
     const confirmed = confirm('Kasayı kapatmak istediğinizden emin misiniz?');
-
     if (!confirmed) {
       return;
     }
-
     this.cashRegisterService.closeCash(this.cashId).subscribe({
       next: () => {
-        console.log('Kasa kapatıldı.');
-
         this.cashOpen = false;
         this.cashId = null;
         this.selectedCashId = null;
         this.cart = [];
         this.totalAmount = 0;
-
         alert('Kasa başarıyla kapatıldı.');
-
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        console.error('Kasa kapatılamadı:', err);
-
         alert(err?.error?.message || 'Kasa kapatılırken bir hata oluştu.');
       },
     });
   }
-  //=========================
 
-  loadProducts() {
+  // PRODUCTS & CART
+  loadProducts(): void {
     this.productService.getAllProducts().subscribe({
       next: (res) => {
         this.products = res;
-
         this.filteredProducts = res;
         this.cdr.detectChanges();
       },
-
       error: (err) => {
-        console.error('Ürünler yüklenemedi', err);
+        console.error('Ürünler yüklenemedi:', err);
       },
     });
-    this.cdr.detectChanges();
   }
 
-  filterProducts() {
-    this.filteredProducts = this.products.filter((p) =>
-      p.name.toLowerCase().includes(this.searchText.toLowerCase()),
+  filterProducts(): void {
+    this.filteredProducts = this.products.filter((product) =>
+      product.name.toLowerCase().includes(this.searchText.toLowerCase()),
     );
   }
-  //=========================
-  addToCart(product: any) {
-    const existing = this.cart.find((i) => i.id === product.id);
+
+  addToCart(product: any): void {
+    const existing = this.cart.find((item) => item.id === product.id);
 
     if (existing) {
       existing.quantity++;
     } else {
       this.cart.push({
         ...product,
-
         quantity: 1,
       });
     }
@@ -174,13 +235,12 @@ export class CashierPage {
     this.calculateTotal();
   }
 
-  increase(item: any) {
+  increase(item: any): void {
     item.quantity++;
-
     this.calculateTotal();
   }
 
-  decrease(item: any) {
+  decrease(item: any): void {
     item.quantity--;
 
     if (item.quantity <= 0) {
@@ -190,73 +250,22 @@ export class CashierPage {
     this.calculateTotal();
   }
 
-  calculateTotal() {
-    this.totalAmount = this.cart.reduce(
-      (sum, item) => sum + item.salePrice * item.quantity,
-
-      0,
-    );
-  }
-  //=========================
-
-  addByBarcode(): void {
-  if (!this.barcodeInput.trim()) {
-    return;
+  calculateTotal(): void {
+    this.totalAmount = this.cart.reduce((sum, item) => sum + item.salePrice * item.quantity, 0);
   }
 
-  const quantity = Number(this.barcodeQuantity);
-
-  if (!Number.isInteger(quantity) || quantity <= 0) {
-    alert('Geçerli bir adet giriniz.');
-    return;
-  }
-
-  this.productService.getByBarcode(this.barcodeInput).subscribe({
-    next: (product) => {
-
-      const existing = this.cart.find(
-        item => item.id === product.id
-      );
-
-      if (existing) {
-        existing.quantity += quantity;
-      } else {
-        this.cart.push({
-          ...product,
-          quantity: quantity,
-        });
-      }
-
-      this.calculateTotal();
-
-      // Barkodu temizle
-      this.barcodeInput = '';
-
-      // Her okutma işleminden sonra adet tekrar 1 olsun
-      this.barcodeQuantity = 1;
-    },
-
-    error: () => {
-      alert('Ürün bulunamadı.');
-    },
-  });
-}
-  //=========================
-  openPayment() {
+  // PAYMENT & SALE
+  openPayment(): void {
     if (this.cart.length === 0) {
       alert('Sepet boş.');
-
       return;
     }
-
     this.cashGiven = 0;
-
     this.cardAmount = 0;
-
     this.showPayment = true;
   }
 
-  closePayment() {
+  closePayment(): void {
     this.showPayment = false;
     this.cdr.detectChanges();
   }
@@ -268,12 +277,10 @@ export class CashierPage {
   get change(): number {
     return this.totalPaid - this.totalAmount;
   }
-  //=========================
 
-  completeSale() {
+  completeSale(): void {
     if (this.cashId === null) {
       alert('Açık kasa bulunamadı.');
-
       return;
     }
 
@@ -281,7 +288,6 @@ export class CashierPage {
 
     if (totalPaid < this.totalAmount) {
       alert('Yetersiz ödeme! Satış tamamlanamaz.');
-
       return;
     }
 
@@ -296,25 +302,21 @@ export class CashierPage {
       this.cashGiven > 0 && this.cardAmount > 0 ? 'MIXED' : this.cashGiven > 0 ? 'CASH' : 'CARD';
 
     const saleData = {
-      items: items,
-      paymentType: paymentType,
+      items,
+      paymentType,
       cashPaid: this.cashGiven,
       cardPaid: this.cardAmount,
     };
+
     this.saleService.makeSale(this.cashId, saleData).subscribe({
       next: (res) => {
-        console.log('SATIŞ NEXT ÇALIŞTI:', res);
-
         alert('Satış başarıyla tamamlandı');
-
         this.cart = [];
         this.totalAmount = 0;
         this.cashGiven = 0;
         this.cardAmount = 0;
-
         this.closePayment();
       },
-
       error: (err) => {
         console.error('SATIŞ ERROR:', err);
       },

@@ -30,8 +30,10 @@
     </button>
   </div>
 </div>
+
 <div *ngIf="cashOpen" class="pos-page">
   <!-- ================= TOP BAR ================= -->
+
   <header class="top-bar">
     <div class="brand-area">
       <div class="brand-logo">POS</div>
@@ -44,20 +46,26 @@
         </span>
       </div>
     </div>
+
     <div class="top-actions">
       <button class="close-cash-btn" (click)="closeCash()">Kasayı Kapat</button>
     </div>
   </header>
 
   <div class="pos-container">
-    <!-- ========== PRODUCTS AREA ========== -->
+    <!-- ================= PRODUCTS ================= -->
+
     <main class="products-panel">
       <div class="products-header">
         <div class="welcome-area">
           <h2>Merhaba, Kasiyer</h2>
         </div>
+
+        <!-- PRODUCT SEARCH -->
+
         <div class="search-box">
           <span class="search-icon"> 🔍 </span>
+
           <input
             type="text"
             placeholder="Ürün Adı Giriniz..."
@@ -65,35 +73,32 @@
             (input)="filterProducts()"
           />
         </div>
-        <div class="barcode-box">
-          <span class="barcode-icon">▦</span>
 
+        <!-- BARCODE -->
+
+        <div class="barcode-box">
+          <span class="barcode-icon"> ▦ </span>
           <input
+            id="barcode-input-field"
             type="text"
-            placeholder="Barkod okutunuz..."
             [(ngModel)]="barcodeInput"
-            (keyup.enter)="addByBarcode()"
-            autofocus
+            placeholder="Barkod okutun veya yazın..."
           />
         </div>
+
+        <!-- BARCODE QUANTITY -->
         <div class="barcode-quantity-box">
           <label>Adet</label>
-
-          <input
-            type="number"
-            min="1"
-            [(ngModel)]="barcodeQuantity"
-            (keyup.enter)="addByBarcode()"
-          />
+          <input type="number" [(ngModel)]="barcodeQuantity" min="1" style="width: 70px" />
         </div>
+
         <button class="brand-btn">Tüm Ürünleri Göster</button>
       </div>
-      <!-- Product grid -->
-      <div class="products-grid">
-        <!-- SENİN MEVCUT ÜRÜN BUTONUN -->
-        <button class="product-card" *ngFor="let p of filteredProducts" (click)="addToCart(p)">
-          <!-- Görseli daha sonra Figma'dan bağlayabilirsin -->
 
+      <!-- PRODUCT GRID -->
+
+      <div class="products-grid">
+        <button class="product-card" *ngFor="let p of filteredProducts" (click)="addToCart(p)">
           <div class="product-image">
             <img *ngIf="p.imageUrl" [src]="'http://localhost:8080' + p.imageUrl" [alt]="p.name" />
 
@@ -115,11 +120,9 @@
       </div>
     </main>
 
-    <!-- ========== CART / ORDER PANEL ========== -->
+    <!-- ================= CART ================= -->
 
     <aside class="cart-panel">
-      <!-- Order Header -->
-
       <div class="order-header">
         <div>
           <h2>Order List</h2>
@@ -129,8 +132,6 @@
 
         <button class="clear-order">🗑</button>
       </div>
-
-      <!-- Order Details -->
 
       <div class="order-details">
         <div class="section-title">
@@ -151,8 +152,6 @@
 
         <div class="cart-items" *ngIf="cart.length > 0">
           <div class="cart-item" *ngFor="let item of cart">
-            <!-- Product -->
-
             <div class="cart-product">
               <div class="cart-product-image">
                 <img
@@ -173,8 +172,6 @@
               </div>
             </div>
 
-            <!-- Quantity -->
-
             <div class="quantity-control">
               <button (click)="decrease(item); $event.stopPropagation()">−</button>
 
@@ -185,53 +182,25 @@
               <button (click)="increase(item); $event.stopPropagation()">+</button>
             </div>
 
-            <!-- Price -->
-
-            <strong class="cart-item-total"> {{ item.salePrice * item.quantity }} ₺ </strong>
+            <strong class="cart-item-total">
+              {{ item.salePrice * item.quantity }}
+              ₺
+            </strong>
           </div>
         </div>
       </div>
-      <!--Payment Kısmı-->
+
+      <!-- PAYMENT SUMMARY -->
+
       <div class="payment-summary">
         <div class="total-row">
           <span> Total Payable </span>
+
           <strong> {{ totalAmount }} ₺ </strong>
         </div>
       </div>
 
       <div class="payment-method-section">
-        <h4>Select Payment</h4>
-        <!--
-
-        <div class="payment-methods">
-
-          <button
-            class="payment-method active"
-          >
-            💵
-            <span>Cash</span>
-          </button>
-
-
-          <button
-            class="payment-method"
-          >
-            💳
-            <span>Card</span>
-          </button>
-
-
-          <button
-            class="payment-method"
-          >
-            🔀
-            <span>Mixed</span>
-          </button>
-
-
-        </div>
--->
-
         <button class="place-order-btn" (click)="openPayment()" [disabled]="cart.length === 0">
           Place Order
         </button>
