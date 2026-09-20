@@ -174,29 +174,40 @@ Uygulamaya ait ekran görüntüleri aşağıda bulunmaktadır.
 
 ### Giriş
 
-![HybridPOS Giriş](screenshots/login.png)
+
+<img width="1920" height="1080" alt="Login-Page" src="https://github.com/user-attachments/assets/82f6ad47-76a2-49bd-9166-1133c9ecca49" />
+
 
 ### Admin Paneli
 
-![HybridPOS Admin Paneli](screenshots/admin-dashboard.png)
+
+<img width="1920" height="1080" alt="Admin-Dasboard" src="https://github.com/user-attachments/assets/04e0da86-f24c-40cf-b538-f6910f62a7c2" />
+
 
 ### Ürünler
 
-![HybridPOS Ürünler](screenshots/products.png)
+
+<img width="1920" height="1080" alt="Admin-Product" src="https://github.com/user-attachments/assets/d5472748-0a11-4bc0-b968-f0de88e35eb7" />
+
 
 ### Kasa / POS
 
-![HybridPOS Kasa](screenshots/cashier.png)
+
+<img width="1920" height="1080" alt="Kasiyer-POS" src="https://github.com/user-attachments/assets/72bf882b-0be7-48f8-ad19-5536d9ac1b94" />
+
 
 ### Satışlar
 
-![HybridPOS Satışlar](screenshots/sales.png)
+
+<img width="610" height="604" alt="Odeme-Ekrani" src="https://github.com/user-attachments/assets/b42eb2d2-6c1b-4de5-82d8-c0021dd9848a" />
+
 
 ### Raporlar
 
-![HybridPOS Raporlar](screenshots/reports.png)
 
-> Ekran görüntüleri proje sunumu güncellendikçe eklenmektedir.
+<img width="1920" height="1080" alt="Admin-Reports" src="https://github.com/user-attachments/assets/3a09baae-069d-49c2-a9f9-3c856cfdbaae" />
+
+
 
 ## 📦 İndirme
 
