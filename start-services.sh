@@ -13,7 +13,7 @@ cd "$PROJECT_DIR" || exit 1
 # 1. INFRASTRUCTURE
 # ========================================
 
-echo "[1/5] PostgreSQL, Redis ve Kafka başlatılıyor..."
+echo "[1/6] PostgreSQL, Redis ve Kafka başlatılıyor..."
 docker compose up -d postgres redis kafka
 
 if [ $? -ne 0 ]; then
@@ -54,7 +54,7 @@ echo "✓ Kafka başlatıldı."
 # ========================================
 
 echo ""
-echo "[2/5] Config Server başlatılıyor..."
+echo "[2/6] Config Server başlatılıyor..."
 
 docker compose up -d config-server
 
@@ -73,7 +73,7 @@ echo "✓ Config Server hazır."
 # ========================================
 
 echo ""
-echo "[3/5] Eureka Server başlatılıyor..."
+echo "[3/6] Eureka Server başlatılıyor..."
 
 docker compose up -d eureka-server
 
@@ -92,7 +92,7 @@ echo "✓ Eureka hazır."
 # ========================================
 
 echo ""
-echo "[4/5] Backend servisleri başlatılıyor..."
+echo "[4/6] Backend servisleri başlatılıyor..."
 
 echo ""
 echo "Auth Service..."
@@ -144,7 +144,7 @@ echo "✓ Sale Service başlatıldı."
 # ========================================
 
 echo ""
-echo "[5/5] API Gateway başlatılıyor..."
+echo "[5/6] API Gateway başlatılıyor..."
 
 docker compose up -d api-gateway
 
@@ -152,6 +152,29 @@ echo "Gateway bekleniyor..."
 sleep 3
 
 echo "✓ API Gateway başlatıldı."
+# ========================================
+# 6. FRONTEND
+# ========================================
+
+echo ""
+echo "[6/6] Frontend başlatılıyor..."
+
+docker compose up -d frontend
+
+if [ $? -ne 0 ]; then
+    echo "HATA: Frontend başlatılamadı."
+    exit 1
+fi
+
+echo "Frontend bekleniyor..."
+
+until curl -sf http://localhost:4200 >/dev/null 2>&1
+do
+    echo "  Frontend henüz hazır değil..."
+    sleep 2
+done
+
+echo "✓ Frontend hazır."
 
 # ========================================
 # STATUS
@@ -178,6 +201,7 @@ echo "Sale       : 8083"
 echo "Cash       : 8084"
 echo "Report     : 8085"
 echo "Gateway    : 8080"
+echo "Frontend   : 4200"
 echo "========================================"
 
 echo ""

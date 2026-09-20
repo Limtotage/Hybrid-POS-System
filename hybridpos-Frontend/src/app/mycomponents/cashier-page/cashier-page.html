@@ -47,7 +47,6 @@
         <div class="connection-status">
           {{ isOnline ? '🟢 Online' : '🔴 Offline' }}
         </div>
-        <button type="button" (click)="testSync()">Test Sync</button>
       </div>
     </div>
 
@@ -98,6 +97,28 @@
 
         <button class="brand-btn">Tüm Ürünleri Göster</button>
       </div>
+      <div class="failed-offline-sales" *ngIf="failedOfflineSales.length > 0">
+        <h3>⚠️ Senkronize Edilemeyen Satışlar</h3>
+
+        <div class="failed-sale" *ngFor="let sale of failedOfflineSales">
+          <div>
+            <strong>Satış:</strong>
+            {{ sale.clientSaleId }}
+
+            <br />
+
+            <strong>Hata:</strong>
+            {{ sale.syncError }}
+
+            <br />
+
+            <strong>Deneme:</strong>
+            {{ sale.retryCount }}
+          </div>
+
+          <button type="button" (click)="retryOfflineSale(sale)">Tekrar Dene</button>
+        </div>
+      </div>
 
       <!-- PRODUCT GRID -->
 
@@ -134,7 +155,7 @@
           <span class="order-number"> #ORD00123 </span>
         </div>
 
-        <button class="clear-order">🗑</button>
+        <button class="clear-order" (click)="clearCart()">🗑</button>
       </div>
 
       <div class="order-details">

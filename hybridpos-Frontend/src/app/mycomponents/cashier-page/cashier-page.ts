@@ -23,7 +23,7 @@ export class CashierPage implements OnInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private indexedDbService: IndexedDbService,
-    private syncService: SyncService
+    private syncService: SyncService,
   ) {}
 
   // CASH REGISTER
@@ -51,10 +51,37 @@ export class CashierPage implements OnInit {
   cart: any[] = [];
   totalAmount = 0;
   isOnline = navigator.onLine;
+  failedOfflineSales: any[] = [];
 
   ngOnInit(): void {
     this.loadProducts();
     this.loadCashRegisters();
+    this.loadFailedOfflineSales();
+  }
+  async loadFailedOfflineSales(): Promise<void> {
+    try {
+      const sales = await this.indexedDbService.getOfflineSales();
+
+      this.failedOfflineSales = sales.filter((sale) => sale.syncStatus === 'FAILED');
+
+      this.cdr.detectChanges();
+
+      console.log('⚠️ Başarısız offline satışlar:', this.failedOfflineSales);
+    } catch (error) {
+      console.error('❌ Failed offline satışlar alınamadı:', error);
+    }
+  }
+  async retryOfflineSale(sale: any): Promise<void> {
+    console.log('🔄 Offline satış tekrar deneniyor:', sale.id);
+
+    await this.indexedDbService.updateOfflineSale(sale.id, {
+      syncStatus: 'PENDING',
+      syncError: null,
+    });
+
+    await this.syncService.retryOfflineSale(sale);
+
+    await this.loadFailedOfflineSales();
   }
 
   // GLOBAL KLAVYE DİNLENMESİ (USB BARKOD OKUYUCU)
@@ -144,6 +171,19 @@ export class CashierPage implements OnInit {
       .then((product) => {
         if (!product) {
           alert('Ürün bulunamadı.');
+          return;
+        }
+
+        const existing = this.cart.find((item) => item.id === product.id);
+
+        const currentQuantity = existing ? existing.quantity : 0;
+
+        const requestedQuantity = currentQuantity + quantity;
+
+        if (requestedQuantity > product.stockQuantity) {
+          alert(
+            `Yetersiz stok! Mevcut stok: ${product.stockQuantity}, sepetteki: ${currentQuantity}`,
+          );
           return;
         }
 
@@ -269,6 +309,12 @@ export class CashierPage implements OnInit {
 
   addToCart(product: any): void {
     const existing = this.cart.find((item) => item.id === product.id);
+    const currentQuantity = existing ? existing.quantity : 0;
+
+    if (currentQuantity + 1 > product.stockQuantity) {
+      alert(`Yetersiz stok! Mevcut stok: ${product.stockQuantity}, sepetteki: ${currentQuantity}`);
+      return;
+    }
 
     if (existing) {
       existing.quantity++;
@@ -281,8 +327,30 @@ export class CashierPage implements OnInit {
 
     this.calculateTotal();
   }
+  clearCart(): void {
+    if (this.cart.length === 0) {
+      return;
+    }
+
+    const confirmed = confirm('Sepetteki tüm ürünleri silmek istediğinizden emin misiniz?');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.cart = [];
+    this.totalAmount = 0;
+
+    this.cashGiven = 0;
+    this.cardAmount = 0;
+  }
 
   increase(item: any): void {
+    if (item.quantity + 1 > item.stockQuantity) {
+      alert(`Yetersiz stok! Mevcut stok: ${item.stockQuantity}, sepetteki: ${item.quantity}`);
+      return;
+    }
+
     item.quantity++;
     this.calculateTotal();
   }
@@ -323,9 +391,6 @@ export class CashierPage implements OnInit {
 
   get change(): number {
     return this.totalPaid - this.totalAmount;
-  }
-  async testSync(): Promise<void> {
-    await this.syncService.syncOfflineSales();
   }
 
   completeSale(): void {
@@ -374,12 +439,19 @@ export class CashierPage implements OnInit {
         cardPaid: saleData.cardPaid,
         totalAmount: this.totalAmount,
         createdAt: new Date().toISOString(),
-        synced: false,
+
+        syncStatus: 'PENDING',
+        syncError: null,
+        retryCount: 0,
       };
 
       this.indexedDbService
         .saveOfflineSale(offlineSale)
-        .then(() => {
+        .then(async () => {
+          for (const item of this.cart) {
+            await this.indexedDbService.updateProductStock(item.id, item.quantity);
+          }
+
           alert('İnternet bağlantısı yok. Satış offline olarak kaydedildi.');
 
           this.cart = [];
@@ -393,7 +465,6 @@ export class CashierPage implements OnInit {
           console.error('OFFLINE SATIŞ KAYIT ERROR:', err);
           alert('Offline satış kaydedilemedi.');
         });
-
       return;
     }
 

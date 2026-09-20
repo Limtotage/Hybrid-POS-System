@@ -713,154 +713,79 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
-
-/* =========================================================
-   BARCODE SCANNER
-========================================================= */
-
-.barcode-scanner-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.8);
+.failed-offline-sales {
+  margin-top: 20px;
+  padding: 18px;
+  background: #fff8f8;
+  border: 1px solid #f1caca;
+  border-radius: 10px;
 }
 
-.barcode-scanner-modal {
-  position: relative;
-  width: 520px;
-  max-width: calc(100vw - 40px);
-  overflow: hidden;
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+.failed-offline-sales h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #b42318;
 }
 
-.barcode-scanner-header {
+.failed-sale {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
+  gap: 20px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid #eadada;
+  border-radius: 8px;
 }
 
-.barcode-scanner-header h2 {
-  margin: 0 0 4px;
-  font-size: 18px;
+.failed-sale + .failed-sale {
+  margin-top: 10px;
 }
 
-.barcode-scanner-header p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 12px;
+.failed-sale > div {
+  min-width: 0;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-.barcode-scanner-close {
-  width: 32px;
-  height: 32px;
+.failed-sale strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.failed-sale button {
+  flex-shrink: 0;
+  padding: 9px 14px;
   border: none;
   border-radius: 6px;
-  background: #f3f4f6;
-  color: #374151;
-  font-size: 18px;
+  background: #b42318;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.barcode-scanner-close:hover {
-  background: #e5e7eb;
+.failed-sale button:hover {
+  background: #8f1d15;
 }
 
-.barcode-scanner-camera {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-  background: #000;
+.failed-sale button:active {
+  transform: translateY(1px);
 }
 
-#barcode-reader {
-  width: 100%;
-  height: 100%;
-}
-
-#barcode-reader video {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
-}
-
-/* Quagga'nın oluşturduğu kırmızı/yeşil kutular için */
-#barcode-reader canvas.drawingBuffer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* Ön katmanların kameraya engel olmasını kesinleştiren kod */
-.barcode-scan-frame,
-.barcode-scan-line {
-  pointer-events: none !important;
-}
-
-.barcode-scan-frame {
-  position: absolute;
-  top: 35%;
-  left: 10%;
-  right: 10%;
-  height: 30%;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  pointer-events: none;
-}
-
-/* Bu kısım yeşil çizginin tarama alanının ortasında daha net durmasını sağlar */
-.barcode-scan-line {
-  position: absolute;
-  top: 50%; /* Merkezde kalsın */
-  left: 10%;
-  right: 10%;
-  height: 2px;
-  background: #159570;
-  box-shadow: 0 0 8px rgba(21, 149, 112, 0.8);
-  pointer-events: none;
-  /* Animasyon ekleyerek taranıyor hissi verelim */
-  animation: scanAnimation 2s infinite ease-in-out;
-}
-
-@keyframes scanAnimation {
-  0% {
-    top: 35%;
-    opacity: 0;
+@media (max-width: 700px) {
+  .failed-sale {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
-  20% {
-    top: 35%;
-    opacity: 1;
-  }
-  50% {
-    top: 50%;
-    opacity: 1;
-  }
-  80% {
-    top: 65%;
-    opacity: 1;
-  }
-  100% {
-    top: 65%;
-    opacity: 0;
-  }
-}
 
-.barcode-scanner-footer {
-  padding: 14px 20px;
-  text-align: center;
-  color: #6b7280;
-  font-size: 12px;
-  border-top: 1px solid #e5e7eb;
+  .failed-sale button {
+    width: 100%;
+  }
 }
 
 /* =========================================================

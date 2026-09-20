@@ -1,20 +1,13 @@
 #!/bin/bash
 
 # ========================================
-# SERVICE CONFIGURATION
+# FRONTEND CONFIGURATION
 # ========================================
-#SERVICE_DIR="$PROJECT_DIR/ServisAdi-service"
-#IMAGE_NAME="hybridpos-ServisAdi-service:latest"
-#SERVICE_NAME="ServisAdi-service"
-#YADA
-#SERVICE_DIR="$PROJECT_DIR/api-gateway"
-#IMAGE_NAME="hybridpos-api-gateway:latest"
-#SERVICE_NAME="api-gateway-service"
 
 PROJECT_DIR="$HOME/Desktop/Hybrid-POS-System"
-SERVICE_DIR="$PROJECT_DIR/sale-service"
-IMAGE_NAME="hybridpos-sale-service:latest"
-SERVICE_NAME="sale-service"
+SERVICE_DIR="$PROJECT_DIR/hybridpos-Frontend"
+IMAGE_NAME="hybridpos-frontend:latest"
+SERVICE_NAME="frontend"
 
 
 echo "========================================"
@@ -23,22 +16,22 @@ echo "========================================"
 echo ""
 
 # ----------------------------------------
-# 1. Maven Build
+# 1. Angular Build
 # ----------------------------------------
 
-echo "[1/3] $SERVICE_NAME build ediliyor..."
+echo "[1/3] Frontend build ediliyor..."
 cd "$SERVICE_DIR" || exit 1
 
-./mvnw clean package -DskipTests
+npm run build
 
 if [ $? -ne 0 ]; then
     echo ""
-    echo "HATA: $SERVICE_NAME Maven build başarısız."
+    echo "HATA: Frontend Angular build başarısız."
     exit 1
 fi
 
 echo ""
-echo "$SERVICE_NAME Maven build başarılı."
+echo "Frontend Angular build başarılı."
 echo ""
 
 # ----------------------------------------
@@ -85,4 +78,7 @@ docker compose ps "$SERVICE_NAME"
 
 echo ""
 echo "========================================"
+echo "Frontend: http://localhost:4200"
+echo "========================================"
+
 sleep 3

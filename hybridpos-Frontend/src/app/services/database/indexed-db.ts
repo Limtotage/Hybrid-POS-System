@@ -101,6 +101,83 @@ export class IndexedDbService {
       };
     });
   }
+  async updateOfflineSale(id: string, updates: any): Promise<void> {
+    const db = await this.dbPromise!;
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(this.offlineSaleStore, 'readwrite');
+
+      const store = transaction.objectStore(this.offlineSaleStore);
+
+      const request = store.get(id);
+
+      request.onsuccess = () => {
+        const sale = request.result;
+
+        if (!sale) {
+          reject(new Error('Offline satış IndexedDB üzerinde bulunamadı.'));
+          return;
+        }
+
+        Object.assign(sale, updates);
+
+        store.put(sale);
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+
+      transaction.oncomplete = () => {
+        resolve();
+      };
+
+      transaction.onerror = () => {
+        reject(transaction.error);
+      };
+    });
+  }
+  async updateProductStock(productId: number, quantity: number): Promise<void> {
+    const db = await this.dbPromise!;
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(this.productStore, 'readwrite');
+
+      const store = transaction.objectStore(this.productStore);
+
+      const request = store.get(productId);
+
+      request.onsuccess = () => {
+        const product = request.result;
+
+        if (!product) {
+          reject(new Error('Ürün IndexedDB üzerinde bulunamadı.'));
+          return;
+        }
+
+        if (product.stockQuantity < quantity) {
+          reject(new Error('Yetersiz stok.'));
+          return;
+        }
+
+        product.stockQuantity -= quantity;
+
+        store.put(product);
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+
+      transaction.oncomplete = () => {
+        resolve();
+      };
+
+      transaction.onerror = () => {
+        reject(transaction.error);
+      };
+    });
+  }
 
   async saveProducts(products: any[]): Promise<void> {
     const db = await this.dbPromise!;

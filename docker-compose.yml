@@ -113,6 +113,17 @@ services:
     networks:
       - hybridpos-network
 
+  frontend:
+    build:
+      context: ./hybridpos-Frontend
+      dockerfile: Dockerfile
+    image: hybridpos-frontend:latest
+    container_name: hybridpos-frontend
+    ports:
+      - "4200:80"
+    networks:
+      - hybridpos-network
+
   kafka:
     image: apache/kafka:4.1.0
     container_name: hybridpos-kafka

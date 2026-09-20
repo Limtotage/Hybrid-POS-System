@@ -9,7 +9,12 @@ export class SyncService {
   constructor(
     private indexedDbService: IndexedDbService,
     private saleService: SaleService,
-  ) {}
+  ) {
+    window.addEventListener('online', () => {
+      console.log('🌐 İnternet bağlantısı geri geldi.');
+      this.syncOfflineSales();
+    });
+  }
 
   async syncOfflineSales(): Promise<void> {
     try {
@@ -23,6 +28,9 @@ export class SyncService {
     } catch (error) {
       console.error('❌ Offline satış sync hatası:', error);
     }
+  }
+  async retryOfflineSale(sale: any): Promise<void> {
+    await this.syncSale(sale);
   }
 
   private syncSale(sale: any): Promise<void> {
@@ -56,9 +64,27 @@ export class SyncService {
         error: (error) => {
           console.error('❌ Offline satış gönderilemedi:', sale.id, error);
 
-          // Silmiyoruz.
-          // Bir sonraki sync işleminde tekrar denenecek.
-          resolve();
+          const retryCount = (sale.retryCount || 0) + 1;
+
+          const errorMessage =
+            error?.error?.message || error?.message || 'Satış senkronize edilemedi.';
+
+          this.indexedDbService
+            .updateOfflineSale(sale.id, {
+              syncStatus: 'FAILED',
+              syncError: errorMessage,
+              retryCount: retryCount,
+            })
+            .then(() => {
+              console.log('⚠️ Offline satış FAILED olarak işaretlendi:', sale.id, errorMessage);
+
+              resolve();
+            })
+            .catch((updateError) => {
+              console.error('❌ Sync durumu güncellenemedi:', updateError);
+
+              resolve();
+            });
         },
       });
     });
