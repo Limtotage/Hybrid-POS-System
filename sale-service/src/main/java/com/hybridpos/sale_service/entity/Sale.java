@@ -7,6 +7,7 @@ import java.util.List;
 import com.hybridpos.sale_service.enums.PaymentType;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,7 +15,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +26,8 @@ public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
+    private String clientSaleId;
 
     private BigDecimal totalPrice;
 
@@ -42,9 +44,6 @@ public class Sale {
     // Şimdilik sadece ID tutuyoruz.
     private Long cashId;
 
-    @OneToMany(
-            mappedBy = "sale",
-            cascade = CascadeType.ALL
-    )
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<SaleItem> items;
 }

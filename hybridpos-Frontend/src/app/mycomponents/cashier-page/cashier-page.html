@@ -44,6 +44,10 @@
         <span class="cash-name">
           {{ cashName }}
         </span>
+        <div class="connection-status">
+          {{ isOnline ? '🟢 Online' : '🔴 Offline' }}
+        </div>
+        <button type="button" (click)="testSync()">Test Sync</button>
       </div>
     </div>
 

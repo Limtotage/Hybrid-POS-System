@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -44,11 +45,21 @@ public class SaleServiceImpl implements SaleService {
                         Long cashId,
                         SaleCreateDTO dto,
                         String token) {
+                if (dto.getClientSaleId() != null) {
+
+                        Optional<Sale> existingSale = saleRepository.findByClientSaleId(dto.getClientSaleId());
+
+                        if (existingSale.isPresent()) {
+                                return mapToResponse(existingSale.get());
+                        }
+                }
                 cashClient.validateSale(cashId, token);
 
                 Sale sale = new Sale();
 
                 sale.setCashId(cashId);
+
+                sale.setClientSaleId(dto.getClientSaleId());
                 sale.setSaleDate(LocalDateTime.now());
                 sale.setPaymentType(dto.getPaymentType());
                 sale.setCashPaid(dto.getCashPaid());

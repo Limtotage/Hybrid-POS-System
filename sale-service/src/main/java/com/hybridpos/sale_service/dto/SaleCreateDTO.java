@@ -10,6 +10,7 @@ import lombok.Data;
 
 @Data
 public class SaleCreateDTO {
+    private String clientSaleId;
     private List<SaleItemDTO> items;
 
     private PaymentType paymentType;
