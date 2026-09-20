@@ -172,29 +172,32 @@ Screenshots of the application are available below.
 
 ### Login
 
-![HybridPOS Login](screenshots/login.png)
+<img width="1920" height="1080" alt="Login-Page" src="https://github.com/user-attachments/assets/5a6095be-9d51-42fe-aac9-bc7392f5b875" />
 
 ### Admin Dashboard
 
-![HybridPOS Admin Dashboard](screenshots/admin-dashboard.png)
+<img width="1920" height="1080" alt="Admin-Dasboard" src="https://github.com/user-attachments/assets/aae3db8d-5030-4469-88e4-060ef8a63240" />
 
 ### Products
 
-![HybridPOS Products](screenshots/products.png)
+
+<img width="1920" height="1080" alt="Admin-Product" src="https://github.com/user-attachments/assets/e3ba9318-e923-4ee1-ad87-f9bb66a86f67" />
+
 
 ### Cashier / POS
 
-![HybridPOS Cashier](screenshots/cashier.png)
+
+<img width="1920" height="1080" alt="Kasiyer-POS" src="https://github.com/user-attachments/assets/c233e575-9dc2-425b-b5d4-9a95dfabf1f4" />
+
 
 ### Sales
 
-![HybridPOS Sales](screenshots/sales.png)
+<img width="610" height="604" alt="Odeme-Ekrani" src="https://github.com/user-attachments/assets/2e16db1e-91d1-460f-8673-d67304b35094" />
 
 ### Reports
 
-![HybridPOS Reports](screenshots/reports.png)
+<img width="1920" height="1080" alt="Admin-Reports" src="https://github.com/user-attachments/assets/e8094f90-f0b4-4166-8aad-22c65eebf706" />
 
-> Screenshots will be added as the project presentation is updated.
 
 ## 📦 Downloads
 
